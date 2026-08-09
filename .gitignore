@@ -22,3 +22,12 @@ next-env.d.ts
 # Reinstall with `npx impeccable install`. launch.json is kept: it is ours.
 .claude/skills/
 .claude/settings.local.json
+
+# Design-hook cache and live-session state: machine-local, rewritten constantly.
+# DESIGN.md and .impeccable/design.json ARE project source and stay tracked.
+.impeccable/hook.cache.json
+.impeccable/hook.pending.json
+.impeccable/live/sessions/
+.impeccable/live/roots.json
+.impeccable/live/server.json
+.impeccable/live/inject-journal.json
