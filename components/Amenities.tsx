@@ -1,0 +1,67 @@
+import { amenityIcons, type AmenityKey } from "@/components/icons";
+
+type Item = { title: string; note: string };
+
+export default function Amenities({
+  copy,
+}: {
+  copy: { title: string; note: string; items: Record<string, Item> };
+}) {
+  const entries = Object.entries(copy.items) as [AmenityKey, Item][];
+
+  return (
+    <section id="amenities" className="bg-mist px-5 py-20 md:px-11 md:py-28">
+      <div className="mx-auto max-w-[1100px]">
+        <div
+          data-reveal="fade"
+          className="mb-12 flex flex-wrap items-baseline justify-between gap-4 md:mb-16"
+        >
+          <h2 className="t-h3 text-ink">{copy.title}</h2>
+          {/* body-soft, not muted: this note sits on the mist background,
+              where muted would only reach 4.27:1. */}
+          <p className="text-[14px] text-body-soft">{copy.note}</p>
+        </div>
+
+        {/*
+          A hairline list, not six cards.
+
+          Six same-size boxes of icon + heading + text is the category default,
+          and it made every amenity look like a separate product. Rules group
+          them into one readable set, match the hairlines already used in
+          "Good to know" and "Getting here", and let the two columns breathe
+          instead of each item carrying its own container.
+        */}
+        <dl
+          data-reveal="fade"
+          style={{ ["--stagger-i" as string]: 1 }}
+          className="grid gap-x-16 sm:grid-cols-2"
+        >
+          {entries.map(([key, item], index) => {
+            const Icon = amenityIcons[key];
+            return (
+              <div
+                key={key}
+                className={[
+                  "flex items-start gap-5 border-t border-ink/10 py-6",
+                  // The last row of each column closes the set.
+                  index >= entries.length - 2 ? "sm:border-b" : "",
+                  index === entries.length - 1 ? "border-b sm:border-b" : "",
+                ].join(" ")}
+              >
+                <span aria-hidden className="mt-0.5 shrink-0 text-accent">
+                  {Icon && <Icon />}
+                </span>
+                <div>
+                  <dt className="text-[18px] text-ink">{item.title}</dt>
+                  <dd className="mt-1 text-[14px] leading-[1.55] text-body-soft">
+                    {item.note}
+                  </dd>
+                </div>
+              </div>
+            );
+          })}
+        </dl>
+      </div>
+    </section>
+  );
+}

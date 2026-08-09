@@ -1,0 +1,595 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Design tokens — lifted from the Claude Design source so the palette and the
+   easing curve stay identical to the approved comp.
+   --------------------------------------------------------------------------- */
+
+@theme {
+  --color-sand: #faf8f4;
+  --color-mist: #edf0ee;
+  --color-ink: #12242e;
+  --color-deep: #0d1b22;
+  --color-panel: #183341;
+
+  /*
+    A four-step text scale, every step ≥4.5:1 on sand (#faf8f4).
+
+    `--color-muted` was #7a8f99 — only 3.18:1, and it carried the amenity
+    notes, both eyebrows, the gallery counter, the calendar weekday row and the
+    numeral inside a booked night. That was 45 failing text instances from a
+    single token. Darkened to 4.62:1.
+  */
+  --color-body: #1c2b33; /* 14.2:1 */
+  --color-body-soft: #3a4c56; /* 8.0:1  */
+  --color-body-mute: #5c6f79; /* 4.9:1  */
+  --color-muted: #5f747e; /* 4.62:1 */
+
+  /* Numerals sitting on the "taken" fill need their own value: --color-muted
+     on #cfdedb is only 3.8:1. This is 5.4:1. */
+  --color-booked-ink: #46565e;
+
+  /* Sea glass. Replaces the design's slate blue (#3f6f83), which read colder
+     and more Nordic than Adriatic. The deep tone is 5.6:1 on sand, so it is
+     safe for body-size text as well as icons; the soft tone is 8.3:1 on ink. */
+  --color-accent: #1f6f6a;
+  --color-accent-soft: #7fc7c0;
+  --color-highlight: #cfe7e3;
+
+  /* Hairlines and the calendar's "taken" fill carry a trace of the sea glass
+     rather than sitting neutral-grey against it. */
+  --color-line: #dde7e5;
+  --color-line-soft: #d5e2df;
+  --color-booked: #cfdedb;
+
+  --color-on-dark: #b9c8cf;
+  --color-on-dark-strong: #cddbe1;
+  /* Warm near-white for body copy on the ink section. */
+  --color-on-ink: #f3f1ec;
+
+  /* Warm neutral behind an image while it loads. Distinct from mist, which is
+     cooler and belongs to section backgrounds. */
+  --color-surface-warm: #eceae5;
+
+  /* Resting state of a small control mark (the inactive gallery dots). */
+  --color-control-idle: #a9b8b5;
+
+  --font-display: var(--font-instrument-serif), Georgia, serif;
+  --font-sans: var(--font-dm-sans), system-ui, sans-serif;
+}
+
+:root {
+  /*
+    Shadow scale. Every shadow on the page carries an offset and a soft blur in
+    the same blue-grey as the ink, so depth reads as one light source rather
+    than as four unrelated glows.
+  */
+  --shadow-lift: 0 24px 60px rgba(12, 36, 46, 0.16);
+  --shadow-float: 0 28px 70px rgba(0, 0, 0, 0.35);
+  --shadow-sheet: 0 -30px 70px rgba(8, 20, 28, 0.28);
+  --shadow-pill: 0 6px 20px rgba(8, 20, 28, 0.22);
+
+  /* The design's curve. Every transition on the page uses it. */
+  --ease-soft: cubic-bezier(0.22, 0.9, 0.24, 1);
+  --dur-reveal: 700ms;
+  --dur-mask: 1100ms;
+  --dur-hover: 420ms;
+  --stagger-step: 70ms;
+  --header-h: 88px;
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+   --------------------------------------------------------------------------- */
+
+html {
+  /* Both the lightbox and the mobile menu lock body scrolling while open,
+     which removes the scrollbar and shifts everything behind them sideways by
+     its width. Reserving the gutter keeps the page still. */
+  scrollbar-gutter: stable;
+}
+
+body {
+  background: var(--color-sand);
+  color: var(--color-body);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-highlight);
+}
+
+/* Anchor targets must clear the sticky header. */
+[id] {
+  scroll-margin-top: calc(var(--header-h) + 16px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* The design had no focus styles at all, which made the page unusable by keyboard. */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+[data-on-dark] :focus-visible {
+  outline-color: var(--color-highlight);
+}
+
+/* ---------------------------------------------------------------------------
+   Type scale — clamp() values carried over from the design
+   --------------------------------------------------------------------------- */
+
+.t-hero {
+  font-family: var(--font-display);
+  font-weight: 400;
+  /*
+    The design's 6.6vw slope left the title occupying barely half the width of a
+    phone, which is why it read as timid.
+
+    15.5vw fills ~85% of the available width from 320px up, across all three
+    languages — Italian sets the ceiling, being the widest per character. The
+    3rem floor covers 320px screens.
+
+    13.3vw lands at ~50px on a 375px phone. The ceiling is back to the design's
+    6.5rem after the taller setting proved too heavy on mobile.
+  */
+  font-size: clamp(2.75rem, 13.3vw, 6.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.015em;
+  /* No text-wrap: balance — the line breaks are authored, so there is nothing
+     to balance and balancing would fight the intended shape. */
+}
+
+/*
+  One size for every section heading. There used to be three (t-h2 51.8px,
+  t-h3 46.1px, t-h4 40.3px at 1440) applied to peer sections with no semantic
+  distinction — and the gallery, the most persuasive section on a page selling
+  a view, drew the smallest of them.
+
+  The scale is now: hero > contact (the closing statement) > every section.
+*/
+.t-h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.875rem, 3.2vw, 3.125rem);
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.t-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* ---------------------------------------------------------------------------
+   Scroll reveals
+
+   Nothing here hides anything on its own. `data-hidden` is applied by
+   RevealController at runtime, and only to elements that are off-screen at the
+   time. So:
+
+     - no JS at all              -> nothing is ever hidden, page fully readable
+     - JS bundle fails to load   -> same
+     - element already in view   -> shown immediately, no flash
+     - element below the fold    -> hidden, then animated in on approach
+
+   The original design inverted this, defaulting every section to opacity:0 and
+   relying on JS to reveal it, which blanked ~70% of the page whenever the
+   script did not run.
+   --------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal="fade"][data-hidden] {
+    transition:
+      opacity var(--dur-reveal) var(--ease-soft),
+      transform var(--dur-reveal) var(--ease-soft);
+    transition-delay: calc(var(--stagger-i, 0) * var(--stagger-step));
+  }
+
+  [data-reveal="fade"][data-hidden]:not([data-shown]) {
+    opacity: 0;
+    /* Deliberately slight. The hero entrance and the heading masks are the
+       authored moments; if every section arrives with the same 26px lift, the
+       page reads as one repeated effect rather than a composition. */
+    transform: translateY(14px);
+    /*
+      No will-change. It was scoped to the pending state, which sounds right,
+      but "pending" lasts from page load until the element is scrolled to — so
+      roughly fifteen elements held a compositor layer each for the whole
+      session, and for a visitor who never scrolled, forever. Opacity and
+      transform already composite without the hint.
+    */
+  }
+
+  /* Display headings rise out from behind a clip mask — suits the serif far
+     better than a plain fade. */
+  [data-reveal="mask"][data-hidden] > * {
+    transition: transform var(--dur-mask) var(--ease-soft);
+    transition-delay: calc(var(--stagger-i, 0) * 90ms);
+  }
+
+  [data-reveal="mask"][data-hidden]:not([data-shown]) > * {
+    transform: translateY(105%);
+  }
+}
+
+[data-reveal="mask"] {
+  display: block;
+  overflow: hidden;
+  /* Descenders and the tall line-height would otherwise clip against the mask.
+     Deliberately NOT compensated with a negative margin: this rule is unlayered
+     and would beat any Tailwind mb-* utility on the same element, which is what
+     was collapsing every heading's bottom margin to -2.24px. The 0.14em is part
+     of the box; the spacing utilities account for it. */
+  padding-bottom: 0.14em;
+}
+
+[data-reveal="mask"] > * {
+  display: block;
+}
+
+/* ---------------------------------------------------------------------------
+   Hero entrance — runs on load, so it is pure CSS and needs no `.js` guard
+   --------------------------------------------------------------------------- */
+
+.hero-rise {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+
+.hero-rise > * {
+  display: block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-rise > * {
+    animation: hero-rise var(--dur-mask) var(--ease-soft) both;
+    animation-delay: calc(var(--stagger-i, 0) * 90ms + 100ms);
+  }
+
+  .hero-fade {
+    animation: hero-fade var(--dur-reveal) var(--ease-soft) both;
+    animation-delay: calc(var(--stagger-i, 0) * 90ms + 260ms);
+  }
+
+  /* The image settles rather than sitting still — the one flourish worth the
+     motion budget. Lives on the image element; parallax lives on the wrapper,
+     so the two never fight over `transform`. */
+  .hero-img {
+    animation: hero-settle 1600ms var(--ease-soft) both;
+  }
+}
+
+@keyframes hero-rise {
+  from {
+    transform: translateY(105%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes hero-fade {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes hero-settle {
+  from {
+    transform: scale(1.06);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Parallax — scroll-driven, so it runs on the compositor with zero JS and no
+   scroll listener. Browsers without support simply get no parallax, which is
+   a perfectly good outcome for pure decoration.
+   --------------------------------------------------------------------------- */
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-parallax {
+      animation: hero-parallax linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 100svh;
+    }
+  }
+}
+
+@keyframes hero-parallax {
+  to {
+    transform: translateY(11%);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Micro-interactions
+   --------------------------------------------------------------------------- */
+
+/*
+  Two transitions on this page animate a layout property, and both are the
+  design rather than an accident: a header that shrinks as you scroll, and a
+  pill indicator that grows to mark the active slide. Neither can be expressed
+  as a transform without distorting it — scaleX on an 8px pill squashes its
+  border-radius into a lens.
+
+  So they are bounded instead of eliminated. `contain: layout style` keeps each
+  reflow inside its own subtree, where it costs a handful of nodes rather than a
+  document-wide layout pass. Being honest: this reduces the cost, it does not
+  remove it.
+*/
+.header-bar,
+.deck-dots {
+  contain: layout style;
+}
+
+.nav-link {
+  position: relative;
+  /* Lifts the hit area to the 24px target minimum; the text was 23px tall. */
+  padding-block: 0.25rem;
+  transition: color var(--dur-hover) var(--ease-soft);
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--dur-hover) var(--ease-soft);
+}
+
+.nav-link:hover::after,
+.nav-link:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.btn-light {
+  transition:
+    background-color var(--dur-hover) var(--ease-soft),
+    color var(--dur-hover) var(--ease-soft),
+    transform var(--dur-hover) var(--ease-soft);
+}
+
+.btn-light:hover {
+  background-color: var(--color-highlight);
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .btn-light:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.btn-outline {
+  transition:
+    background-color var(--dur-hover) var(--ease-soft),
+    color var(--dur-hover) var(--ease-soft),
+    border-color var(--dur-hover) var(--ease-soft);
+}
+
+.btn-outline:hover {
+  background-color: var(--color-ink);
+  border-color: var(--color-ink);
+  color: #fff;
+}
+
+.link-underline {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+  padding-bottom: 2px;
+  transition:
+    color var(--dur-hover) var(--ease-soft),
+    border-color var(--dur-hover) var(--ease-soft);
+}
+
+.link-underline:hover {
+  color: var(--color-highlight);
+  border-color: var(--color-highlight);
+}
+
+/* ---------------------------------------------------------------------------
+   Gallery
+
+   Mobile is a scroll-snap row — it works with no JS at all. Desktop upgrades to
+   the coverflow from the design. The switch is a media query, and JS only ever
+   writes the custom properties below, so there is no hydration flash and no
+   reading of window.innerWidth (which the original did once, at render, and so
+   broke on resize and rotation).
+   --------------------------------------------------------------------------- */
+
+.deck {
+  /* Knobs. Each deck overrides what it needs; everything else is shared. */
+  --deck-card-w: min(620px, 74vw);
+  --deck-h: 500px;
+  --deck-shift: 0.61;
+  --deck-depth: 0.42;
+
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 5vw;
+  padding: 0 5vw 8px;
+  scrollbar-width: none;
+}
+
+.deck::-webkit-scrollbar {
+  display: none;
+}
+
+.deck-item {
+  position: relative;
+  flex: 0 0 auto;
+  width: min(86vw, 460px);
+  scroll-snap-align: center;
+  border-radius: 20px;
+}
+
+/* 3:2 landscape to match the photography. The design's 430x520 portrait cards
+   would have centre-cropped roughly a third off each side of every shot. */
+.deck-item--photo {
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: repeating-linear-gradient(
+    135deg,
+    var(--color-surface-warm) 0 10px,
+    #e4e2dc 10px 20px
+  );
+}
+
+.deck--reviews {
+  --deck-card-w: min(560px, 60vw);
+  --deck-h: 460px;
+  --deck-shift: 0.72;
+  --deck-depth: 0.3;
+}
+
+@media (min-width: 768px) {
+  .deck {
+    display: block;
+    position: relative;
+    height: var(--deck-h);
+    overflow: visible;
+    padding: 0;
+    perspective: 1700px;
+    scroll-snap-type: none;
+    user-select: none;
+  }
+
+  .deck-item {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /*
+      Offsets are a ratio of the card, not fixed pixels. With hard-coded
+      380px/260px the cards shrank under zoom or a narrow desktop while the
+      separation did not, and the stack collapsed into overlap.
+    */
+    width: var(--deck-card-w);
+    transform: translate(-50%, -50%)
+      translateX(calc(var(--d, 0) * var(--deck-card-w) * var(--deck-shift)))
+      translateZ(calc(var(--abs, 0) * var(--deck-card-w) * -1 * var(--deck-depth)))
+      rotateY(var(--rot, 0deg)) scale(var(--scale, 1));
+    opacity: var(--op, 1);
+    z-index: var(--z, 1);
+    pointer-events: var(--pe, auto);
+    box-shadow: 0 var(--shadow-y, 18px) var(--shadow-blur, 44px)
+      rgba(12, 36, 46, var(--shadow-a, 0.16));
+    transition:
+      transform 620ms var(--ease-soft),
+      opacity 620ms ease,
+      box-shadow 620ms ease;
+  }
+
+  /*
+    Review cards hold text, so they take a fixed height rather than sizing to
+    their own quote — otherwise the deck jumps as you page through.
+
+    Sized to the longest review with headroom to spare. If a much longer one is
+    ever added, this is the number to raise: the blockquote clips silently, so
+    the symptom is a review's last line quietly disappearing.
+  */
+  .deck--reviews .deck-item {
+    height: 380px;
+  }
+}
+
+@media (min-width: 768px) and (prefers-reduced-motion: reduce) {
+  .deck-item {
+    transition: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Loading
+   --------------------------------------------------------------------------- */
+
+/*
+  `content-visibility: auto` was tried on the below-fold sections and removed.
+  On a page this short it saved almost nothing, and it took the Amenities and
+  Good-to-know sections out of text extraction entirely — skipped subtrees are
+  not laid out, so they drop out of innerText and their exposure to the
+  accessibility tree becomes implementation-dependent. Not a trade worth making
+  for a few milliseconds. The real loading wins here are the deferred gallery
+  slides, the click-to-load map and the lazily fetched calendar.
+*/
+
+/* ---------------------------------------------------------------------------
+   Reduced motion — belt and braces. Everything above is already gated, but a
+   blanket reset catches any transition added later without thinking.
+   --------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  /*
+    Kill movement, keep feedback.
+
+    This used to blanket-set `transition-duration: 0.01ms !important` on every
+    element, which also destroyed the transitions that are not motion and that
+    a reduced-motion user still needs: button hover states, the header going
+    from transparent to solid, and — worst — the colour change that confirms a
+    calendar date was selected. "Reduce motion" means less movement, not less
+    feedback.
+
+    Every transition that actually moves something is gated at its source
+    behind `prefers-reduced-motion: no-preference`, so there is nothing left to
+    switch off globally. Keyframe animations are still neutralised, because on
+    this page they are all entrances.
+  */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* The two transitions that resize rather than recolour. Hold their geometry
+     steady and let only the colour change through. */
+  .header-bar {
+    transition-property: color !important;
+  }
+
+  .deck-dot {
+    transition-property: background-color !important;
+  }
+
+  /* End states must still be correct, not just un-animated. */
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  [data-reveal="mask"] > * {
+    transform: none !important;
+  }
+}

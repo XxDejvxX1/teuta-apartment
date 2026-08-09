@@ -1,0 +1,218 @@
+{
+  "meta": {
+    "title": "Teuta Apartment — beachfront apartment in Durrës, Albania",
+    "description": "A one-bedroom apartment on the first line of the beach in Durrës. Sea-view balcony, free parking, sleeps five. Message on WhatsApp for dates.",
+    "ogAlt": "The Adriatic seen from the balcony of Teuta Apartment in Durrës"
+  },
+  "nav": {
+    "apartment": "The apartment",
+    "gallery": "Gallery",
+    "availability": "Availability",
+    "gettingHere": "Getting here",
+    "whatsapp": "WhatsApp",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "language": "Language",
+    "skipToContent": "Skip to content"
+  },
+  "hero": {
+    "eyebrow": "Durrës · Albania",
+    "titleLines": [
+      "Wake up",
+      "on the first line",
+      "of the sea"
+    ],
+    "scroll": "Look inside"
+  },
+  "apartment": {
+    "eyebrow": "The apartment",
+    "title": "One bedroom, one balcony, and the whole Adriatic in front of it.",
+    "body": "The sea is the first thing you see when the curtain moves in the morning. Below the balcony are the umbrellas, the palms and then the water, and that is the whole distance between the bed and the beach.",
+    "tags": [
+      "1 bedroom",
+      "2 sofa beds",
+      "Sea balcony",
+      "5 guests"
+    ],
+    "imageAlt": "The balcony view over the Durrës beachfront"
+  },
+  "gallery": {
+    "title": "The place",
+    "counter": "{current} / {total}",
+    "previous": "Previous photo",
+    "next": "Next photo",
+    "open": "Open photo full size",
+    "close": "Close photo",
+    "region": "Apartment photos",
+    "photos": {
+      "window": {
+        "title": "The window",
+        "alt": "Morning light through the apartment window with the Adriatic beyond"
+      },
+      "bedroom": {
+        "title": "Bedroom",
+        "alt": "The bedroom with a double bed and a window onto the sea"
+      },
+      "balcony": {
+        "title": "Balcony",
+        "alt": "The sea-facing balcony with a table set for breakfast"
+      },
+      "living": {
+        "title": "Living room",
+        "alt": "The living room with a sofa bed and a view through to the balcony"
+      },
+      "kitchen": {
+        "title": "Kitchen",
+        "alt": "The kitchen with a hob, fridge and counter space"
+      },
+      "beach": {
+        "title": "The beach in front",
+        "alt": "The beach directly in front of the building, with umbrellas and palms"
+      }
+    }
+  },
+  "amenities": {
+    "title": "What's included",
+    "note": "Everything in the flat, nothing extra to pay for",
+    "items": {
+      "balcony": {
+        "title": "Sea view balcony",
+        "note": "Facing the water, big enough for breakfast"
+      },
+      "wifi": {
+        "title": "Free WiFi",
+        "note": "Fast enough to work a morning if you must"
+      },
+      "parking": {
+        "title": "Free parking",
+        "note": "Next to the building, no permit needed"
+      },
+      "ac": {
+        "title": "Air conditioning",
+        "note": "In the bedroom and the living room"
+      },
+      "kitchen": {
+        "title": "Full kitchen",
+        "note": "Hob, fridge, kettle, everything to cook"
+      },
+      "sleeps": {
+        "title": "Sleeps five",
+        "note": "One bedroom plus a sofa bed in the living room"
+      }
+    }
+  },
+  "rates": {
+    "title": "What it costs",
+    "note": "Per night for the whole apartment, up to five guests.",
+    "perNight": "per night",
+    "ask": "Ask",
+    "seasons": {
+      "spring": {
+        "label": "Spring",
+        "months": "April and May"
+      },
+      "shoulder": {
+        "label": "Early and late summer",
+        "months": "June and September"
+      },
+      "peak": {
+        "label": "High summer",
+        "months": "July and August"
+      }
+    }
+  },
+  "host": {
+    "title": "Who you're booking with",
+    "intro": "You are dealing with us directly, not an agency. We answer our own messages and we hand over the keys ourselves.",
+    "reviewsTitle": "What guests have said",
+    "stayed": "stayed {when}",
+    "scoreLabel": "Scored {score} out of {max}",
+    "previous": "Previous review",
+    "next": "Next review",
+    "region": "Guest reviews"
+  },
+  "availability": {
+    "eyebrow": "Availability",
+    "title": "When it's free",
+    "legend": {
+      "free": "Free",
+      "booked": "Taken"
+    },
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month",
+    "cta": "WhatsApp about your dates",
+    "ctaWithDates": "WhatsApp about these dates",
+    "minStay": "Minimum stay is 4 nights in July and August, 3 nights the rest of the year.",
+    "openSeason": "Open from April to the end of September.",
+    "closedSeason": "Closed for the season",
+    "pickHint": "Choose your arrival day, then your departure day.",
+    "arrival": "Arrival",
+    "departure": "Departure",
+    "today": "Today",
+    "guests": "Guests",
+    "clear": "Clear",
+    "nightsOne": "{count} night",
+    "nightsOther": "{count} nights",
+    "guestsOne": "{count} guest",
+    "guestsOther": "{count} guests",
+    "tooShort": "That is only {count}. The minimum for those dates is {min}.",
+    "rangeTaken": "Some of those nights are already taken. Choose another arrival day.",
+    "prefillDates": "Hello! I would like to book Teuta Apartment from {from} to {to} — {nights} for {guests}. Is it free?"
+  },
+  "gettingHere": {
+    "eyebrow": "Getting here",
+    "title": "Twenty minutes from the airport, and you're on the sand.",
+    "steps": [
+      {
+        "title": "Fly into Tirana",
+        "body": "The drive to the apartment takes 20 to 30 minutes depending on traffic."
+      },
+      {
+        "title": "Shuttle on request — €{price}",
+        "body": "Send your flight number when you book and someone will be waiting at arrivals."
+      },
+      {
+        "title": "Driving yourself",
+        "body": "Parking is free and next to the building, so the car can stay put all week."
+      }
+    ],
+    "mapCaption": "Durrës beachfront — first line, on the sand",
+    "mapOpen": "Open in Google Maps",
+    "mapLoad": "Show map",
+    "mapNote": "Loads Google Maps, which sets cookies",
+    "mapBlocked": "Something is blocking Google Maps — usually a tracker blocker. You can open the location directly instead.",
+    "mapRetry": "Try again",
+    "mapAlt": "Map of the Durrës beachfront showing the apartment location"
+  },
+  "goodToKnow": {
+    "title": "Good to know",
+    "payment": {
+      "term": "Paying",
+      "body": "No deposit. You pay in cash when you arrive, in euros or lek. Nothing else on top."
+    },
+    "rows": [
+      {
+        "term": "Check-in & check-out",
+        "body": "From 14:00, out by 11:00. If your flight lands early or late, message me and we'll work it out."
+      },
+      {
+        "term": "The keys",
+        "body": "I meet you at the apartment and hand them over in person. Send a message when you're on your way."
+      },
+      {
+        "term": "Minimum stay",
+        "body": "Four nights in high season, three nights the rest of the year."
+      }
+    ]
+  },
+  "contact": {
+    "title": "Ask me about your dates",
+    "body": "I answer on WhatsApp, usually within the hour. Tell me when you're coming and how many of you there are.",
+    "cta": "WhatsApp {phone}",
+    "prefill": "Hello! I saw the Teuta Apartment website and I'd like to ask about your available dates."
+  },
+  "footer": {
+    "location": "Teuta Apartment — Durrës, Albania",
+    "tagline": "First line, on the beach"
+  }
+}

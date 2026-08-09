@@ -1,0 +1,218 @@
+{
+  "meta": {
+    "title": "Apartamenti Teuta — apartament buzë detit në Durrës, Shqipëri",
+    "description": "Apartament me një dhomë gjumi në vijën e parë të plazhit në Durrës. Ballkon me pamje nga deti, parkim falas, deri në pesë persona. Shkruaj në WhatsApp për datat.",
+    "ogAlt": "Adriatiku parë nga ballkoni i Apartamentit Teuta në Durrës"
+  },
+  "nav": {
+    "apartment": "Apartamenti",
+    "gallery": "Galeria",
+    "availability": "Disponueshmëria",
+    "gettingHere": "Si të vini",
+    "whatsapp": "WhatsApp",
+    "openMenu": "Hap menunë",
+    "closeMenu": "Mbyll menunë",
+    "language": "Gjuha",
+    "skipToContent": "Kalo te përmbajtja"
+  },
+  "hero": {
+    "eyebrow": "Durrës · Shqipëri",
+    "titleLines": [
+      "Zgjohu",
+      "në vijën e parë",
+      "të detit"
+    ],
+    "scroll": "Shiko brenda"
+  },
+  "apartment": {
+    "eyebrow": "Apartamenti",
+    "title": "Një dhomë gjumi, një ballkon dhe i gjithë Adriatiku përpara.",
+    "body": "Deti është gjëja e parë që sheh kur perdja lëviz në mëngjes. Poshtë ballkonit janë çadrat, palmat dhe pastaj uji — kaq është e gjithë distanca mes shtratit dhe plazhit.",
+    "tags": [
+      "1 dhomë gjumi",
+      "2 divane-krevat",
+      "Ballkon nga deti",
+      "5 persona"
+    ],
+    "imageAlt": "Pamja nga ballkoni mbi bregdetin e Durrësit"
+  },
+  "gallery": {
+    "title": "Ambientet",
+    "counter": "{current} / {total}",
+    "previous": "Fotoja e mëparshme",
+    "next": "Fotoja tjetër",
+    "open": "Hap foton në madhësi të plotë",
+    "close": "Mbyll foton",
+    "region": "Fotot e apartamentit",
+    "photos": {
+      "window": {
+        "title": "Dritarja",
+        "alt": "Drita e mëngjesit nga dritarja e apartamentit me Adriatikun përtej"
+      },
+      "bedroom": {
+        "title": "Dhoma e gjumit",
+        "alt": "Dhoma e gjumit me krevat dopio dhe dritare nga deti"
+      },
+      "balcony": {
+        "title": "Ballkoni",
+        "alt": "Ballkoni nga deti me një tavolinë të shtruar për mëngjes"
+      },
+      "living": {
+        "title": "Salloni",
+        "alt": "Salloni me divan-krevat dhe pamje nga ballkoni"
+      },
+      "kitchen": {
+        "title": "Kuzhina",
+        "alt": "Kuzhina me pianurë, frigorifer dhe sipërfaqe pune"
+      },
+      "beach": {
+        "title": "Plazhi përballë",
+        "alt": "Plazhi pikërisht përpara pallatit, me çadra dhe palma"
+      }
+    }
+  },
+  "amenities": {
+    "title": "Çfarë përfshihet",
+    "note": "Gjithçka brenda apartamentit, pa pagesa shtesë",
+    "items": {
+      "balcony": {
+        "title": "Ballkon me pamje nga deti",
+        "note": "Nga deti, mjaftueshëm i gjerë për mëngjesin"
+      },
+      "wifi": {
+        "title": "WiFi falas",
+        "note": "Aq i shpejtë sa të punosh një mëngjes, nëse duhet"
+      },
+      "parking": {
+        "title": "Parkim falas",
+        "note": "Ngjitur me pallatin, pa nevojë për leje"
+      },
+      "ac": {
+        "title": "Kondicioner",
+        "note": "Në dhomën e gjumit dhe në sallon"
+      },
+      "kitchen": {
+        "title": "Kuzhinë e plotë",
+        "note": "Pianurë, frigorifer, çajnik, gjithçka për të gatuar"
+      },
+      "sleeps": {
+        "title": "Deri në pesë persona",
+        "note": "Një dhomë gjumi plus një divan-krevat në sallon"
+      }
+    }
+  },
+  "rates": {
+    "title": "Sa kushton",
+    "note": "Për natë, i gjithë apartamenti, deri në pesë persona.",
+    "perNight": "për natë",
+    "ask": "Pyet",
+    "seasons": {
+      "spring": {
+        "label": "Pranverë",
+        "months": "Prill dhe maj"
+      },
+      "shoulder": {
+        "label": "Fillim e fund vere",
+        "months": "Qershor dhe shtator"
+      },
+      "peak": {
+        "label": "Mesi i verës",
+        "months": "Korrik dhe gusht"
+      }
+    }
+  },
+  "host": {
+    "title": "Me kë po rezervoni",
+    "intro": "Merreni drejtpërdrejt me ne, jo me një agjenci. Përgjigjemi vetë dhe çelësat i dorëzojmë personalisht.",
+    "reviewsTitle": "Çfarë kanë thënë mysafirët",
+    "stayed": "qëndroi {when}",
+    "scoreLabel": "Vlerësuar {score} nga {max}",
+    "previous": "Vlerësimi i mëparshëm",
+    "next": "Vlerësimi tjetër",
+    "region": "Vlerësimet e mysafirëve"
+  },
+  "availability": {
+    "eyebrow": "Disponueshmëria",
+    "title": "Kur është e lirë",
+    "legend": {
+      "free": "E lirë",
+      "booked": "E zënë"
+    },
+    "previousMonth": "Muaji i mëparshëm",
+    "nextMonth": "Muaji tjetër",
+    "cta": "Shkruaj në WhatsApp për datat e tua",
+    "ctaWithDates": "Shkruaj në WhatsApp për këto data",
+    "minStay": "Qëndrimi minimal është 4 netë në korrik dhe gusht, 3 netë pjesën tjetër të vitit.",
+    "openSeason": "Hapur nga prilli deri në fund të shtatorit.",
+    "closedSeason": "Mbyllur për sezonin",
+    "pickHint": "Zgjidh ditën e ardhjes, pastaj ditën e nisjes.",
+    "arrival": "Ardhja",
+    "departure": "Nisja",
+    "today": "Sot",
+    "guests": "Persona",
+    "clear": "Pastro",
+    "nightsOne": "{count} natë",
+    "nightsOther": "{count} netë",
+    "guestsOne": "{count} person",
+    "guestsOther": "{count} persona",
+    "tooShort": "Janë vetëm {count}. Minimumi për ato data është {min}.",
+    "rangeTaken": "Disa nga ato netë janë të zëna. Zgjidh një ditë tjetër ardhjeje.",
+    "prefillDates": "Përshëndetje! Dua të rezervoj Apartamentin Teuta nga {from} deri më {to} — {nights} për {guests}. A është i lirë?"
+  },
+  "gettingHere": {
+    "eyebrow": "Si të vini",
+    "title": "Njëzet minuta nga aeroporti dhe je në rërë.",
+    "steps": [
+      {
+        "title": "Fluturo për në Tiranë",
+        "body": "Rruga deri te apartamenti zgjat 20 deri në 30 minuta, sipas trafikut."
+      },
+      {
+        "title": "Transport me kërkesë — €{price}",
+        "body": "Dërgo numrin e fluturimit kur rezervon dhe dikush do të të presë në ardhje."
+      },
+      {
+        "title": "Me makinën tënde",
+        "body": "Parkimi është falas dhe ngjitur me pallatin, kështu që makina rri aty gjithë javën."
+      }
+    ],
+    "mapCaption": "Bregdeti i Durrësit — vija e parë, mbi rërë",
+    "mapOpen": "Hape në Google Maps",
+    "mapLoad": "Shfaq hartën",
+    "mapNote": "Ngarkon Google Maps, i cili vendos cookies",
+    "mapBlocked": "Diçka po e bllokon Google Maps — zakonisht një bllokues gjurmuesish. Mund ta hapësh vendndodhjen drejtpërdrejt.",
+    "mapRetry": "Provo përsëri",
+    "mapAlt": "Harta e bregdetit të Durrësit me vendndodhjen e apartamentit"
+  },
+  "goodToKnow": {
+    "title": "Mirë të dihet",
+    "payment": {
+      "term": "Pagesa",
+      "body": "Pa kapar. Paguani me para në dorë kur mbërrini, në euro ose lekë. Pa kosto shtesë."
+    },
+    "rows": [
+      {
+        "term": "Check-in dhe check-out",
+        "body": "Nga ora 14:00, dalja deri në 11:00. Nëse fluturimi ulet herët ose vonë, më shkruaj dhe e rregullojmë."
+      },
+      {
+        "term": "Çelësat",
+        "body": "Të pres te apartamenti dhe t'i dorëzoj personalisht. Më dërgo një mesazh kur të jesh nisur."
+      },
+      {
+        "term": "Qëndrimi minimal",
+        "body": "Katër netë në sezonin e lartë, tre netë pjesën tjetër të vitit."
+      }
+    ]
+  },
+  "contact": {
+    "title": "Pyet për datat e tua",
+    "body": "Përgjigjem në WhatsApp, zakonisht brenda një ore. Më thuaj kur vini dhe sa veta jeni.",
+    "cta": "WhatsApp {phone}",
+    "prefill": "Përshëndetje! Pashë faqen e Apartamentit Teuta dhe doja të pyesja për datat e lira."
+  },
+  "footer": {
+    "location": "Apartamenti Teuta — Durrës, Shqipëri",
+    "tagline": "Vija e parë, mbi plazh"
+  }
+}
