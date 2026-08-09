@@ -3,6 +3,17 @@ import type { NextConfig } from "next";
 const isDev = process.env.NODE_ENV !== "production";
 
 /**
+ * Dev-only allowance so impeccable live mode can load its picker from the
+ * helper server on port 8400.
+ *
+ * Guarded by NODE_ENV, so this entry never appears in a production build — the
+ * shipped policy is byte-identical with or without this line. Delete it and
+ * live mode simply stops working; nothing else changes.
+ */
+const __impeccableLiveDev =
+  process.env.NODE_ENV === "development" ? " http://localhost:8400" : "";
+
+/**
  * Content-Security-Policy.
  *
  * Deliberately NOT nonce-based. A per-request nonce would force every page to
@@ -31,13 +42,13 @@ const csp = [
   "frame-ancestors 'none'",
   "form-action 'self'",
   // 'unsafe-eval' is required by the dev server's hot reload only.
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}${__impeccableLiveDev}`,
   "style-src 'self' 'unsafe-inline'",
   // data: and blob: cover next/image's blur-up placeholders.
   "img-src 'self' data: blob:",
   "font-src 'self'",
   // ws: is the dev server's hot-reload socket.
-  `connect-src 'self'${isDev ? " ws: wss:" : ""}`,
+  `connect-src 'self'${isDev ? " ws: wss:" : ""}${__impeccableLiveDev}`,
   // The only third party on the page, and it only loads once clicked.
   "frame-src https://www.google.com",
   ...(isDev ? [] : ["upgrade-insecure-requests"]),
