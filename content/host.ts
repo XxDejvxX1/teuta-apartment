@@ -14,9 +14,13 @@ export const host = {
   names: ["Rudi", "Dejv"] as string[],
 
   /**
-   * Optional. Put a photo at `public/photos/host.jpg` and set this to
-   * "/photos/host.jpg". Without one, the block shows initials — still better
-   * than nobody, but a real photograph of the two of you does far more.
+   * Optional. ONE photograph with everyone in `names` in it — not one portrait
+   * each. The block renders a single 144px circle, so a close crop of the two
+   * of you together is what works; a wide shot loses the faces at that size.
+   *
+   * Drop the file at `public/photos/host.jpg`, then change this line to
+   * "/photos/host.jpg". Left null deliberately until the file exists: a missing
+   * image renders broken, whereas null falls back to the initials disc.
    */
   photoSrc: null as string | null,
 };

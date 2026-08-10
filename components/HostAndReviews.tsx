@@ -19,7 +19,6 @@ export default function HostAndReviews({
   localeTag: string;
   copy: {
     title: string;
-    intro: string;
     reviewsTitle: string;
     stayed: string;
     scoreLabel: string;
@@ -54,24 +53,31 @@ export default function HostAndReviews({
       <div className="mx-auto max-w-[900px]">
         {showHost && (
           <div data-reveal="fade" className="flex flex-col items-center gap-7 text-center">
+            {/*
+              One frame, both hosts — a single photograph of the two of them,
+              not an avatar each. Two stacked initial discs read as two separate
+              accounts on a platform, which is the opposite of what this section
+              is for. Larger than the old 112px too: with the intro paragraph
+              gone this picture carries the block on its own, and two faces need
+              the room.
+            */}
             {host.photoSrc ? (
               <Image
                 src={host.photoSrc}
                 alt={nameList}
-                width={112}
-                height={112}
-                className="h-28 w-28 rounded-full object-cover"
+                width={144}
+                height={144}
+                className="h-36 w-36 rounded-full object-cover"
               />
             ) : (
-              <span aria-hidden className="flex -space-x-4">
-                {names.map((name) => (
-                  <span
-                    key={name}
-                    className="flex h-24 w-24 items-center justify-center rounded-full bg-accent text-[32px] text-white ring-4 ring-mist"
-                  >
-                    {name.trim().charAt(0).toUpperCase()}
-                  </span>
-                ))}
+              // Initials of everyone in `names`, in one disc. 30px is the
+              // documented Title-lg step; this used to sit at an unsanctioned
+              // 32px.
+              <span
+                aria-hidden
+                className="flex h-24 w-24 items-center justify-center rounded-full bg-accent text-[30px] tracking-[0.02em] text-white"
+              >
+                {names.map((name) => name.trim().charAt(0).toUpperCase()).join("")}
               </span>
             )}
 
@@ -79,10 +85,7 @@ export default function HostAndReviews({
               <span data-reveal="mask" className="mb-4 block">
                 <h2 className="t-h3 text-ink">{copy.title}</h2>
               </span>
-              <p className="mx-auto max-w-[46ch] text-[17px] leading-[1.65] text-body-soft">
-                {copy.intro}
-              </p>
-              <p className="mt-5 text-[17px] text-ink">{nameList}</p>
+              <p className="text-[17px] text-ink">{nameList}</p>
             </div>
           </div>
         )}

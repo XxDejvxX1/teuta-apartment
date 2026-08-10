@@ -121,8 +121,7 @@
     }
   },
   "host": {
-    "title": "Con chi prenoti",
-    "intro": "Tratti direttamente con noi, non con un'agenzia. Rispondiamo noi ai messaggi e consegniamo le chiavi di persona.",
+    "title": "Conosci i tuoi host",
     "reviewsTitle": "Cosa hanno detto gli ospiti",
     "stayed": "soggiorno {when}",
     "scoreLabel": "Valutato {score} su {max}",

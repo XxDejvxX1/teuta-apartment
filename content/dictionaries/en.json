@@ -121,8 +121,7 @@
     }
   },
   "host": {
-    "title": "Who you're booking with",
-    "intro": "You are dealing with us directly, not an agency. We answer our own messages and we hand over the keys ourselves.",
+    "title": "Meet the hosts",
     "reviewsTitle": "What guests have said",
     "stayed": "stayed {when}",
     "scoreLabel": "Scored {score} out of {max}",

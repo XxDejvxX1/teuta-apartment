@@ -121,8 +121,7 @@
     }
   },
   "host": {
-    "title": "Me kë po rezervoni",
-    "intro": "Merreni drejtpërdrejt me ne, jo me një agjenci. Përgjigjemi vetë dhe çelësat i dorëzojmë personalisht.",
+    "title": "Njihuni me pritësit",
     "reviewsTitle": "Çfarë kanë thënë mysafirët",
     "stayed": "qëndroi {when}",
     "scoreLabel": "Vlerësuar {score} nga {max}",
