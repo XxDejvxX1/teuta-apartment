@@ -31,7 +31,7 @@ typography:
     fontSize: "clamp(2.75rem, 13.3vw, 6.5rem)"
     fontWeight: 400
     lineHeight: 1.05
-    letterSpacing: "-0.015em"
+    letterSpacing: "0"
   headline:
     fontFamily: "Instrument Serif, Georgia, serif"
     fontSize: "clamp(1.875rem, 3.2vw, 3.125rem)"

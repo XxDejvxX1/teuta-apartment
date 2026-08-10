@@ -6,7 +6,6 @@ export default function Apartment({
   copy,
 }: {
   copy: {
-    eyebrow: string;
     title: string;
     body: string;
     tags: string[];
@@ -24,8 +23,6 @@ export default function Apartment({
 
       <div className="mx-auto grid max-w-[1400px] items-center gap-12 md:grid-cols-[1.05fr_1fr] md:gap-[70px]">
         <div data-reveal="fade">
-          <p className="eyebrow mb-5 text-muted">{copy.eyebrow}</p>
-
           <span data-reveal="mask" className="mb-6 block">
             <h2 className="t-h3 max-w-[19ch] text-ink">{copy.title}</h2>
           </span>

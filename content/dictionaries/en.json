@@ -25,7 +25,6 @@
     "scroll": "Look inside"
   },
   "apartment": {
-    "eyebrow": "The apartment",
     "title": "One bedroom, one balcony, and the whole Adriatic in front of it.",
     "body": "The sea is the first thing you see when the curtain moves in the morning. Below the balcony are the umbrellas, the palms and then the water, and that is the whole distance between the bed and the beach.",
     "tags": [
@@ -132,8 +131,7 @@
     "region": "Guest reviews"
   },
   "availability": {
-    "eyebrow": "Availability",
-    "title": "When it's free",
+    "title": "Availability",
     "legend": {
       "free": "Free",
       "booked": "Taken"
@@ -143,7 +141,6 @@
     "cta": "WhatsApp about your dates",
     "ctaWithDates": "WhatsApp about these dates",
     "minStay": "Minimum stay is 4 nights in July and August, 3 nights the rest of the year.",
-    "openSeason": "Open from April to the end of September.",
     "closedSeason": "Closed for the season",
     "pickHint": "Choose your arrival day, then your departure day.",
     "arrival": "Arrival",

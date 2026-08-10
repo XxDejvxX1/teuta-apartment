@@ -25,7 +25,6 @@
     "scroll": "Guarda dentro"
   },
   "apartment": {
-    "eyebrow": "L'appartamento",
     "title": "Una camera, un balcone e davanti tutto l'Adriatico.",
     "body": "Il mare è la prima cosa che vedi quando la tenda si muove al mattino. Sotto il balcone ci sono gli ombrelloni, le palme e poi l'acqua: è tutta qui la distanza tra il letto e la spiaggia.",
     "tags": [
@@ -132,8 +131,7 @@
     "region": "Recensioni degli ospiti"
   },
   "availability": {
-    "eyebrow": "Disponibilità",
-    "title": "Quando è libero",
+    "title": "Disponibilità",
     "legend": {
       "free": "Libero",
       "booked": "Occupato"
@@ -143,7 +141,6 @@
     "cta": "Scrivi su WhatsApp per le tue date",
     "ctaWithDates": "Scrivi su WhatsApp per queste date",
     "minStay": "Il soggiorno minimo è di 4 notti a luglio e agosto, 3 notti nel resto dell'anno.",
-    "openSeason": "Aperto da aprile a fine settembre.",
     "closedSeason": "Chiuso per la stagione",
     "pickHint": "Scegli il giorno di arrivo, poi quello di partenza.",
     "arrival": "Arrivo",

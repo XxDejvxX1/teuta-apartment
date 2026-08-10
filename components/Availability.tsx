@@ -17,8 +17,13 @@ import { interpolate } from "@/lib/dictionary";
 import { ArrowIcon, WhatsAppIcon } from "@/components/icons";
 
 type Copy = {
-  eyebrow: string;
   title: string;
+  /*
+    No longer drawn as a legend under the heading. The two words are still the
+    only non-visual signal of whether a night is free or taken — they are the
+    `statusText` in each day cell's screen-reader label — so removing the
+    strings would leave colour as the sole channel.
+  */
   legend: { free: string; booked: string };
   previousMonth: string;
   nextMonth: string;
@@ -38,7 +43,6 @@ type Copy = {
   tooShort: string;
   rangeTaken: string;
   prefillDates: string;
-  openSeason: string;
   closedSeason: string;
 };
 
@@ -190,32 +194,29 @@ export default function Availability({
     new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth() + offset + slot, 1, 12));
 
   return (
-    <section id="availability" className="bg-sand px-5 py-20 md:px-11 md:py-[120px]">
+    // Asymmetric padding on purpose. The gallery above already ends with 96px
+    // (128px on desktop) of its own bottom padding, and a matching top pad here
+    // stacked into 248px of empty page between the last photo control and this
+    // heading. The top is trimmed to roughly a third of the bottom so the two
+    // sections read as adjacent; the generous bottom is kept, because the rates
+    // block below it is the last thing before a different section colour.
+    <section
+      id="availability"
+      className="bg-sand px-5 pb-20 pt-6 md:px-11 md:pb-[120px] md:pt-8"
+    >
       <div className="mx-auto max-w-[900px]">
         <div data-reveal="fade" className="mb-10 text-center md:mb-14">
-          <p className="eyebrow mb-5 text-muted">{copy.eyebrow}</p>
           <span data-reveal="mask" className="mb-5 block">
             <h2 className="t-h3 text-ink">{copy.title}</h2>
           </span>
           {/* The minimum-stay rule used to live ~1,900px further down the page,
               so people planned stays that would be refused. */}
           <p className="mx-auto max-w-[52ch] text-[14px] leading-[1.6] text-muted">
-            {copy.openSeason} {copy.minStay}
+            {copy.minStay}
           </p>
         </div>
 
         <div data-reveal="fade" style={{ ["--stagger-i" as string]: 1 }}>
-          <ul className="mb-8 flex flex-wrap items-center justify-center gap-x-7 gap-y-3 text-[13px] text-body-mute">
-            <li className="flex items-center gap-2.5">
-              <span className="h-4 w-4 rounded-full border border-line" />
-              {copy.legend.free}
-            </li>
-            <li className="flex items-center gap-2.5">
-              <span className="h-4 w-4 rounded-full bg-booked" />
-              {copy.legend.booked}
-            </li>
-          </ul>
-
           <div className="mb-6 flex items-center justify-between gap-4">
             <button
               type="button"

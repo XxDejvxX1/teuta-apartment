@@ -159,7 +159,23 @@ body {
     1.17 to clear a descender above it.
   */
   line-height: 1.05;
-  letter-spacing: -0.015em;
+  /*
+    Was -0.015em, which pulled every pair 1.56px closer at the 104px ceiling.
+    Instrument Serif already sets tightly, and "first" is where it showed
+    first: the f-i kern takes a further 2.91px out of that one word, while the
+    other pairs in the line kern at zero.
+
+    Neutral tracking rather than a smaller negative one — the typeface's own
+    metrics are the thing to trust at display size. Being em-based it stays
+    proportional at every screen size, and the hero's line breaks are authored,
+    so no line rewraps.
+
+    Not solvable with `font-kerning: none`: that gives "Wake up" 9px back and
+    makes the Albanian "Zgjohu" tighter still. And there is no ligature here to
+    switch off — `normal`, `no-common-ligatures` and `none` all render this
+    headline at an identical width.
+  */
+  letter-spacing: 0;
   /* No text-wrap: balance — the line breaks are authored, so there is nothing
      to balance and balancing would fight the intended shape. */
 }

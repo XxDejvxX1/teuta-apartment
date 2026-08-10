@@ -39,7 +39,11 @@ export default function Gallery({ copy }: { copy: Copy }) {
   const { active, coverflow, trackRef, show, onKeyDown, geometry } = useDeck(count);
 
   return (
-    <section id="gallery" data-reveal="fade" className="overflow-hidden pb-24 md:pb-32">
+    // The bottom pad meets Availability's top pad, and the two used to stack
+    // into ~230px of empty page between the last gallery control and the next
+    // heading. Trimmed on both sides of that junction rather than all from one,
+    // so neither section ends up looking cramped against its own content.
+    <section id="gallery" data-reveal="fade" className="overflow-hidden pb-14 md:pb-16">
       <div className="mx-auto max-w-[1400px] px-5 md:px-11">
         <div className="mb-12 flex items-baseline justify-between gap-6 border-t border-line pt-8">
           <h2 className="t-h3 text-ink">{copy.title}</h2>
