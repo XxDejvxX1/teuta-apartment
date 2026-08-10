@@ -70,38 +70,56 @@ export default function MapEmbed({
         />
       ) : (
         <div className="relative flex h-[320px] w-full flex-col items-center justify-center gap-5 px-6 md:h-[420px]">
-          {/* Suggestion of a map, not a fake one. */}
-          <div
-            aria-hidden
-            className="absolute inset-0 opacity-[0.18]"
-            style={{
-              backgroundImage:
-                "linear-gradient(var(--color-accent-soft) 1px, transparent 1px), linear-gradient(90deg, var(--color-accent-soft) 1px, transparent 1px)",
-              backgroundSize: "56px 56px",
-            }}
-          />
-          <div
-            aria-hidden
-            className="absolute inset-x-0 bottom-0 h-1/3"
-            style={{
-              background:
-                "linear-gradient(180deg, rgba(31,111,106,0) 0%, rgba(31,111,106,0.35) 100%)",
-            }}
-          />
+          {/*
+            Suggestion of a map, not a fake one.
 
+            What was here was a 56px square grid under a teal wash fading up
+            from the bottom edge. The wash said nothing — a gradient used as
+            decoration, which the design system bans outright — and graph paper
+            is what every placeholder everywhere looks like.
+
+            This draws the one fact the map exists to prove: the building is on
+            the shoreline, not a road back from it. Lines running parallel to
+            the coast are the language a sea chart already uses, and the mark
+            sits on the shore rather than floating over a grid. Deliberately
+            abstract — no real coastline geometry, no place names — so it reads
+            as a diagram waiting for a map rather than a counterfeit of one.
+          */}
           <svg
-            viewBox="0 0 24 24"
-            width="30"
-            height="30"
-            fill="none"
-            stroke="var(--color-highlight)"
-            strokeWidth="1.3"
             aria-hidden
-            className="relative"
+            className="pointer-events-none absolute inset-0 h-full w-full"
+            viewBox="0 0 400 100"
+            preserveAspectRatio="none"
           >
-            <path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z" />
-            <circle cx="12" cy="10" r="2.4" />
+            {[
+              { d: "M0 16 C 70 22, 130 20, 200 20 S 330 18, 400 22", o: 0.14 },
+              { d: "M0 31 C 70 37, 130 35, 200 35 S 330 33, 400 37", o: 0.17 },
+              { d: "M0 46 C 70 52, 130 50, 200 50 S 330 48, 400 52", o: 0.2 },
+              { d: "M0 61 C 70 67, 130 65, 200 65 S 330 63, 400 67", o: 0.24 },
+            ].map((line) => (
+              <path
+                key={line.d}
+                d={line.d}
+                fill="none"
+                stroke="var(--color-accent-soft)"
+                strokeWidth="1"
+                opacity={line.o}
+                vectorEffect="non-scaling-stroke"
+              />
+            ))}
+            {/* The shoreline. Passes through (200, 78) by construction, which is
+                where the marker is pinned. */}
+            <path
+              d="M0 74 C 70 80, 130 78, 200 78 S 330 76, 400 80"
+              fill="none"
+              stroke="var(--color-accent-soft)"
+              strokeWidth="1"
+              opacity="0.55"
+              vectorEffect="non-scaling-stroke"
+            />
           </svg>
+
+          <span aria-hidden className="map-mark" />
 
           {state === "blocked" ? (
             <>

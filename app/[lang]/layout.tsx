@@ -111,7 +111,13 @@ function StructuredData({ lang }: { lang: Locale }) {
     <script
       type="application/ld+json"
       // Static, author-controlled content — no user input reaches this string.
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      // The `<` escape is belt and braces: a literal `</script>` anywhere in an
+      // amenity title or address would otherwise close this tag early and drop
+      // the rest of the JSON into the document as markup. `<` is valid
+      // inside a JSON string, so consumers still parse it as `<`.
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(data).replace(/</g, "\\u003c"),
+      }}
     />
   );
 }

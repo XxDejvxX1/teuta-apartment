@@ -33,15 +33,32 @@ export default function Lightbox({
 }) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const openerRef = useRef<HTMLElement | null>(null);
   const slide = slides[index];
 
+  /*
+    Mount and unmount only. This used to live in the keydown effect below,
+    which depends on the three handlers — and Gallery passes fresh arrow
+    functions on every render, so the effect tore down and re-ran on each
+    arrow press. Each re-run recaptured `opener` from `document.activeElement`,
+    which by then was this dialog's own Close button. Closing therefore
+    restored focus to a node that had just been unmounted and it fell through
+    to <body>, losing the keyboard user's place in the gallery.
+  */
   useEffect(() => {
-    const opener = document.activeElement as HTMLElement | null;
+    openerRef.current = document.activeElement as HTMLElement | null;
     closeRef.current?.focus();
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      openerRef.current?.focus?.();
+    };
+  }, []);
+
+  useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         onClose();
@@ -77,11 +94,7 @@ export default function Lightbox({
 
     document.addEventListener("keydown", onKeyDown);
 
-    return () => {
-      document.removeEventListener("keydown", onKeyDown);
-      document.body.style.overflow = previousOverflow;
-      opener?.focus?.();
-    };
+    return () => document.removeEventListener("keydown", onKeyDown);
   }, [onClose, onNext, onPrev]);
 
   return (
