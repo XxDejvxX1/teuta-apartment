@@ -142,7 +142,23 @@ body {
     6.5rem after the taller setting proved too heavy on mobile.
   */
   font-size: clamp(2.75rem, 13.3vw, 6.5rem);
-  line-height: 0.95;
+  /*
+    0.95 collided in all three languages. Instrument Serif puts a descender
+    0.221em below the baseline and an ascender 0.750em above it, so two stacked
+    lines need 0.971em of baseline gap before the ink touches — "Wake up" hung
+    its p into the f of "first", "Zgjohu" its g and j into "vijën", "Svegliati"
+    its g into "prima".
+
+    1.05 clears that by 0.079em: ~9px at the 104px ceiling and ~4px at the 44px
+    floor. 1.02 was enough to stop the overlap on desktop but left under 2px on
+    a phone, which still reads as touching. Still a display setting, just not a
+    colliding one.
+
+    If a title line is ever rewritten to BEGIN with an accented capital, this is
+    the number to revisit — Ë reaches 0.952em above the baseline and would need
+    1.17 to clear a descender above it.
+  */
+  line-height: 1.05;
   letter-spacing: -0.015em;
   /* No text-wrap: balance — the line breaks are authored, so there is nothing
      to balance and balancing would fight the intended shape. */
@@ -305,6 +321,83 @@ body {
   }
 }
 
+/*
+  Scroll cue.
+
+  It sits just above the Apartment sheet — 12px clear on mobile, 24px on desktop
+  — so the cue and the edge it points at read as one gesture rather than two
+  unrelated marks at opposite ends of dead space.
+
+  The rail is static and always present; the drop is the only moving part, and
+  it falls the length of the rail and fades, which is the motion the cue is
+  actually describing. Transform and opacity only. The loop is gated behind
+  reduced motion, and the rail alone still marks the affordance when it is off.
+*/
+.hero-cue-rail {
+  position: relative;
+  display: block;
+  width: 2px;
+  height: 38px;
+  overflow: hidden;
+  border-radius: 9999px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0.04)
+  );
+  transition: transform var(--dur-hover) var(--ease-soft);
+}
+
+.hero-cue-drop {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 13px;
+  border-radius: 9999px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.95)
+  );
+  /* Parked out of frame; only the animation brings it in, so a browser that
+     skips the animation shows a clean rail rather than a stray dash. */
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+/* The cue is a link, so a hover response is earned here — it leans toward the
+   section it points at. */
+@media (hover: hover) {
+  .hero-cue:hover .hero-cue-rail {
+    transform: translateY(3px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-cue-drop {
+    animation: hero-cue-drop 2600ms var(--ease-soft) infinite;
+    /* Waits for the headline to finish rising before starting. */
+    animation-delay: 1200ms;
+  }
+}
+
+@keyframes hero-cue-drop {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  22% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(38px);
+    opacity: 0;
+  }
+}
+
 /* ---------------------------------------------------------------------------
    Parallax — scroll-driven, so it runs on the compositor with zero JS and no
    scroll listener. Browsers without support simply get no parallax, which is
@@ -325,6 +418,31 @@ body {
   to {
     transform: translateY(11%);
   }
+}
+
+/*
+  The marker on the map placeholder: a ring with a centre dot, which is the
+  convention a chart already uses, pinned to the drawn shoreline at 78%. A ring,
+  not a soft halo — the mark has an edge because it is marking a point, and a
+  blurred glow around a dot is the decoration this placeholder just lost.
+*/
+.map-mark {
+  position: absolute;
+  left: 50%;
+  top: 78%;
+  width: 13px;
+  height: 13px;
+  margin: -7px 0 0 -7px;
+  border: 1px solid var(--color-accent-soft);
+  border-radius: 9999px;
+}
+
+.map-mark::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 9999px;
+  background: var(--color-accent-soft);
 }
 
 /* ---------------------------------------------------------------------------

@@ -88,26 +88,31 @@ export default function Hero({
 
         {/* Was 11px at 80% white over a photo — effectively invisible. Full
             white, a size up, and its own shadow so it holds against any crop. */}
-        {/* Points at the next section, not past it. Linking straight to
-            #gallery taught the visitor to skip the section the nav lists first. */}
-        <a
-          href="#apartment"
-          className="hero-fade flex flex-col items-center gap-2.5 pb-1.5 text-[12px] uppercase tracking-[0.18em] text-white transition-opacity duration-500 hover:opacity-70"
-          style={{
-            ["--stagger-i" as string]: copy.titleLines.length + 1,
-            textShadow: "0 1px 16px rgba(8,20,28,0.7)",
-          }}
-        >
-          <span>{copy.scroll}</span>
-          <span
-            aria-hidden
-            className="block h-[38px] w-[2px] rounded-full"
+        {/*
+          The offset lives on this wrapper rather than on the link, because
+          `hero-fade` animates the link's own transform and would wipe it. And
+          the cue stays a flex item rather than being positioned against the
+          section: `justify-between` is what holds it clear of the headline at
+          every width, and on a 375px phone an absolutely positioned cue lands
+          on the last title line.
+        */}
+        <div className="translate-y-10 md:translate-y-14">
+          {/* Points at the next section, not past it. Linking straight to
+              #gallery taught the visitor to skip the section the nav lists first. */}
+          <a
+            href="#apartment"
+            className="hero-cue hero-fade flex flex-col items-center gap-2.5 text-[12px] uppercase tracking-[0.18em] text-white transition-opacity duration-500 hover:opacity-70"
             style={{
-              background:
-                "linear-gradient(180deg,rgba(255,255,255,0.95),rgba(255,255,255,0.05))",
+              ["--stagger-i" as string]: copy.titleLines.length + 1,
+              textShadow: "0 1px 16px rgba(8,20,28,0.7)",
             }}
-          />
-        </a>
+          >
+            <span>{copy.scroll}</span>
+            <span aria-hidden className="hero-cue-rail">
+              <span className="hero-cue-drop" />
+            </span>
+          </a>
+        </div>
       </div>
     </section>
   );

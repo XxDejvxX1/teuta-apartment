@@ -28,9 +28,9 @@ colors:
 typography:
   display:
     fontFamily: "Instrument Serif, Georgia, serif"
-    fontSize: "clamp(3rem, 15.5vw, 6.5rem)"
+    fontSize: "clamp(2.75rem, 13.3vw, 6.5rem)"
     fontWeight: 400
-    lineHeight: 0.95
+    lineHeight: 1.05
     letterSpacing: "-0.015em"
   headline:
     fontFamily: "Instrument Serif, Georgia, serif"
@@ -262,8 +262,11 @@ printed book than a listing, which is the point.
 Serif from Subtitle up, sans from Body-lg down. The break between the two faces
 is also the break between "this names something" and "this explains something".
 
-- **Display** (serif 400, `clamp(2.75rem, 13.3vw, 6.5rem)`, 0.95): The hero, and
-  only the hero. Line breaks are authored, never left to the browser.
+- **Display** (serif 400, `clamp(2.75rem, 13.3vw, 6.5rem)`, 1.05): The hero, and
+  only the hero. Line breaks are authored, never left to the browser. 1.05 is a
+  constraint, not a preference: Instrument Serif needs 0.971em of baseline gap
+  before a descender touches the next line's ascender, and the previous 0.95
+  collided in all three languages.
 - **Headline** (serif 400, `clamp(1.875rem, 3.2vw, 3.125rem)`, 1): Every section
   heading, at one size. The closing "Ask me about your dates" is the single
   exception, set larger to end the page.
