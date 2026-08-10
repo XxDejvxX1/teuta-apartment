@@ -12,6 +12,14 @@
  */
 
 import { spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
+
+// Invoke vitest's entry directly rather than through `npx`. The npx shim resolves
+// to whichever npm is installed globally, which is a separate install that can be
+// mismatched against the running Node — when it is, every zone "fails" for a
+// reason that has nothing to do with dates. process.execPath is the Node already
+// running this file, so the sweep tests the project, not the toolchain.
+const vitest = fileURLToPath(new URL("../node_modules/vitest/vitest.mjs", import.meta.url));
 
 const ZONES = [
   "UTC",
@@ -25,9 +33,8 @@ let failed = false;
 for (const timeZone of ZONES) {
   process.stdout.write(`\n─── TZ=${timeZone} ${"─".repeat(Math.max(0, 40 - timeZone.length))}\n`);
 
-  const result = spawnSync("npx", ["vitest", "run", "--reporter=dot"], {
+  const result = spawnSync(process.execPath, [vitest, "run", "--reporter=dot"], {
     stdio: "inherit",
-    shell: true,
     env: { ...process.env, TZ: timeZone },
   });
 
