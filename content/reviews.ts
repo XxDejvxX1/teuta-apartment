@@ -60,4 +60,18 @@ export const reviews: Review[] = [
     score: 10,
     text: "We had the most relaxing holiday in Duress due to our very comfortable and well equipped apartment. The location of the property is fantastic!!! Close to everything you could possibly want or need. The view is a pleasure to wake to every morning.",
   },
+  {
+    name: "Andrew",
+    from: "United Kingdom",
+    score: 10,
+    title: "Perfect apartment",
+    text: "Well equipped apartment in a wonderful beachfront location. A real home from home with every facility you could possibly need.",
+  },
+  {
+    name: "Yana",
+    from: "Ukraine",
+    score: 10,
+    title: "Superb",
+    text: "The apartment fully corresponds to the photo. Very beautiful and comfortable. there is a supermarket, a fruit stand and many restaurants within a 3-minute walk. The kitchen is equipped with everything. the apartment is very clean. Rudi is very pleasant to communicate with, can help with all questions. I highly recommend this accommodation. Unbelievable 😍",
+  },
 ];
