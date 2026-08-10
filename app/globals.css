@@ -474,6 +474,65 @@ body {
   --deck-depth: 0.3;
 }
 
+/*
+  The review card, distilled to type on the sand ground.
+
+  The score used to sit in a filled accent pill beside the guest's headline,
+  which put a saturated rectangle at the top of every card and encoded the same
+  judgement twice — "Exceptional" is only Booking.com's label for a 10. Now the
+  headline and the score share one baseline, the accent carries the score as
+  ink rather than as a block, and a single hairline does the separating.
+*/
+.review-card {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 28px;
+}
+
+.review-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 12px;
+}
+
+.review-title {
+  font-size: 22px;
+  line-height: 1.1;
+  color: var(--color-ink);
+}
+
+.review-score {
+  flex: none;
+  font-size: 14px;
+  color: var(--color-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+/*
+  `flex: 1` plus `overflow: hidden` is what holds the fixed desktop card height:
+  a markedly longer review clips instead of pushing the deck out of shape. That
+  clip is silent, so the height is the number to raise — see content/reviews.ts.
+*/
+.review-quote {
+  flex: 1;
+  overflow: hidden;
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-body-soft);
+}
+
+.review-by {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-line);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--color-muted);
+}
+
 @media (min-width: 768px) {
   .deck {
     display: block;
@@ -521,6 +580,10 @@ body {
   */
   .deck--reviews .deck-item {
     height: 380px;
+  }
+
+  .review-card {
+    padding: 28px 32px;
   }
 }
 

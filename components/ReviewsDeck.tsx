@@ -42,7 +42,7 @@ export default function ReviewsDeck({
             <figure
               key={`${review.name}-${review.text.slice(0, 24)}`}
               data-index={index}
-              className="deck-item flex flex-col bg-sand px-7 py-6 md:px-8 md:py-7"
+              className="deck-item bg-sand review-card"
               // rotate: 0 and dim: 1 — rotated body text is unreadable, and
               // dimming it to 0.72 would drop this copy under 4.5:1. Depth here
               // comes from scale and shadow instead.
@@ -50,9 +50,17 @@ export default function ReviewsDeck({
               aria-hidden={g.visible ? undefined : true}
             >
               {(review.title || review.score !== undefined) && (
-                <div className="mb-4 flex items-baseline gap-3">
+                <p className="review-head">
+                  {review.title && (
+                    <span className="t-display review-title">{review.title}</span>
+                  )}
+                  {/*
+                    "10/10" alone is ambiguous read aloud, so the visible figure
+                    is hidden from the accessibility tree and the full sentence
+                    sits beside it.
+                  */}
                   {review.score !== undefined && (
-                    <span className="shrink-0 rounded-lg bg-accent px-2.5 py-1 text-[14px] tabular-nums text-white">
+                    <span className="review-score">
                       <span aria-hidden>
                         {review.score}/{SCORE_MAX}
                       </span>
@@ -64,15 +72,12 @@ export default function ReviewsDeck({
                       </span>
                     </span>
                   )}
-                  {review.title && <p className="text-[17px] text-ink">{review.title}</p>}
-                </div>
+                </p>
               )}
 
-              <blockquote className="flex-1 overflow-hidden text-[16px] leading-[1.6] text-body-soft">
-                {review.text}
-              </blockquote>
+              <blockquote className="review-quote">{review.text}</blockquote>
 
-              <figcaption className="mt-4 text-[14px] text-muted">
+              <figcaption className="review-by">
                 {review.name}
                 {review.from ? `, ${review.from}` : ""}
                 {review.stayed
