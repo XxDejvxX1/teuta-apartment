@@ -113,7 +113,7 @@ export default function Header({
             {site.name}
           </Link>
 
-          <nav className="hidden items-center gap-8 text-[15px] font-normal tracking-[0.02em] md:flex">
+          <nav className="hidden items-center gap-8 text-[15px] font-normal tracking-[0.02em] nav:flex">
             {links.map((link) => (
               <a
                 key={link.href}
@@ -153,7 +153,7 @@ export default function Header({
             onClick={() => setMenuOpen((open) => !open)}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
-            className="-mr-2 flex h-11 w-11 items-center justify-center md:hidden"
+            className="-mr-2 flex h-11 w-11 items-center justify-center nav:hidden"
           >
             <span className="sr-only">{menuOpen ? nav.closeMenu : nav.openMenu}</span>
             {menuOpen ? (
@@ -179,7 +179,7 @@ export default function Header({
         id="mobile-menu"
         hidden={!menuOpen}
         onClick={() => setMenuOpen(false)}
-        className="fixed inset-0 z-40 flex flex-col bg-sand/70 px-5 pb-10 pt-24 backdrop-blur-2xl backdrop-saturate-150 md:hidden"
+        className="fixed inset-0 z-40 flex flex-col bg-sand/70 px-5 pb-10 pt-24 backdrop-blur-2xl backdrop-saturate-150 nav:hidden"
       >
         <nav className="flex flex-col" onClick={(event) => event.stopPropagation()}>
           {links.map((link, index) => (

@@ -6,6 +6,22 @@
    --------------------------------------------------------------------------- */
 
 @theme {
+  /*
+    The header keeps its burger until 1024px, not 768px.
+
+    The desktop bar has to fit a wordmark, four nav links, a language switcher
+    and a WhatsApp pill on one line. Measured at their natural widths that is
+    150px + 733px + 88px of gutter, so it needs about 1020px before anything can
+    breathe — 1019px in English, 1021px in Albanian, which are near enough
+    identical. Below that the flex row just compresses and the gap between the
+    wordmark and the first link collapses to ~24px.
+
+    So the switch waits for 1024px, the standard tablet-landscape step. Nothing
+    is lost below it: every link is in the burger. The rest of the layout still
+    turns at `md`; only the nav waits for this.
+  */
+  --breakpoint-nav: 64rem;
+
   --color-sand: #faf8f4;
   --color-mist: #edf0ee;
   --color-ink: #12242e;
