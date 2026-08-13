@@ -4,102 +4,92 @@ const isDev = process.env.NODE_ENV !== "production";
 
 /**
  * Dev-only allowance so impeccable live mode can load its picker from the
- * helper server on port 8400.
- *
- * Guarded by NODE_ENV, so this entry never appears in a production build — the
- * shipped policy is byte-identical with or without this line. Delete it and
- * live mode simply stops working; nothing else changes.
+ * helper server on port 8400. Guarded by NODE_ENV, so it exists only while
+ * `next dev` is running.
  */
 const __impeccableLiveDev =
   process.env.NODE_ENV === "development" ? " http://localhost:8400" : "";
 
 /**
- * Content-Security-Policy.
+ * Content-Security-Policy — DEVELOPMENT ONLY.
  *
- * Deliberately NOT nonce-based. A per-request nonce would force every page to
- * render dynamically, and this site is prerendered — that is a real cost for a
- * page with no user input, no forms, no database and no session to steal.
+ * `headers()` does not run under `output: "export"`; there is no server left to
+ * run it. The production policy therefore lives in `public/_headers`, which
+ * Cloudflare applies to every static response, and that file is the one to edit.
+ * This copy exists so `next dev` still runs under a realistic policy — otherwise
+ * a CSP violation would only ever surface in production.
  *
- * What this policy still buys, which is most of the value:
- *   - an injected `<script src="evil.com">` is blocked, because scripts may
- *     only come from this origin;
- *   - the page cannot be framed, so it cannot be used for clickjacking;
- *   - `<base>` injection and form hijacking to another origin are blocked;
- *   - plugins are off, and connections are limited to this origin.
- *
- * `'unsafe-inline'` is present for scripts because Next emits three inline
- * bootstrap scripts, and for styles because the page uses inline style
- * attributes throughout (the deck passes its geometry as custom properties).
- * Neither is reachable by an attacker while there is no user input on the page.
- *
- * If a form, a comment box, or anything else user-supplied is ever added,
- * upgrade this to nonces via proxy.ts and accept the dynamic rendering.
+ * The two must be kept in step. The dev copy is deliberately the looser of the
+ * two: it adds 'unsafe-eval' and ws: for hot reload, and drops
+ * upgrade-insecure-requests because dev is served over http.
  */
-const csp = [
+const devCsp = [
   "default-src 'self'",
   "base-uri 'self'",
   "object-src 'none'",
   "frame-ancestors 'none'",
   "form-action 'self'",
-  // 'unsafe-eval' is required by the dev server's hot reload only.
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}${__impeccableLiveDev}`,
+  `script-src 'self' 'unsafe-inline' 'unsafe-eval'${__impeccableLiveDev}`,
   "style-src 'self' 'unsafe-inline'",
-  // data: and blob: cover next/image's blur-up placeholders.
   "img-src 'self' data: blob:",
   "font-src 'self'",
-  // ws: is the dev server's hot-reload socket.
-  `connect-src 'self'${isDev ? " ws: wss:" : ""}${__impeccableLiveDev}`,
-  // The only third party on the page, and it only loads once clicked.
+  `connect-src 'self' ws: wss:${__impeccableLiveDev}`,
   "frame-src https://www.google.com",
-  ...(isDev ? [] : ["upgrade-insecure-requests"]),
 ].join("; ");
 
 const nextConfig: NextConfig = {
+  /*
+    Static export.
+
+    The OpenNext adapter was tried first and does not work here: its build
+    completes but copies none of the prerendered HTML into the bundle, so every
+    locale route 404s. Reproduced identically on Windows and on Cloudflare's own
+    Linux builders, so it is the adapter, not the machine.
+
+    Export suits this site better in any case. Three pages of fixed content, no
+    per-request rendering, nothing to revalidate — there was never work for a
+    server to do. The one thing that did need a request was the language
+    negotiation on `/`, and that is now a few lines in worker/index.ts.
+  */
+  output: "export",
+
   // Do not advertise the framework and version to anyone probing the site.
   poweredByHeader: false,
 
   images: {
     /*
-      Optimisation is off because it has nowhere to run. Next's optimiser needs
-      sharp, a native binary, and the site is deployed to Cloudflare Workers,
-      which cannot load one. The alternative the adapter offers is the paid
-      Cloudflare Images binding.
+      Optimisation is off because it has nowhere to run: Next's optimiser needs
+      sharp, a native binary, and nothing on the serving path can load one.
 
-      Neither is needed: `npm run photos` re-encodes the photographs to WebP at
+      It is not needed. `npm run photos` re-encodes the photographs to WebP at
       build time and the components import those directly, which took the set
-      from 2.6 MB to 760 KB. The work is done before the bytes ever leave the
-      repository, so the edge has nothing to add.
+      from 2.6 MB to 760 KB. `unoptimized` changes only how the URL is
+      generated — width, height and the blur placeholder still come from the
+      static imports, so there is no layout shift and no visual change.
 
-      `unoptimized` changes only how the URL is generated — width, height and
-      the blur placeholder still come from the static imports, so there is no
-      layout shift and no visual change.
+      Known cost: no srcset, so a phone downloads the same file a desktop does.
     */
     unoptimized: true,
   },
 
-  async headers() {
-    return [
-      {
-        source: "/:path*",
-        headers: [
-          { key: "Content-Security-Policy", value: csp },
-          { key: "X-Content-Type-Options", value: "nosniff" },
-          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          // Legacy companion to frame-ancestors, for older browsers.
-          { key: "X-Frame-Options", value: "DENY" },
-          // This site asks for none of these; say so explicitly.
-          {
-            key: "Permissions-Policy",
-            value: "camera=(), microphone=(), geolocation=(), payment=(), usb=()",
-          },
-          // Deliberately no `preload`: that is a hard-to-reverse commitment.
-          ...(isDev
-            ? []
-            : [{ key: "Strict-Transport-Security", value: "max-age=31536000" }]),
-        ],
-      },
-    ];
-  },
+  /*
+    Dev only. Next warns that `headers()` cannot work with `output: "export"`,
+    which is correct for the build — but it still applies while `next dev` is
+    running, which is exactly where it is wanted. Production headers are in
+    `public/_headers`.
+  */
+  ...(isDev
+    ? {
+        async headers() {
+          return [
+            {
+              source: "/:path*",
+              headers: [{ key: "Content-Security-Policy", value: devCsp }],
+            },
+          ];
+        },
+      }
+    : {}),
 };
 
 export default nextConfig;

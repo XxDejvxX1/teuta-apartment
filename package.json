@@ -12,13 +12,10 @@
     "test:tz": "node scripts/test-tz.mjs",
     "photos": "node scripts/optimize-photos.mjs",
     "placeholders": "node scripts/generate-placeholders.mjs",
-    "cf:build": "opennextjs-cloudflare build",
-    "cf:preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "cf:deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "cf:typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
+    "cf:preview": "next build && wrangler dev",
+    "cf:deploy": "next build && wrangler deploy"
   },
   "dependencies": {
-    "@opennextjs/cloudflare": "^1.20.2",
     "next": "^16.3.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"

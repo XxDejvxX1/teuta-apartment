@@ -131,32 +131,43 @@ anything that sounds off — particularly `apartment.tags`, where the phrasing f
 
 ## Hosting
 
-**Cloudflare Workers, via `@opennextjs/cloudflare`.** Configured in
-`wrangler.jsonc` and `open-next.config.ts`.
+**Cloudflare Workers: a static export plus a very small Worker.**
+
+`next build` writes plain HTML to `out/` (`output: "export"`). Cloudflare serves
+that directly. `worker/index.ts` runs on one path only — `/` — where it reads the
+locale cookie or `Accept-Language` and redirects to `/en`, `/sq` or `/it`.
+`run_worker_first` in `wrangler.jsonc` keeps it that way, so every other request
+is a static asset, which is faster and is not billed as a Worker request.
 
 ```
-npm run cf:build     bundle the Worker into .open-next/
-npm run cf:preview   build, then run it locally in workerd
+npm run build        write the static export to out/
+npm run cf:preview   build, then serve it locally exactly as Cloudflare will
 npm run cf:deploy    build, then deploy
 ```
 
-Everything but `/` is prerendered. `/` is server-rendered because it reads
-`Accept-Language` to choose a language — that is why a purely static export will
-not do.
+Cloudflare's build settings must match: **build command `npm run build`**, deploy
+command `npx wrangler deploy`.
+
+**Security headers live in `public/_headers`, not `next.config.ts`.** `headers()`
+needs a server and there isn't one; Cloudflare applies `_headers` to every static
+response instead. `next.config.ts` keeps a looser copy of the CSP for `next dev`
+only — change one, change both. `_headers` also sets `Content-Type: image/png` on
+`/*/opengraph-image`, which Next exports without a file extension and Cloudflare
+would otherwise serve as `application/octet-stream`, quietly breaking every
+social preview.
 
 Set `NEXT_PUBLIC_SITE_URL` to the real origin in the build environment. Canonical
 URLs, `hreflang` tags, the sitemap and the social preview all derive from it, and
-a production build now **fails** rather than quietly emitting `localhost`.
+a production build **fails** rather than quietly emitting `localhost`.
 
-Two deliberate omissions in `wrangler.jsonc`, both paid Cloudflare products this
-site does not need: the R2 incremental cache (nothing revalidates) and the Images
-binding (photographs are re-encoded to WebP at build time by `npm run photos`).
+No bindings beyond the assets — no R2, KV, Images or D1 — because nothing here
+needs one and each is billable. The only metered dimension is Worker requests on
+`/`.
 
-**Known problem: the adapter's build does not work on Windows.** It completes,
+`@opennextjs/cloudflare` was tried first and does not work: its build completes
 but copies none of the prerendered HTML into the bundle, so every locale route
-404s under `cf:preview`. OpenNext says as much itself and recommends WSL.
-Cloudflare builds on Linux, so this may not affect a real deployment — confirm
-with a Cloudflare preview deployment before pointing a domain at it.
+404s. Reproduced on Windows and on Cloudflare's own Linux builders. Don't reach
+for it again without checking that upstream.
 
 ---
 
@@ -167,9 +178,9 @@ app/[lang]/          the page, per-locale metadata, JSON-LD, social card
 components/          one file per section
 content/             all copy, the bookings, the photo manifest, site.ts
 lib/                 availability maths, locale matching
-app/page.tsx         locale detection and redirect for `/`
+worker/index.ts      the only per-request code: language choice on `/`
+public/_headers      production response headers
 wrangler.jsonc       Cloudflare Worker config
-open-next.config.ts  adapter config
 ```
 
 To change wording, edit `content/dictionaries/*.json` — you should not need to

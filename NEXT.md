@@ -152,11 +152,12 @@ do damage.
 - **Booking.com overall score and review count**, if they want it shown. The
   three reviews on the page must not be averaged and presented as the
   property's rating.
-- **Finishing the Cloudflare deployment.** Decided: Cloudflare Workers via
-  `@opennextjs/cloudflare`, configured in `wrangler.jsonc` and
-  `open-next.config.ts`. Outstanding: the adapter's build does not work on
-  Windows — it completes but copies none of the prerendered HTML into the
-  bundle, so every locale route 404s under `npm run cf:preview`. OpenNext warns
-  about Windows itself and recommends WSL. Cloudflare builds on Linux, so this
-  may only affect local preview; verify with a Cloudflare preview deployment
-  before pointing a domain at it.
+- **Responsive images.** `unoptimized: true` means no `srcset`, so a phone
+  downloads the same 1536px file a desktop does — measured 642 KB on a 375px
+  screen for images displayed at 323–375px. The fix without any paid service:
+  have `npm run photos` emit several widths (480/768/1200/1536) and add a custom
+  Next image loader that maps to them. Biggest remaining win for guests on
+  mobile data.
+- **The social card weighs 1.8 MB.** `opengraph-image.tsx` composites a PNG from
+  the full-size hero JPEG. Within every platform's limit, but heavier than it
+  needs to be; the same build-time re-encoding would fix it.

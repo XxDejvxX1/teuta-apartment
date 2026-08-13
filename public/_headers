@@ -1,0 +1,46 @@
+# Production response headers.
+#
+# This file is the ONLY place the shipped security headers exist. Under
+# `output: "export"` there is no server left to run next.config.ts's `headers()`,
+# so Cloudflare applies these to every static response instead. next.config.ts
+# keeps a looser copy of the CSP for `next dev` only; change one, change both.
+#
+# Files in public/ are copied verbatim into out/, which is what Cloudflare serves.
+
+/*
+  # Deliberately not nonce-based. A per-request nonce would need a server to
+  # generate it, and this site has none. What the policy still buys is most of
+  # the value: an injected <script src="evil.com"> is blocked because scripts may
+  # come only from this origin; the page cannot be framed, so it cannot be used
+  # for clickjacking; <base> injection and form hijacking to another origin are
+  # blocked; plugins are off; connections are limited to this origin.
+  #
+  # 'unsafe-inline' is present for scripts because Next emits inline bootstrap
+  # scripts, and for styles because the page passes geometry as inline custom
+  # properties. Neither is reachable by an attacker while the site takes no user
+  # input anywhere — no forms, no search, no comments, no query parameters read
+  # into the page. If that ever changes, this needs nonces and therefore a
+  # server, which means leaving static export.
+  #
+  # frame-src is Google Maps, the only third party, and it loads only on click.
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; frame-src https://www.google.com; upgrade-insecure-requests
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  # Legacy companion to frame-ancestors, for older browsers.
+  X-Frame-Options: DENY
+  # This site asks for none of these; say so explicitly.
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  # Deliberately no `preload`: that is a hard-to-reverse commitment.
+  Strict-Transport-Security: max-age=31536000
+
+# Hashed build assets are immutable by construction, so they can be cached hard.
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# The social card is emitted as `out/<lang>/opengraph-image` with NO file
+# extension, so Cloudflare would guess application/octet-stream and every
+# scraper — Facebook, WhatsApp, iMessage, Slack — would silently decline to
+# render a preview. It is a real 1200x630 PNG; say so.
+/*/opengraph-image
+  Content-Type: image/png
+  Cache-Control: public, max-age=3600

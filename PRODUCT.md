@@ -91,14 +91,20 @@ no payment taken on the site.
 negotiates the language per request from `Accept-Language`, so one route must be
 server-rendered. Everything else is prerendered.
 
-**Hosting: Cloudflare Workers via `@opennextjs/cloudflare`.** Chosen in August
-2026 because Cloudflare does not meter bandwidth, so a traffic spike cannot
-produce a bill. Two consequences are baked into the code: `next/image`
-optimisation is off (Workers cannot run sharp, and the paid Images binding is
-declined), which is why photographs are re-encoded at build time by
-`npm run photos`; and the locale redirect had to leave `proxy.ts` for
-`app/page.tsx`, because Next 16 runs proxy/middleware on the Node runtime only
-and the adapter cannot host it.
+**Hosting: Cloudflare Workers, static export plus a ~40-line Worker.** Chosen in
+August 2026 because Cloudflare does not meter bandwidth, so a traffic spike
+cannot produce a bill.
+
+`@opennextjs/cloudflare` was tried first and abandoned: its build completes but
+copies none of the prerendered HTML into the bundle, so every locale route 404s.
+Reproduced identically on Windows and on Cloudflare's own Linux builders.
+
+What replaced it is simpler. `output: "export"` writes plain HTML; the Worker
+exists only to read `Accept-Language` on `/` and redirect. Consequences baked
+into the code: `next/image` optimisation is off, which is why photographs are
+re-encoded at build time by `npm run photos`; and the security headers live in
+`public/_headers` rather than `next.config.ts`, because `headers()` needs a
+server and there no longer is one.
 
 **Payment.** No deposit. Cash on arrival, in euros or lek. Nothing charged on
 top — no cleaning fee, no booking fee. No money is taken through the site.

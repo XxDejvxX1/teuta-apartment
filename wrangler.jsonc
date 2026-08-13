@@ -1,52 +1,46 @@
 /**
- * Cloudflare Workers configuration for the OpenNext adapter.
+ * Cloudflare Workers configuration.
  *
- * Deliberately minimal. Two bindings the getting-started guide offers are NOT
- * here, because both are paid Cloudflare products and this site needs neither:
+ * The site is a static export (`out/`) served from Cloudflare's asset store,
+ * with one tiny Worker in front of it that exists only to choose a language on
+ * `/`. There are no bindings beyond the assets themselves — no R2, no KV, no
+ * Images, no D1 — because there is nothing here that needs one, and every one of
+ * those is a billable product.
  *
- *   - r2_buckets / NEXT_INC_CACHE_R2_BUCKET. That is the incremental cache, for
- *     ISR and on-demand revalidation. Every route here is prerendered at build
- *     time with `dynamicParams = false` and nothing revalidates, so there is
- *     nothing for it to cache.
- *
- *   - images / IMAGES. That is Cloudflare Images, billed per transformation.
- *     The photographs are already re-encoded to WebP at build time by
- *     `npm run photos`, so there is nothing left to optimise at the edge.
- *
- * Leaving both out keeps the deployment inside the free tier with no metered
- * dimension other than Worker requests, and static assets do not count as
- * Worker requests at all.
+ * The whole deployment therefore has a single metered dimension: Worker
+ * requests, on `/` only. Everything else is a static asset request, which
+ * Cloudflare does not bill.
  */
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "teuta-apartment",
-  "main": ".open-next/worker.js",
-
-  /**
-   * Must be 2024-09-23 or later for the adapter. Pinning a date rather than
-   * tracking "latest" means a Cloudflare runtime change cannot alter behaviour
-   * under a site nobody is watching.
-   */
+  "main": "worker/index.ts",
   "compatibility_date": "2025-03-25",
-  "compatibility_flags": [
-    // Next's server code expects Node built-ins.
-    "nodejs_compat",
-    // Makes fetch() to your own origin go back out through the edge rather than
-    // short-circuiting internally, which is what the adapter's routing assumes.
-    "global_fetch_strictly_public"
-  ],
 
   "assets": {
-    "directory": ".open-next/assets",
-    "binding": "ASSETS"
-  },
+    // `npm run build` writes the static export here.
+    "directory": "./out",
+    "binding": "ASSETS",
 
-  "services": [
-    {
-      "binding": "WORKER_SELF_REFERENCE",
-      "service": "teuta-apartment"
-    }
-  ],
+    /*
+      Only `/` wakes the Worker. Everything else is served straight from the
+      asset store, which is faster and is not billed as a Worker request.
+      Without this the Worker would still be correct — it passes everything
+      else to env.ASSETS — but every request would be a billed invocation for
+      no reason.
+    */
+    "run_worker_first": ["/"],
+
+    /*
+      The export writes `en.html`, not `en/index.html`, and the canonical URLs
+      are `/en` with no trailing slash. This serves en.html at /en and redirects
+      /en/ to it, so there is one URL per page rather than two.
+    */
+    "html_handling": "auto-trailing-slash",
+
+    // Unknown paths get the exported 404 page rather than a bare Cloudflare error.
+    "not_found_handling": "404-page"
+  },
 
   "observability": {
     "enabled": true
