@@ -1,0 +1,54 @@
+/**
+ * Cloudflare Workers configuration for the OpenNext adapter.
+ *
+ * Deliberately minimal. Two bindings the getting-started guide offers are NOT
+ * here, because both are paid Cloudflare products and this site needs neither:
+ *
+ *   - r2_buckets / NEXT_INC_CACHE_R2_BUCKET. That is the incremental cache, for
+ *     ISR and on-demand revalidation. Every route here is prerendered at build
+ *     time with `dynamicParams = false` and nothing revalidates, so there is
+ *     nothing for it to cache.
+ *
+ *   - images / IMAGES. That is Cloudflare Images, billed per transformation.
+ *     The photographs are already re-encoded to WebP at build time by
+ *     `npm run photos`, so there is nothing left to optimise at the edge.
+ *
+ * Leaving both out keeps the deployment inside the free tier with no metered
+ * dimension other than Worker requests, and static assets do not count as
+ * Worker requests at all.
+ */
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "teuta-apartment",
+  "main": ".open-next/worker.js",
+
+  /**
+   * Must be 2024-09-23 or later for the adapter. Pinning a date rather than
+   * tracking "latest" means a Cloudflare runtime change cannot alter behaviour
+   * under a site nobody is watching.
+   */
+  "compatibility_date": "2025-03-25",
+  "compatibility_flags": [
+    // Next's server code expects Node built-ins.
+    "nodejs_compat",
+    // Makes fetch() to your own origin go back out through the edge rather than
+    // short-circuiting internally, which is what the adapter's routing assumes.
+    "global_fetch_strictly_public"
+  ],
+
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "teuta-apartment"
+    }
+  ],
+
+  "observability": {
+    "enabled": true
+  }
+}

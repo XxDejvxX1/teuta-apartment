@@ -59,8 +59,22 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
 
   images: {
-    // AVIF first, WebP fallback. Matters on Albanian mobile data.
-    formats: ["image/avif", "image/webp"],
+    /*
+      Optimisation is off because it has nowhere to run. Next's optimiser needs
+      sharp, a native binary, and the site is deployed to Cloudflare Workers,
+      which cannot load one. The alternative the adapter offers is the paid
+      Cloudflare Images binding.
+
+      Neither is needed: `npm run photos` re-encodes the photographs to WebP at
+      build time and the components import those directly, which took the set
+      from 2.6 MB to 760 KB. The work is done before the bytes ever leave the
+      repository, so the edge has nothing to add.
+
+      `unoptimized` changes only how the URL is generated — width, height and
+      the blur placeholder still come from the static imports, so there is no
+      layout shift and no visual change.
+    */
+    unoptimized: true,
   },
 
   async headers() {

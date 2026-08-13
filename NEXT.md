@@ -152,5 +152,11 @@ do damage.
 - **Booking.com overall score and review count**, if they want it shown. The
   three reviews on the page must not be averaged and presented as the
   property's rating.
-- **A hosting decision.** Needs a Node host because the locale redirect in
-  `proxy.ts` runs per request; Vercel's free tier is zero-config.
+- **Finishing the Cloudflare deployment.** Decided: Cloudflare Workers via
+  `@opennextjs/cloudflare`, configured in `wrangler.jsonc` and
+  `open-next.config.ts`. Outstanding: the adapter's build does not work on
+  Windows — it completes but copies none of the prerendered HTML into the
+  bundle, so every locale route 404s under `npm run cf:preview`. OpenNext warns
+  about Windows itself and recommends WSL. Cloudflare builds on Linux, so this
+  may only affect local preview; verify with a Cloudflare preview deployment
+  before pointing a domain at it.

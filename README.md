@@ -131,13 +131,32 @@ anything that sounds off — particularly `apartment.tags`, where the phrasing f
 
 ## Hosting
 
-The site needs a host that runs Node, because `proxy.ts` does the
-language redirect per request. **Vercel's free tier** needs no configuration.
-Cloudflare Pages works via `@opennextjs/cloudflare`, Netlify via its Next
-runtime.
+**Cloudflare Workers, via `@opennextjs/cloudflare`.** Configured in
+`wrangler.jsonc` and `open-next.config.ts`.
 
-Set `NEXT_PUBLIC_SITE_URL` to the real origin in production; canonical URLs,
-`hreflang` tags, the sitemap and the social preview all derive from it.
+```
+npm run cf:build     bundle the Worker into .open-next/
+npm run cf:preview   build, then run it locally in workerd
+npm run cf:deploy    build, then deploy
+```
+
+Everything but `/` is prerendered. `/` is server-rendered because it reads
+`Accept-Language` to choose a language — that is why a purely static export will
+not do.
+
+Set `NEXT_PUBLIC_SITE_URL` to the real origin in the build environment. Canonical
+URLs, `hreflang` tags, the sitemap and the social preview all derive from it, and
+a production build now **fails** rather than quietly emitting `localhost`.
+
+Two deliberate omissions in `wrangler.jsonc`, both paid Cloudflare products this
+site does not need: the R2 incremental cache (nothing revalidates) and the Images
+binding (photographs are re-encoded to WebP at build time by `npm run photos`).
+
+**Known problem: the adapter's build does not work on Windows.** It completes,
+but copies none of the prerendered HTML into the bundle, so every locale route
+404s under `cf:preview`. OpenNext says as much itself and recommends WSL.
+Cloudflare builds on Linux, so this may not affect a real deployment — confirm
+with a Cloudflare preview deployment before pointing a domain at it.
 
 ---
 
@@ -148,7 +167,9 @@ app/[lang]/          the page, per-locale metadata, JSON-LD, social card
 components/          one file per section
 content/             all copy, the bookings, the photo manifest, site.ts
 lib/                 availability maths, locale matching
-proxy.ts             locale detection and redirect (Next 16's middleware)
+app/page.tsx         locale detection and redirect for `/`
+wrangler.jsonc       Cloudflare Worker config
+open-next.config.ts  adapter config
 ```
 
 To change wording, edit `content/dictionaries/*.json` — you should not need to

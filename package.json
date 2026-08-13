@@ -11,9 +11,14 @@
     "test:watch": "vitest",
     "test:tz": "node scripts/test-tz.mjs",
     "photos": "node scripts/optimize-photos.mjs",
-    "placeholders": "node scripts/generate-placeholders.mjs"
+    "placeholders": "node scripts/generate-placeholders.mjs",
+    "cf:build": "opennextjs-cloudflare build",
+    "cf:preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "cf:deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "cf:typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
+    "@opennextjs/cloudflare": "^1.20.2",
     "next": "^16.3.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
@@ -25,6 +30,13 @@
     "@types/react-dom": "^19.2.0",
     "tailwindcss": "^4.3.3",
     "typescript": "^5.9.0",
-    "vitest": "^3.2.7"
+    "vitest": "^3.2.7",
+    "wrangler": "^4.123.0"
+  },
+  "allowScripts": {
+    "esbuild@0.25.4": true,
+    "esbuild@0.25.12": true,
+    "esbuild@0.28.1": true,
+    "workerd@1.20260811.1": true
   }
 }
