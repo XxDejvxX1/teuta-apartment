@@ -58,18 +58,23 @@ const nextConfig: NextConfig = {
 
   images: {
     /*
-      Optimisation is off because it has nowhere to run: Next's optimiser needs
-      sharp, a native binary, and nothing on the serving path can load one.
+      Resizing happens once, at build time, in `npm run photos` — there is no
+      optimiser on the serving path, because a static export on Workers cannot
+      load sharp. `lib/image-loader.ts` then points each request at the
+      pre-generated width.
 
-      It is not needed. `npm run photos` re-encodes the photographs to WebP at
-      build time and the components import those directly, which took the set
-      from 2.6 MB to 760 KB. `unoptimized` changes only how the URL is
-      generated — width, height and the blur placeholder still come from the
-      static imports, so there is no layout shift and no visual change.
-
-      Known cost: no srcset, so a phone downloads the same file a desktop does.
+      This replaces `unoptimized: true`, which shipped no srcset at all and so
+      sent a 375px phone the same 1536px file a desktop got.
     */
-    unoptimized: true,
+    loader: "custom",
+    loaderFile: "./lib/image-loader.ts",
+
+    /*
+      Must match the widths the script emits, or Next builds a srcset of URLs
+      the loader has to round away from. See WIDTHS in scripts/optimize-photos.mjs.
+    */
+    deviceSizes: [480, 768, 1200, 1536],
+    imageSizes: [256],
   },
 
   /*
