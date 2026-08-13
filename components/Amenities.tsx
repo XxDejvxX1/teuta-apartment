@@ -10,7 +10,10 @@ export default function Amenities({
   const entries = Object.entries(copy.items) as [AmenityKey, Item][];
 
   return (
-    <section id="amenities" className="bg-mist px-5 py-20 md:px-11 md:py-28">
+    // The bottom meets #host, which is the same bg-mist, so the two paddings
+    // stacked into one 222px band of empty colour with no edge to justify it.
+    // Trimmed here and again on the host side of the join.
+    <section id="amenities" className="bg-mist px-5 pb-16 pt-20 md:px-11 md:pb-20 md:pt-28">
       <div className="mx-auto max-w-[1100px]">
         <div
           data-reveal="fade"

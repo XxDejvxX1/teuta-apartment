@@ -48,7 +48,7 @@ export default function HostAndReviews({
     // not, which is why the symptom only showed on desktop.
     <section
       id="host"
-      className="overflow-hidden bg-mist px-5 py-20 md:px-11 md:py-[110px]"
+      className="overflow-hidden bg-mist px-5 pb-20 pt-8 md:px-11 md:pb-[110px] md:pt-12"
     >
       <div className="mx-auto max-w-[900px]">
         {showHost && (
