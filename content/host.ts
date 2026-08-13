@@ -21,7 +21,7 @@ export const host = {
    * Set back to `null` if the file is ever removed: null falls back to the
    * initials disc, whereas a path to a missing file renders broken.
    */
-  photoSrc: "/photos/host.jpg" as string | null,
+  photoSrc: "/photos/host.webp" as string | null,
 };
 
 export function hasHost(): boolean {

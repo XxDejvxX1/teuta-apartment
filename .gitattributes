@@ -1,0 +1,16 @@
+# The repo stores text as LF and Cloudflare builds on Linux; this machine is
+# Windows with core.autocrlf on. Declaring it here means the normalisation is a
+# property of the project rather than of whoever happens to clone it, so a
+# checkout on another machine cannot introduce CRLF into a committed file.
+* text=auto eol=lf
+
+# Binary: never normalise, never diff as text.
+*.jpg   binary
+*.jpeg  binary
+*.png   binary
+*.webp  binary
+*.avif  binary
+*.ico   binary
+*.woff  binary
+*.woff2 binary
+*.pdf   binary

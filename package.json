@@ -10,6 +10,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:tz": "node scripts/test-tz.mjs",
+    "photos": "node scripts/optimize-photos.mjs",
     "placeholders": "node scripts/generate-placeholders.mjs"
   },
   "dependencies": {
