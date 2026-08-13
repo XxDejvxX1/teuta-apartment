@@ -72,8 +72,7 @@ export async function generateMetadata({
 function StructuredData({ lang }: { lang: Locale }) {
   const dict = getDictionary(lang);
 
-  const data = {
-    "@context": "https://schema.org",
+  const apartment = {
     "@type": "Apartment",
     name: site.name,
     description: dict.meta.description,
@@ -116,6 +115,30 @@ function StructuredData({ lang }: { lang: Locale }) {
     })),
     telephone: `+${site.whatsappNumber}`,
   };
+
+  /*
+    The Good to know rows, marked up as questions.
+
+    The visible list is a definition list with short terms ("The keys"), which
+    is the right thing to read; the `question` field carries the same content
+    phrased as the question a guest actually types. The payment row follows the
+    same condition GoodToKnow itself uses, so the markup never describes a row
+    that is not on the page.
+  */
+  const faqRows = dict.goodToKnow.payment.body.trim()
+    ? [...dict.goodToKnow.rows, dict.goodToKnow.payment]
+    : dict.goodToKnow.rows;
+
+  const faq = {
+    "@type": "FAQPage",
+    mainEntity: faqRows.map((row) => ({
+      "@type": "Question",
+      name: row.question,
+      acceptedAnswer: { "@type": "Answer", text: row.body },
+    })),
+  };
+
+  const data = { "@context": "https://schema.org", "@graph": [apartment, faq] };
 
   return (
     <script

@@ -72,7 +72,6 @@
   },
   "amenities": {
     "title": "Cosa è incluso",
-    "note": "Tutto quello che c'è in casa, niente da pagare a parte",
     "items": {
       "balcony": {
         "title": "Balcone vista mare",
@@ -102,7 +101,6 @@
   },
   "rates": {
     "title": "Quanto costa",
-    "note": "A notte per tutto l'appartamento, fino a cinque ospiti.",
     "perNight": "a notte",
     "ask": "Chiedi",
     "seasons": {
@@ -122,6 +120,7 @@
   },
   "host": {
     "title": "Conosci il tuo host",
+    "intro": "Ospito qui dal 2021 e l'appartamento mantiene una media di 9.8 su Booking.com. Ho studiato ingegneria della sicurezza informatica; ospitare è la parte che faccio perché mi piace.",
     "reviewsTitle": "Cosa hanno detto gli ospiti",
     "stayed": "soggiorno {when}",
     "scoreLabel": "Valutato {score} su {max}",
@@ -141,7 +140,6 @@
     "ctaWithDates": "Scrivi su WhatsApp per queste date",
     "minStay": "Il soggiorno minimo è di 4 notti a luglio e agosto, 3 notti nel resto dell'anno.",
     "closedSeason": "Chiuso per la stagione",
-    "pickHint": "Scegli il giorno di arrivo, poi quello di partenza.",
     "arrival": "Arrivo",
     "departure": "Partenza",
     "today": "Oggi",
@@ -184,19 +182,23 @@
     "title": "Buono a sapersi",
     "payment": {
       "term": "Pagamento",
+      "question": "Come si paga?",
       "body": "Nessuna caparra. Si paga in contanti all'arrivo, in euro o lek. Nessun costo aggiuntivo."
     },
     "rows": [
       {
         "term": "Check-in e check-out",
+        "question": "A che ora sono il check-in e il check-out?",
         "body": "Dalle 14:00, partenza entro le 11:00. Se il volo atterra presto o tardi, scrivimi e troviamo una soluzione."
       },
       {
         "term": "Le chiavi",
+        "question": "Come ricevo le chiavi?",
         "body": "Ci vediamo all'appartamento e te le consegno di persona. Mandami un messaggio quando sei in viaggio."
       },
       {
         "term": "Soggiorno minimo",
+        "question": "C'è un soggiorno minimo?",
         "body": "Quattro notti in alta stagione, tre nel resto dell'anno."
       }
     ]

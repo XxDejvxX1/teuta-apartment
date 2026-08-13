@@ -5,7 +5,7 @@ type Item = { title: string; note: string };
 export default function Amenities({
   copy,
 }: {
-  copy: { title: string; note: string; items: Record<string, Item> };
+  copy: { title: string; items: Record<string, Item> };
 }) {
   const entries = Object.entries(copy.items) as [AmenityKey, Item][];
 
@@ -20,9 +20,6 @@ export default function Amenities({
           className="mb-12 flex flex-wrap items-baseline justify-between gap-4 md:mb-16"
         >
           <h2 className="t-h3 text-ink">{copy.title}</h2>
-          {/* body-soft, not muted: this note sits on the mist background,
-              where muted would only reach 4.27:1. */}
-          <p className="text-[14px] text-body-soft">{copy.note}</p>
         </div>
 
         {/*

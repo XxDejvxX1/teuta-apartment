@@ -19,6 +19,7 @@ export default function HostAndReviews({
   localeTag: string;
   copy: {
     title: string;
+    intro: string;
     reviewsTitle: string;
     stayed: string;
     scoreLabel: string;
@@ -86,6 +87,9 @@ export default function HostAndReviews({
                 <h2 className="t-h3 text-ink">{copy.title}</h2>
               </span>
               <p className="text-[17px] text-ink">{nameList}</p>
+              <p className="mx-auto mt-4 max-w-[46ch] text-[17px] leading-[1.65] text-body-soft">
+                {copy.intro}
+              </p>
             </div>
           </div>
         )}

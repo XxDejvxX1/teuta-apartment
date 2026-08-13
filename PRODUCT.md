@@ -120,9 +120,11 @@ owners do.
   included, because corrected reviews read as in-house copy. Any further review
   must also be copied word for word; an invented one is a fabricated record and
   an unfair commercial practice in the EU.
-- **Booking.com overall rating and review count:** not recorded. Must not be
-  estimated, and the three reviews above must not be averaged and presented as
-  the property's score.
+- **Booking.com overall rating: 9.8**, supplied by the owner in August 2026 and
+  stated in the host paragraph. The review count is still not recorded. This is
+  a published claim about a third-party score, so it has to match the listing:
+  if the score moves, the copy moves with it in all three languages. The five
+  reviews on the page must still never be averaged into a score of our own.
 - **Host identity:** **Dejv**, hosting alone. No photograph yet; the block falls
   back to a single initial. One photograph is wanted, not one per person — the
   block renders a single 144px circle.

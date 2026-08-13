@@ -11,7 +11,6 @@ export default function Rates({
 }: {
   copy: {
     title: string;
-    note: string;
     perNight: string;
     ask: string;
     seasons: Record<string, SeasonCopy>;
@@ -27,7 +26,6 @@ export default function Rates({
     >
       <div className="mb-8 flex flex-wrap items-baseline justify-between gap-3">
         <h3 className="t-display text-[26px] text-ink md:text-[30px]">{copy.title}</h3>
-        <p className="text-[14px] text-muted">{copy.note}</p>
       </div>
 
       {/*

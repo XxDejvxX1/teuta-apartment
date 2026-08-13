@@ -72,7 +72,6 @@
   },
   "amenities": {
     "title": "What's included",
-    "note": "Everything in the flat, nothing extra to pay for",
     "items": {
       "balcony": {
         "title": "Sea view balcony",
@@ -102,7 +101,6 @@
   },
   "rates": {
     "title": "What it costs",
-    "note": "Per night for the whole apartment, up to five guests.",
     "perNight": "per night",
     "ask": "Ask",
     "seasons": {
@@ -122,6 +120,7 @@
   },
   "host": {
     "title": "Meet the host",
+    "intro": "I have been hosting here since 2021, and the apartment keeps a 9.8 average on Booking.com. I studied cybersecurity engineering; hosting is the part I do because I enjoy it.",
     "reviewsTitle": "What guests have said",
     "stayed": "stayed {when}",
     "scoreLabel": "Scored {score} out of {max}",
@@ -141,7 +140,6 @@
     "ctaWithDates": "WhatsApp about these dates",
     "minStay": "Minimum stay is 4 nights in July and August, 3 nights the rest of the year.",
     "closedSeason": "Closed for the season",
-    "pickHint": "Choose your arrival day, then your departure day.",
     "arrival": "Arrival",
     "departure": "Departure",
     "today": "Today",
@@ -184,19 +182,23 @@
     "title": "Good to know",
     "payment": {
       "term": "Paying",
+      "question": "How do I pay?",
       "body": "No deposit. You pay in cash when you arrive, in euros or lek. Nothing else on top."
     },
     "rows": [
       {
         "term": "Check-in & check-out",
+        "question": "What time is check-in and check-out?",
         "body": "From 14:00, out by 11:00. If your flight lands early or late, message me and we'll work it out."
       },
       {
         "term": "The keys",
+        "question": "How do I get the keys?",
         "body": "I meet you at the apartment and hand them over in person. Send a message when you're on your way."
       },
       {
         "term": "Minimum stay",
+        "question": "Is there a minimum stay?",
         "body": "Four nights in high season, three nights the rest of the year."
       }
     ]

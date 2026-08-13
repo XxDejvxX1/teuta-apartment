@@ -14,15 +14,14 @@ export const host = {
   names: ["Dejv"] as string[],
 
   /**
-   * Optional. ONE photograph with everyone in `names` in it — not one portrait
-   * each. The block renders a single 144px circle, so a close crop of the two
-   * of you together is what works; a wide shot loses the faces at that size.
+   * Optional. ONE photograph containing everyone in `names`, not one portrait
+   * each — the block renders a single 144px circle, so a close square crop is
+   * what survives at that size.
    *
-   * Drop the file at `public/photos/host.jpg`, then change this line to
-   * "/photos/host.jpg". Left null deliberately until the file exists: a missing
-   * image renders broken, whereas null falls back to the initials disc.
+   * Set back to `null` if the file is ever removed: null falls back to the
+   * initials disc, whereas a path to a missing file renders broken.
    */
-  photoSrc: null as string | null,
+  photoSrc: "/photos/host.jpg" as string | null,
 };
 
 export function hasHost(): boolean {

@@ -30,7 +30,6 @@ type Copy = {
   cta: string;
   ctaWithDates: string;
   minStay: string;
-  pickHint: string;
   arrival: string;
   departure: string;
   today: string;
@@ -252,8 +251,6 @@ export default function Availability({
               <ArrowIcon direction="right" />
             </button>
           </div>
-
-          <p className="mb-6 text-center text-[14px] text-muted">{copy.pickHint}</p>
 
           <div className="grid gap-10 md:grid-cols-2 md:gap-14">
             {[0, 1].map((slot) => {

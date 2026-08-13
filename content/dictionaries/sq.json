@@ -72,7 +72,6 @@
   },
   "amenities": {
     "title": "Çfarë përfshihet",
-    "note": "Gjithçka brenda apartamentit, pa pagesa shtesë",
     "items": {
       "balcony": {
         "title": "Ballkon me pamje nga deti",
@@ -102,7 +101,6 @@
   },
   "rates": {
     "title": "Sa kushton",
-    "note": "Për natë, i gjithë apartamenti, deri në pesë persona.",
     "perNight": "për natë",
     "ask": "Pyet",
     "seasons": {
@@ -122,6 +120,7 @@
   },
   "host": {
     "title": "Njihuni me pritësin",
+    "intro": "Pres mysafirë këtu që nga viti 2021 dhe apartamenti mban një mesatare 9.8 në Booking.com. Kam studiuar inxhinieri të sigurisë kibernetike; pritjen e mysafirëve e bëj sepse më pëlqen.",
     "reviewsTitle": "Çfarë kanë thënë mysafirët",
     "stayed": "qëndroi {when}",
     "scoreLabel": "Vlerësuar {score} nga {max}",
@@ -141,7 +140,6 @@
     "ctaWithDates": "Shkruaj në WhatsApp për këto data",
     "minStay": "Qëndrimi minimal është 4 netë në korrik dhe gusht, 3 netë pjesën tjetër të vitit.",
     "closedSeason": "Mbyllur për sezonin",
-    "pickHint": "Zgjidh ditën e ardhjes, pastaj ditën e nisjes.",
     "arrival": "Ardhja",
     "departure": "Nisja",
     "today": "Sot",
@@ -184,19 +182,23 @@
     "title": "Mirë të dihet",
     "payment": {
       "term": "Pagesa",
+      "question": "Si paguaj?",
       "body": "Pa kapar. Paguani me para në dorë kur mbërrini, në euro ose lekë. Pa kosto shtesë."
     },
     "rows": [
       {
         "term": "Check-in dhe check-out",
+        "question": "Në ç'orë janë check-in dhe check-out?",
         "body": "Nga ora 14:00, dalja deri në 11:00. Nëse fluturimi ulet herët ose vonë, më shkruaj dhe e rregullojmë."
       },
       {
         "term": "Çelësat",
+        "question": "Si i marr çelësat?",
         "body": "Të pres te apartamenti dhe t'i dorëzoj personalisht. Më dërgo një mesazh kur të jesh nisur."
       },
       {
         "term": "Qëndrimi minimal",
+        "question": "A ka qëndrim minimal?",
         "body": "Katër netë në sezonin e lartë, tre netë pjesën tjetër të vitit."
       }
     ]
