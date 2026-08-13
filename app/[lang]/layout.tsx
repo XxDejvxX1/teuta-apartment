@@ -78,6 +78,16 @@ function StructuredData({ lang }: { lang: Locale }) {
     name: site.name,
     description: dict.meta.description,
     url: `${siteUrl()}/${lang}`,
+    /*
+      Schema with no image is a weaker entity than one with it, and this was the
+      only obvious gap. Real files rather than the generated OG card, so the URLs
+      stay stable across builds.
+    */
+    image: [
+      `${siteUrl()}/photos/hero-window.jpg`,
+      `${siteUrl()}/photos/balcony.jpg`,
+      `${siteUrl()}/photos/bedroom.jpg`,
+    ],
     numberOfRooms: site.capacity.bedrooms,
     numberOfBedrooms: site.capacity.bedrooms,
     numberOfBathroomsTotal: site.capacity.bathrooms,

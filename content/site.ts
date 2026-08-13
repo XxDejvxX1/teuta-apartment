@@ -57,7 +57,25 @@ export function whatsappLink(message?: string): string {
 }
 
 export function siteUrl(): string {
-  return (
-    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "http://localhost:3000"
-  );
+  const fromEnv = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+  if (fromEnv) return fromEnv;
+
+  /*
+    Every canonical, every hreflang, the OG url, all three sitemap entries and
+    the JSON-LD `url` are built from this one value. Falling back silently meant
+    a build with the variable unset produced a site that looked completely
+    normal while telling Google it lived on a laptop — the kind of mistake that
+    is invisible until the search results are wrong.
+
+    Dev keeps the localhost default; a production build refuses.
+  */
+  if (process.env.NODE_ENV === "production") {
+    throw new Error(
+      "NEXT_PUBLIC_SITE_URL is not set. Set it to the public origin " +
+        "(for example https://teuta-apartment.com) in the build environment " +
+        "before running `next build`.",
+    );
+  }
+
+  return "http://localhost:3000";
 }
