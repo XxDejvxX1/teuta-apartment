@@ -121,7 +121,7 @@
     }
   },
   "host": {
-    "title": "Meet the hosts",
+    "title": "Meet the host",
     "reviewsTitle": "What guests have said",
     "stayed": "stayed {when}",
     "scoreLabel": "Scored {score} out of {max}",

@@ -11,7 +11,7 @@
 
 export const host = {
   /** One or more first names. Joined with a locale-aware "and". */
-  names: ["Rudi", "Dejv"] as string[],
+  names: ["Dejv"] as string[],
 
   /**
    * Optional. ONE photograph with everyone in `names` in it — not one portrait

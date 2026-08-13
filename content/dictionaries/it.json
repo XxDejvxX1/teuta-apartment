@@ -121,7 +121,7 @@
     }
   },
   "host": {
-    "title": "Conosci i tuoi host",
+    "title": "Conosci il tuo host",
     "reviewsTitle": "Cosa hanno detto gli ospiti",
     "stayed": "soggiorno {when}",
     "scoreLabel": "Valutato {score} su {max}",

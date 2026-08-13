@@ -47,11 +47,14 @@ neighbours:
 
 ## Operating Context
 
-- **Two hosts, Rudi and Dejv** — a mother and her son. They answer WhatsApp
-  themselves, usually within the hour.
-- They meet guests at the apartment and hand over the keys in person. There is
-  no lockbox and no agency in between. Two of the three guest reviews single
-  this out, including one about waiting up for a late arrival.
+- **One host, Dejv.** He answers WhatsApp himself, usually within the hour.
+  The site presented two hosts, Rudi and Dejv, until August 2026; Rudi no longer
+  hosts and the site now names Dejv alone. Yana's review still thanks Rudi by
+  name — the reviews are verbatim and stay as written, so a visitor may meet a
+  name that appears nowhere else on the page.
+- He meets guests at the apartment and hands over the keys in person. There is
+  no lockbox and no agency in between. Several of the guest reviews single this
+  out, including one about waiting up for a late arrival.
 - Availability is maintained **by hand** in `content/availability.ts`. There is
   no calendar sync with any platform, so every booking is a manual edit.
 - **The Booking.com listing stays.** This site is supplementary reach, not a
@@ -101,10 +104,10 @@ owners do.
   is there rather than claiming benefits ("The sea is the first thing you see
   when the curtain moves in the morning"). This is a confirmed, deliberate
   choice and existing copy should not be rewritten into marketing register.
-- **Open point:** the apartment is hosted by two people, but most of the site
-  still speaks as "I" ("I answer on WhatsApp", "I meet you at the apartment").
-  Only the host block has been moved to "we". The owners have said they will do
-  their own copy pass; until then, do not switch the rest unasked.
+- **Resolved (August 2026):** the site speaks as "I" throughout, which is now
+  simply correct — there is one host. The host block's "we" went with the
+  paragraph that carried it. The only surviving "we" is in Good to know, "message
+  me and we'll work it out", where it means the host and the guest together.
 - "First line" is the established phrase for the location, in all three
   languages.
 
@@ -120,8 +123,9 @@ owners do.
 - **Booking.com overall rating and review count:** not recorded. Must not be
   estimated, and the three reviews above must not be averaged and presented as
   the property's score.
-- **Host identity:** **Rudi and Dejv** — a mother and her son, hosting together.
-  No photograph yet; the block falls back to initials.
+- **Host identity:** **Dejv**, hosting alone. No photograph yet; the block falls
+  back to a single initial. One photograph is wanted, not one per person — the
+  block renders a single 144px circle.
 - **Prices:** published, see Capabilities.
 
 Future work must not fill any of these gaps by invention. Each one is wired so
