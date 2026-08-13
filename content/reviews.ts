@@ -58,6 +58,7 @@ export const reviews: Review[] = [
     name: "Lisa",
     from: "Australia",
     score: 10,
+    title: "Seaside Paradise",
     text: "We had the most relaxing holiday in Duress due to our very comfortable and well equipped apartment. The location of the property is fantastic!!! Close to everything you could possibly want or need. The view is a pleasure to wake to every morning.",
   },
   {
