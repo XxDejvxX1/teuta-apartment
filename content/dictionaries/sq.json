@@ -26,7 +26,7 @@
   },
   "apartment": {
     "title": "Një dhomë gjumi, një ballkon dhe i gjithë Adriatiku përpara.",
-    "body": "Deti është gjëja e parë që sheh kur perdja lëviz në mëngjes. Poshtë ballkonit janë çadrat, palmat dhe pastaj uji — kaq është e gjithë distanca mes shtratit dhe plazhit.",
+    "body": "Deti është gjëja e parë që sheh kur zgjohesh në mëngjes. Poshtë ballkonit janë çadrat, palmat dhe pastaj uji — kjo është e gjithë distanca mes shtratit dhe plazhit.",
     "tags": [
       "1 dhomë gjumi",
       "2 divane-krevat",
@@ -87,7 +87,7 @@
       },
       "ac": {
         "title": "Kondicioner",
-        "note": "Në dhomën e gjumit dhe në sallon"
+        "note": "Në sallon"
       },
       "kitchen": {
         "title": "Kuzhinë e plotë",
@@ -138,7 +138,7 @@
     "nextMonth": "Muaji tjetër",
     "cta": "Shkruaj në WhatsApp për datat e tua",
     "ctaWithDates": "Shkruaj në WhatsApp për këto data",
-    "minStay": "Qëndrimi minimal është 4 netë në korrik dhe gusht, 3 netë pjesën tjetër të vitit.",
+    "minStay": "Katër netë në sezonin e lartë, tre netë pjesën tjetër të vitit.",
     "closedSeason": "Mbyllur për sezonin",
     "arrival": "Ardhja",
     "departure": "Nisja",
@@ -155,7 +155,7 @@
   },
   "gettingHere": {
     "eyebrow": "Si të vini",
-    "title": "Njëzet minuta nga aeroporti dhe je në rërë.",
+    "title": "Njëzet minuta nga aeroporti dhe je në det",
     "steps": [
       {
         "title": "Fluturo për në Tiranë",

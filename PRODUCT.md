@@ -67,7 +67,8 @@ neighbours:
 
 **The apartment.** One bedroom plus two sofa beds, sleeps five, one bathroom,
 sea-view balcony. Free WiFi, free parking beside the building, air conditioning
-in the bedroom and the living room, full kitchen.
+in the living room only — corrected by the owner in August 2026; the site
+previously said the bedroom had one too. Full kitchen.
 
 **Season.** Open **April to the end of September**. Closed October to March —
 the calendar refuses those dates rather than letting someone send an enquiry
@@ -113,8 +114,12 @@ owners do.
 
 ## Evidence on Hand
 
-- **Photographs:** six, in `public/photos/`. All are 1024px wide or less, which
-  is a known quality constraint on any full-bleed use.
+- **Photographs:** six of the apartment plus one of the host, in
+  `public/photos/`. The apartment shots are 1536×1024 (the earlier note here
+  said "1024px wide or less" — that was the height). Resolution is adequate;
+  compression is not. They run 0.21–0.35 bytes per pixel where a well-encoded
+  JPEG sits near 0.10, so every one is roughly two to three times its necessary
+  weight.
 - **Guest reviews:** three real ones in `content/reviews.ts` — Diana (UK, 10),
   Anca (Romania, 9), Lisa (Australia, 10). Held verbatim, typos and emoji
   included, because corrected reviews read as in-house copy. Any further review
