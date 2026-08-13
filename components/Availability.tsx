@@ -441,9 +441,7 @@ function DayCell({
     ? "bg-accent text-white"
     : inRange
       ? "bg-highlight text-ink"
-      : booked
-        ? "bg-booked text-booked-ink"
-        : "text-ink";
+      : "text-ink";
 
   const content = (
     <>
@@ -470,9 +468,22 @@ function DayCell({
     );
   }
 
-  if (closed) {
-    // Unlike a past date, "closed for the season" is information a guest needs,
-    // so it stays in the accessibility tree with its reason attached.
+  /*
+    A night you cannot have looks the same however it came to be unavailable:
+    struck through, quiet, and not a button. Closed for the season and already
+    booked share this treatment; a past date differs only in being hidden from
+    assistive tech, since a date already gone carries no information.
+
+    Booked nights used to be a filled block instead. That made one grid read as
+    two systems at once — some dates greyed out, some coloured in — leaving the
+    reader to work out which meant what, and it drew the eye hardest to exactly
+    the dates that are no use to anyone.
+
+    The strike is not colour-substitution: `statusText` still carries "Taken"
+    into each cell's screen-reader label, so the state survives with no colour
+    and no strike at all.
+  */
+  if (closed || booked) {
     return (
       <span className={`${shared} text-muted line-through decoration-1`} aria-disabled="true">
         {content}

@@ -41,10 +41,6 @@
   --color-body-mute: #5c6f79; /* 4.9:1  */
   --color-muted: #5f747e; /* 4.62:1 */
 
-  /* Numerals sitting on the "taken" fill need their own value: --color-muted
-     on #cfdedb is only 3.8:1. This is 5.4:1. */
-  --color-booked-ink: #46565e;
-
   /* Sea glass. Replaces the design's slate blue (#3f6f83), which read colder
      and more Nordic than Adriatic. The deep tone is 5.6:1 on sand, so it is
      safe for body-size text as well as icons; the soft tone is 8.3:1 on ink. */
@@ -52,11 +48,10 @@
   --color-accent-soft: #7fc7c0;
   --color-highlight: #cfe7e3;
 
-  /* Hairlines and the calendar's "taken" fill carry a trace of the sea glass
-     rather than sitting neutral-grey against it. */
+  /* Hairlines carry a trace of the sea glass rather than sitting neutral-grey
+     against it. */
   --color-line: #dde7e5;
   --color-line-soft: #d5e2df;
-  --color-booked: #cfdedb;
 
   --color-on-dark: #b9c8cf;
   --color-on-dark-strong: #cddbe1;

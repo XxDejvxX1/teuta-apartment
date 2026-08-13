@@ -208,9 +208,9 @@ saturated sea glass, and deep water at either end of the page.
   4.5:1 on Warm Sand. Ink Quiet is the floor at 4.62:1 — nothing quieter exists.
 - **Tideline** (`#dde7e5`) and **Tideline Soft** (`#d5e2df`): Hairlines and
   borders, tinted toward the sea glass rather than left neutral grey.
-- **Taken** (`#cfdedb`) with **Taken Ink** (`#46565e`): A booked night in the
-  calendar. The pairing is 5.4:1 — a booked date is still readable, because it
-  is information, not decoration.
+- *(Removed August 2026: **Taken** `#cfdedb` and **Taken Ink** `#46565e`, the
+  fill behind a booked night. Booked nights are now struck through in Ink Quiet
+  like every other unavailable date, so the pair had no remaining use.)*
 - **Pebble** (`#a9b8b5`): The resting state of a small control mark, currently
   the inactive deck dots.
 - **White** (`#ffffff`): Text and button fills *on photographs only* — never a
@@ -422,10 +422,17 @@ lands at 4.05:1, below the readable floor. Depth on the review deck comes from
 scale and shadow alone.
 
 ### The Calendar (signature component)
-40px circular cells on a Monday-first grid. A night is free or taken, nothing
-else. Taken nights fill with Taken and keep readable numerals; past and
-out-of-season days are struck through; today carries a 1px Sea Glass ring; a
-selected range fills Sea Foam with Sea Glass at each end.
+40px circular cells on a Monday-first grid. A night is free or it is not.
+
+**The One Unavailable Look Rule.** Every night you cannot have looks the same —
+struck through, Ink Quiet, not a button — whether it is booked, out of season or
+already past. Booked nights were once a Taken fill instead, which made one grid
+read as two systems at once and drew the eye hardest to the dates of least use.
+The strike is never the only signal: each cell's screen-reader label carries its
+status in words.
+
+Free nights are plain. Today carries a 1px Sea Glass ring; a selected range
+fills Sea Foam with Sea Glass at each end.
 
 ## Do's and Don'ts
 
