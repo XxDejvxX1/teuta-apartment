@@ -42,7 +42,22 @@ export default function GettingHere({
           be collected, or drive — and numbering them implied an order that does
           not exist.
         */}
-        <div className="grid gap-12 md:grid-cols-[0.85fr_1.15fr] md:items-start md:gap-16">
+        {/*
+          Two fixes to how these columns meet.
+
+          Vertical: `items-start` pinned both to the top, and since the map
+          column runs 49-64px taller than the arrivals list (the panel matches
+          the list almost exactly — it is the caption bar underneath that adds
+          the height) the section ended ragged, with the map hanging past the
+          last list item. Centring splits that difference between top and
+          bottom instead of dumping all of it at the end.
+
+          Horizontal: below 1024px the 0.85/1.15 split handed the *prose* the
+          narrower column — 278px, about 35 characters, at an 805px window —
+          while the map took 375px. Even columns until `lg`, then the original
+          ratio once there is room for it.
+        */}
+        <div className="grid gap-12 md:grid-cols-2 md:items-center md:gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
           <ul data-reveal="fade" style={{ ["--stagger-i" as string]: 1 }}>
             {copy.steps.map((step, index) => (
               <li
