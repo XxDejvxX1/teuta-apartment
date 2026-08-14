@@ -23,10 +23,26 @@ export type BookedRange = {
   note?: string;
 };
 
+/*
+  The 2026 season as the owner gave it, August 2026.
+
+  Remember `to` is the checkout day and is exclusive: a range ending 2026-09-01
+  blocks the night of 31 August and leaves 1 September bookable.
+
+  What a guest can actually book:
+    - 1, 2, 3 September
+    - 20, 21, 22, 23, 24 September
+    - October except 1, 2 and 17-20
+*/
 export const bookedRanges: BookedRange[] = [
-  // Examples — delete these and put the real bookings in.
-  { from: "2026-08-11", to: "2026-08-16", note: "example" },
-  { from: "2026-08-20", to: "2026-08-25", note: "example" },
-  { from: "2026-08-25", to: "2026-08-29", note: "example, back-to-back" },
-  { from: "2026-09-17", to: "2026-09-24", note: "example" },
+  // August is closed out entirely.
+  { from: "2026-08-01", to: "2026-09-01", note: "August full" },
+
+  // September, either side of the two open windows.
+  { from: "2026-09-04", to: "2026-09-20", note: "between the open windows" },
+  { from: "2026-09-25", to: "2026-10-01", note: "end of September" },
+
+  // October, newly opened this year.
+  { from: "2026-10-01", to: "2026-10-03", note: "1-2 October" },
+  { from: "2026-10-17", to: "2026-10-21", note: "17-20 October" },
 ];

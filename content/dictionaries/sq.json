@@ -26,7 +26,7 @@
   },
   "apartment": {
     "title": "Një dhomë gjumi, një ballkon dhe i gjithë Adriatiku përpara.",
-    "body": "Deti është gjëja e parë që sheh kur zgjohesh në mëngjes. Poshtë ballkonit janë çadrat, palmat dhe pastaj uji — kjo është e gjithë distanca mes shtratit dhe plazhit.",
+    "body": "Deti është gjëja e parë që sheh kur hapen perdet në mëngjes. Përtej ballkonit sheh çadrat, palmat dhe pastaj ujin — kjo është e gjithë distanca që ndan shtratin tënd nga plazhi.",
     "tags": [
       "1 dhomë gjumi",
       "2 divane-krevat",
@@ -94,7 +94,7 @@
         "note": "Pianurë, frigorifer, çajnik, gjithçka për të gatuar"
       },
       "sleeps": {
-        "title": "Deri në pesë persona",
+        "title": "Deri në 5 persona",
         "note": "Një dhomë gjumi plus një divan-krevat në sallon"
       }
     }
@@ -106,7 +106,7 @@
     "seasons": {
       "spring": {
         "label": "Pranverë",
-        "months": "Prill dhe maj"
+        "months": "Prill, maj dhe tetor"
       },
       "shoulder": {
         "label": "Fillim e fund vere",
@@ -120,7 +120,7 @@
   },
   "host": {
     "title": "Njihuni me pritësin",
-    "intro": "Pres mysafirë këtu që nga viti 2021 dhe apartamenti mban një mesatare 9.8 në Booking.com. Kam studiuar inxhinieri të sigurisë kibernetike; pritjen e mysafirëve e bëj sepse më pëlqen.",
+    "intro": "E pres këtë apartament që nga viti 2021, duke ruajtur një mesatare 9.8 në Booking.com. Formimi im akademik është në inxhinierinë e sigurisë kibernetike, ndërsa pritjen e mysafirëve vazhdoj ta bëj thjesht sepse më pëlqen vërtet të mirëpres njerëz dhe t'u krijoj një përvojë të mirë.",
     "reviewsTitle": "Çfarë kanë thënë mysafirët",
     "stayed": "qëndroi {when}",
     "scoreLabel": "Vlerësuar {score} nga {max}",

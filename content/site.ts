@@ -33,11 +33,13 @@ export const site = {
 
   season: {
     /**
-     * 0-indexed months the apartment is open: April through September.
+     * 0-indexed months the apartment is open: April through October.
      * Everything else is closed, so the calendar refuses those dates rather
      * than letting someone send an enquiry that can only be turned down.
+     *
+     * October added August 2026, priced with April and May.
      */
-    openMonths: [3, 4, 5, 6, 7, 8] as readonly number[],
+    openMonths: [3, 4, 5, 6, 7, 8, 9] as readonly number[],
   },
 
   capacity: {

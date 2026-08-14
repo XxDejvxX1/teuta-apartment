@@ -34,7 +34,7 @@ export const rates = {
    * card with a month silently missing reads as an error, not as discretion.
    */
   seasons: [
-    { key: "spring", perNight: 60 }, // April and May
+    { key: "spring", perNight: 60 }, // April, May and October
     { key: "shoulder", perNight: 70 }, // June and September
     { key: "peak", perNight: 85 }, // July and August
   ] as Season[],

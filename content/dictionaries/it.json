@@ -26,7 +26,7 @@
   },
   "apartment": {
     "title": "Una camera, un balcone e davanti tutto l'Adriatico.",
-    "body": "Il mare è la prima cosa che vedi quando la tenda si muove al mattino. Sotto il balcone ci sono gli ombrelloni, le palme e poi l'acqua: è tutta qui la distanza tra il letto e la spiaggia.",
+    "body": "Il mare è la prima cosa che vedi quando al mattino si aprono le tende. Oltre il balcone vedi gli ombrelloni, le palme e poi l'acqua: è tutta qui la distanza che separa il tuo letto dalla spiaggia.",
     "tags": [
       "1 camera da letto",
       "2 divani letto",
@@ -94,7 +94,7 @@
         "note": "Piano cottura, frigorifero, bollitore, tutto per cucinare"
       },
       "sleeps": {
-        "title": "Fino a cinque ospiti",
+        "title": "Fino a 5 persone",
         "note": "Una camera più un divano letto in soggiorno"
       }
     }
@@ -106,7 +106,7 @@
     "seasons": {
       "spring": {
         "label": "Primavera",
-        "months": "Aprile e maggio"
+        "months": "Aprile, maggio e ottobre"
       },
       "shoulder": {
         "label": "Inizio e fine estate",
@@ -120,7 +120,7 @@
   },
   "host": {
     "title": "Conosci il tuo host",
-    "intro": "Ospito qui dal 2021 e l'appartamento mantiene una media di 9.8 su Booking.com. Ho studiato ingegneria della sicurezza informatica; ospitare è la parte che faccio perché mi piace.",
+    "intro": "Ospito questo appartamento dal 2021, mantenendo una media di 9.8 su Booking.com. La mia formazione accademica è in ingegneria della sicurezza informatica, mentre ospitare è qualcosa che continuo a fare semplicemente perché mi piace davvero accogliere gli ospiti e offrire loro una bella esperienza.",
     "reviewsTitle": "Cosa hanno detto gli ospiti",
     "stayed": "soggiorno {when}",
     "scoreLabel": "Valutato {score} su {max}",

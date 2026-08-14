@@ -26,7 +26,7 @@
   },
   "apartment": {
     "title": "One bedroom, one balcony, and the whole Adriatic in front of it.",
-    "body": "The sea is the first thing you see when the curtain moves in the morning. Below the balcony are the umbrellas, the palms and then the water, and that is the whole distance between the bed and the beach.",
+    "body": "The sea is the first thing you see as the curtains open in the morning. Beyond the balcony, you see the umbrellas, the palm trees, and then the water, and that is the entire distance separating your bed from the beach.",
     "tags": [
       "1 bedroom",
       "2 sofa beds",
@@ -94,7 +94,7 @@
         "note": "Hob, fridge, kettle, everything to cook"
       },
       "sleeps": {
-        "title": "Sleeps five",
+        "title": "Up to 5 people",
         "note": "One bedroom plus a sofa bed in the living room"
       }
     }
@@ -106,7 +106,7 @@
     "seasons": {
       "spring": {
         "label": "Spring",
-        "months": "April and May"
+        "months": "April, May and October"
       },
       "shoulder": {
         "label": "Early and late summer",
@@ -120,7 +120,7 @@
   },
   "host": {
     "title": "Meet the host",
-    "intro": "I have been hosting here since 2021, and the apartment keeps a 9.8 average on Booking.com. I studied cybersecurity engineering; hosting is the part I do because I enjoy it.",
+    "intro": "I have been hosting this apartment since 2021, maintaining a 9.8 average rating on Booking.com. My academic background is in cybersecurity engineering, while hosting is something I continue to do simply because I genuinely enjoy welcoming guests and creating a great experience for them.",
     "reviewsTitle": "What guests have said",
     "stayed": "stayed {when}",
     "scoreLabel": "Scored {score} out of {max}",
