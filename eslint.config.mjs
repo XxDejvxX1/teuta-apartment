@@ -24,6 +24,7 @@ export default tseslint.config(
       ".impeccable/**",
       "next-env.d.ts",
       "lib/photo-widths.generated.ts",
+      "lib/photo-meta.generated.ts",
     ],
   },
 

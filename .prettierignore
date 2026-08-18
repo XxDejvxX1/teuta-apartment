@@ -10,6 +10,7 @@ node_modules/
 
 # Generated — rewritten by `npm run photos`, so formatting it is pointless
 lib/photo-widths.generated.ts
+lib/photo-meta.generated.ts
 next-env.d.ts
 
 # Lockfile: npm owns the formatting

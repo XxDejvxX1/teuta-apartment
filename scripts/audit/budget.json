@@ -1,0 +1,22 @@
+{
+  "_comment": [
+    "Build size ceilings, in KB, measured against out/ after `npm run build`.",
+    "Recorded 2026-08-18, when the export was cut from 11 MB to 4.7 MB by moving",
+    "the JPEG originals out of public/ and dropping webpack's unreachable copies",
+    "of every photograph. Without a number written down, that is exactly the kind",
+    "of win that leaks back one commit at a time.",
+    "Headroom is roughly 10-15% over the measurement, so ordinary work does not",
+    "trip it and a regression of any size does. Raise a figure deliberately, in a",
+    "commit that says why."
+  ],
+  "budgets": {
+    "total": 5400,
+    "js": 700,
+    "css": 60,
+    "html": 400,
+    "photos": 3400,
+    "fonts": 120,
+    "index.html": 145,
+    "opengraph-image": 200
+  }
+}

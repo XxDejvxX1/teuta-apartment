@@ -1,0 +1,47 @@
+#!/bin/sh
+#
+# Runs the fast half of `npm run check` before every commit.
+#
+# Deliberately not husky or lint-staged. Both shell out to npx, and the globally
+# installed npm on at least one machine here is a version that cannot resolve
+# against the installed Node — so npx fails, and a hook that fails for reasons
+# unrelated to your commit is a hook everyone learns to skip with --no-verify.
+# A plain shell script has no such dependency.
+#
+# Enable once per clone:
+#
+#   git config core.hooksPath .githooks
+#
+# What runs here is everything that answers in seconds. `npm run build`,
+# `test:tz` and the audits that need a build are left to CI and to running
+# `npm run check` yourself, so committing never waits on a full export.
+#
+# To commit anyway, in a genuine emergency: git commit --no-verify
+
+set -e
+
+printf '\n  Running pre-commit checks. Skip with --no-verify.\n\n'
+
+run() {
+  printf '  %-15s' "$1"
+  if OUTPUT=$(npm run --silent "$1" 2>&1); then
+    printf 'ok\n'
+  else
+    printf 'FAILED\n\n'
+    printf '%s\n' "$OUTPUT"
+    printf '\n  `npm run %s` failed, so nothing was committed.\n' "$1"
+    case "$1" in
+      format:check) printf '  Run `npm run format` to fix it.\n\n' ;;
+      lint)         printf '  Run `npm run lint:fix` to fix what is mechanical.\n\n' ;;
+      *)            printf '\n' ;;
+    esac
+    exit 1
+  fi
+}
+
+run format:check
+run lint
+run typecheck
+run test
+
+printf '\n  All clear.\n\n'

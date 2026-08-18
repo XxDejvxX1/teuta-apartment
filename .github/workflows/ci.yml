@@ -1,0 +1,72 @@
+# Runs the full gate on a Node version that actually matches the project.
+#
+# Worth saying why that matters here: the machine this site is usually developed
+# on runs a global npm too new for its Node, so `npm install` fails there and
+# has to go through Node's bundled copy. CI has no such problem, which makes it
+# the honest answer to "does this install and build from clean?" — and `npm ci`
+# from the committed lockfile is exactly the fresh-clone case that a manifest
+# pointing at uncommitted photographs would have broken.
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# A second push to the same branch cancels the first; the older answer is not
+# worth the minutes.
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Each stage is its own step so a failure names itself in the summary
+      # rather than hiding inside one long `npm run check`.
+      - name: Formatting
+        run: npm run format:check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Types
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm test
+
+      # The calendar is the part of this site most likely to be wrong in a way
+      # nobody sees, so the suite runs again under four timezones including
+      # UTC+14 and UTC-11.
+      - name: Tests across timezones
+        run: npm run test:tz
+
+      - name: Build
+        run: npm run build
+        env:
+          # siteUrl() throws on a production build with this unset, which is
+          # deliberate — it stops a build that would tell Google the site lives
+          # on a laptop. CI is not deploying, so any real origin will do.
+          NEXT_PUBLIC_SITE_URL: https://teuta-apartment.com
+
+      # Assets, SEO, design rules, CSP parity and the size budget. Reads the
+      # built out/, so it has to follow the build.
+      - name: Audits
+        run: npm run audit
