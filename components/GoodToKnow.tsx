@@ -34,8 +34,8 @@ export default function GoodToKnow({
               index === rows.length - 1 ? "border-b" : "",
             ].join(" ")}
           >
-            <dt className="text-[17px] text-ink sm:flex-[0_0_190px]">{row.term}</dt>
-            <dd className="text-[16px] leading-[1.65] text-body-mute">{row.body}</dd>
+            <dt className="text-body-lg text-ink sm:flex-[0_0_190px]">{row.term}</dt>
+            <dd className="text-body-md leading-[1.65] text-body-mute">{row.body}</dd>
           </div>
         ))}
       </dl>

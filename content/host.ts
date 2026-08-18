@@ -14,14 +14,17 @@ export const host = {
   names: ["Dejv"] as string[],
 
   /**
-   * Optional. ONE photograph containing everyone in `names`, not one portrait
-   * each — the block renders a single 144px circle, so a close square crop is
-   * what survives at that size.
+   * ONE photograph containing everyone in `names`, not one portrait each — the
+   * block renders a single circle, so a close square crop is what survives.
    *
-   * Set back to `null` if the file is ever removed: null falls back to the
-   * initials disc, whereas a path to a missing file renders broken.
+   * This used to be nullable, falling back to a disc of initials when it was
+   * unset. That was a stand-in from before there was a real photograph, and the
+   * case it guarded against — the file going missing — is now caught by
+   * scripts/audit/assets.mjs, which fails the build if any photograph the code
+   * names is not on disk. A build that fails is better than a portrait that
+   * quietly turns into a coloured circle.
    */
-  photoSrc: "/photos/host.webp" as string | null,
+  photoSrc: "/photos/host.webp",
 };
 
 export function hasHost(): boolean {

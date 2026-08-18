@@ -70,5 +70,37 @@ export async function run({ root }) {
     }
   });
 
+  // --- Type comes from the scale, not from a bracket ------------------
+  /*
+    73 arbitrary sizes were spread across 20 files. Most happened to match a
+    documented step because everyone had read the same document; seven did not,
+    and DESIGN.md carried those in a "known drift" section rather than in
+    anything that could stop them.
+
+    Substring tests rather than patterns: "text-[" and "fontSize" are
+    distinctive enough on their own, and a check nobody can read is a check
+    nobody maintains.
+  */
+  const typeFiles = [
+    ...(await walk(path.join(root, "components"))),
+    ...(await walk(path.join(root, "app"))),
+  ].filter((file) => file.endsWith(".tsx") || file.endsWith(".ts"));
+
+  for (const file of typeFiles) {
+    const rel = path.relative(root, file).split(path.sep).join("/");
+    // Satori rasterises to an image and has no stylesheet to take tokens from.
+    if (rel === "app/opengraph-image.tsx") continue;
+
+    const lines = (await readFile(file, "utf8")).split(/\r?\n/);
+    lines.forEach((line, i) => {
+      if (line.includes("text-[")) {
+        problems.push(`${rel}:${i + 1} sets a font size by hand — use a step from the scale`);
+      }
+      if (line.includes("fontSize")) {
+        problems.push(`${rel}:${i + 1} sets fontSize inline — no audit can see a style attribute`);
+      }
+    });
+  }
+
   return problems;
 }

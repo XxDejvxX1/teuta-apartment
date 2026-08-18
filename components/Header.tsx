@@ -126,13 +126,13 @@ export default function Header({
         >
           <Link
             href="/"
-            className="t-display text-[22px] tracking-[0.02em] md:text-[25px]"
+            className="t-display text-subtitle tracking-[0.02em] md:text-title"
             style={{ textShadow: solidHeader ? "none" : "0 1px 14px rgba(8,20,28,0.5)" }}
           >
             {site.name}
           </Link>
 
-          <nav className="hidden items-center gap-8 text-[15px] font-normal tracking-[0.02em] nav:flex">
+          <nav className="hidden items-center gap-8 text-control font-normal tracking-[0.02em] nav:flex">
             {links.map((link) => (
               <a
                 key={link.href}
@@ -155,7 +155,7 @@ export default function Header({
               target="_blank"
               rel="noopener"
               className={[
-                "btn-light inline-flex items-center gap-2.5 rounded-[10px] px-5 py-2.5 text-[15px] tracking-[0.01em] shadow-(--shadow-pill)",
+                "btn-light inline-flex items-center gap-2.5 rounded-[10px] px-5 py-2.5 text-control tracking-[0.01em] shadow-(--shadow-pill)",
                 solidHeader ? "bg-accent text-white" : "bg-white text-deep",
               ].join(" ")}
             >
@@ -204,7 +204,7 @@ export default function Header({
               key={link.href}
               href={link.href}
               onClick={() => setMenuOpen(false)}
-              className="t-display border-b border-ink/10 py-5 text-[30px] text-ink"
+              className="t-display border-b border-ink/10 py-5 text-title-lg text-ink"
               style={{
                 // Links arrive in sequence behind the sheet.
                 animation: menuOpen
@@ -222,7 +222,7 @@ export default function Header({
           target="_blank"
           rel="noopener"
           onClick={(event) => event.stopPropagation()}
-          className="btn-light mt-auto inline-flex items-center justify-center gap-2.5 rounded-full bg-ink px-6 py-4 text-[16px] text-white"
+          className="btn-light mt-auto inline-flex items-center justify-center gap-2.5 rounded-full bg-ink px-6 py-4 text-body-md text-white"
         >
           <WhatsAppIcon />
           {nav.whatsapp}

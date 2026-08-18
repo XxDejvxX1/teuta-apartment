@@ -67,8 +67,8 @@ export default function GettingHere({
                   index === copy.steps.length - 1 ? "border-b" : "",
                 ].join(" ")}
               >
-                <p className="mb-2 text-[20px] text-white">{step.title}</p>
-                <p className="text-[16px] leading-[1.65] text-on-dark">{step.body}</p>
+                <p className="mb-2 text-subtitle text-white">{step.title}</p>
+                <p className="text-body-md leading-[1.65] text-on-dark">{step.body}</p>
               </li>
             ))}
           </ul>

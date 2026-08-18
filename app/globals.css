@@ -67,6 +67,36 @@
 
   --font-display: var(--font-instrument-serif), Georgia, serif;
   --font-sans: var(--font-dm-sans), system-ui, sans-serif;
+
+  /*
+    The type scale, from DESIGN.md.
+
+    It was documented there and implemented nowhere: this file defined no size
+    token at all, and components carried 73 arbitrary values — text-[17px],
+    text-[16px] — scattered across 20 files. Most of them matched a documented
+    step by coincidence of everyone reading the same document. Seven did not.
+
+    Only sizes are declared here, not the line heights DESIGN.md also lists.
+    Tailwind would apply a paired --text-*--line-height automatically, which
+    would silently restyle every element that currently sets its own leading.
+    Leading stays explicit at the call site until that is done deliberately.
+
+    Named body-md rather than body: --color-body already exists, and in Tailwind
+    v4 both font size and text colour live under text-*, so --text-body would
+    quietly capture every text-body colour utility on the site.
+  */
+  --text-display: clamp(2.75rem, 13.3vw, 6.5rem);
+  --text-headline: clamp(1.875rem, 3.2vw, 3.125rem);
+  --text-title-lg: 30px;
+  --text-title: 26px;
+  --text-subtitle: 22px;
+  --text-body-xl: 18px;
+  --text-body-lg: 17px;
+  --text-body-md: 16px;
+  --text-control: 15px;
+  --text-note: 14px;
+  --text-caption: 13px;
+  --text-label: 12px;
 }
 
 :root {

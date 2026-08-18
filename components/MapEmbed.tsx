@@ -125,7 +125,7 @@ export default function MapEmbed({
             <>
               <p
                 role="status"
-                className="relative max-w-[38ch] text-center text-[15px] leading-[1.55] text-on-dark-strong"
+                className="relative max-w-[38ch] text-center text-control leading-[1.55] text-on-dark-strong"
               >
                 {copy.mapBlocked}
               </p>
@@ -133,7 +133,7 @@ export default function MapEmbed({
                 <button
                   type="button"
                   onClick={load}
-                  className="btn-light rounded-full bg-white px-6 py-3 text-[15px] text-deep"
+                  className="btn-light rounded-full bg-white px-6 py-3 text-control text-deep"
                 >
                   {copy.mapRetry}
                 </button>
@@ -141,7 +141,7 @@ export default function MapEmbed({
                   href={EXTERNAL_MAP_URL}
                   target="_blank"
                   rel="noopener"
-                  className="link-underline text-[15px] text-white"
+                  className="link-underline text-control text-white"
                 >
                   {copy.mapOpen}
                 </a>
@@ -152,23 +152,25 @@ export default function MapEmbed({
               <button
                 type="button"
                 onClick={load}
-                className="btn-light relative rounded-full bg-white px-6 py-3 text-[15px] text-deep"
+                className="btn-light relative rounded-full bg-white px-6 py-3 text-control text-deep"
               >
                 {copy.mapLoad}
               </button>
-              <p className="relative text-center text-[13px] text-on-dark-strong">{copy.mapNote}</p>
+              <p className="relative text-center text-caption text-on-dark-strong">
+                {copy.mapNote}
+              </p>
             </>
           )}
         </div>
       )}
 
       <div className="flex flex-wrap items-center justify-between gap-4 bg-panel px-6 py-5">
-        <p className="text-[15px] text-on-dark-strong">{copy.mapCaption}</p>
+        <p className="text-control text-on-dark-strong">{copy.mapCaption}</p>
         <a
           href={EXTERNAL_MAP_URL}
           target="_blank"
           rel="noopener"
-          className="link-underline text-[14px] text-white"
+          className="link-underline text-note text-white"
         >
           {copy.mapOpen}
         </a>

@@ -54,8 +54,8 @@ export default function Amenities({
                   {Icon && <Icon />}
                 </span>
                 <div>
-                  <dt className="text-[18px] text-ink">{item.title}</dt>
-                  <dd className="mt-1 text-[14px] leading-[1.55] text-body-soft">{item.note}</dd>
+                  <dt className="text-body-xl text-ink">{item.title}</dt>
+                  <dd className="mt-1 text-note leading-[1.55] text-body-soft">{item.note}</dd>
                 </div>
               </div>
             );

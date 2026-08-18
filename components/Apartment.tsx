@@ -27,7 +27,7 @@ export default function Apartment({
             <h2 className="t-h3 max-w-[19ch] text-ink">{copy.title}</h2>
           </span>
 
-          <p className="mb-8 max-w-[44ch] text-[17px] leading-[1.65] text-body-soft md:text-[18px]">
+          <p className="mb-8 max-w-[44ch] text-body-lg leading-[1.65] text-body-soft md:text-body-xl">
             {copy.body}
           </p>
 
@@ -35,7 +35,7 @@ export default function Apartment({
             {copy.tags.map((tag) => (
               <li
                 key={tag}
-                className="rounded-full border border-line-soft px-[18px] py-2.5 text-[14px] text-body-soft"
+                className="rounded-full border border-line-soft px-[18px] py-2.5 text-note text-body-soft"
               >
                 {tag}
               </li>

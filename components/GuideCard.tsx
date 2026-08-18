@@ -61,9 +61,7 @@ export default function GuideCard({
               </span>
               {minutesLabel}
             </p>
-            <h3 className="t-display text-[24px] leading-[1.12] text-white md:text-[26px]">
-              {guide.title}
-            </h3>
+            <h3 className="t-display text-title leading-[1.12] text-white">{guide.title}</h3>
           </div>
         </div>
       </Link>

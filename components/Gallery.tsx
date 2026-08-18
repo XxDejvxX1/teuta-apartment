@@ -47,7 +47,7 @@ export default function Gallery({ copy }: { copy: Copy }) {
       <div className="mx-auto max-w-[1400px] px-5 md:px-11">
         <div className="mb-12 flex items-baseline justify-between gap-6 border-t border-line pt-8">
           <h2 className="t-h3 text-ink">{copy.title}</h2>
-          <p className="text-[13px] tracking-[0.02em] text-muted" aria-live="polite">
+          <p className="text-caption tracking-[0.02em] text-muted" aria-live="polite">
             {copy.counter
               .replace("{current}", String(active + 1))
               .replace("{total}", String(count))}

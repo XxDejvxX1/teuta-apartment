@@ -28,7 +28,7 @@ export default function Rates({
       className="mt-16 border-t border-line pt-12"
     >
       <div className="mb-8 flex flex-wrap items-baseline justify-between gap-3">
-        <h3 className="t-display text-[26px] text-ink md:text-[30px]">{copy.title}</h3>
+        <h3 className="t-display text-title text-ink md:text-title-lg">{copy.title}</h3>
       </div>
 
       {/*
@@ -64,23 +64,23 @@ export default function Rates({
                 The reading order on screen is unchanged — big number first,
                 caption under it — because that is CSS `order`, not DOM order.
               */}
-              <dt className="order-2 mt-4 text-[15px] text-ink">{label.label}</dt>
+              <dt className="order-2 mt-4 text-control text-ink">{label.label}</dt>
               <dd
-                className={`order-1 text-[34px] leading-none ${priced ? "text-ink" : "text-muted"}`}
+                className={`order-1 text-title-lg leading-none ${priced ? "text-ink" : "text-muted"}`}
               >
                 {priced ? (
                   <>
                     {rates.currencySymbol}
                     {season.perNight}
-                    <span className="ml-2 text-[13px] text-muted">{copy.perNight}</span>
+                    <span className="ml-2 text-caption text-muted">{copy.perNight}</span>
                   </>
                 ) : (
                   // No price given for this band yet. Saying "ask" is honest;
                   // omitting the band would look like the card forgot August.
-                  <span className="text-[24px]">{copy.ask}</span>
+                  <span className="text-title">{copy.ask}</span>
                 )}
               </dd>
-              <dd className="order-3 mt-1 text-[13px] text-muted">{label.months}</dd>
+              <dd className="order-3 mt-1 text-caption text-muted">{label.months}</dd>
             </div>
           );
         })}

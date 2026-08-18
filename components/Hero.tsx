@@ -101,7 +101,7 @@ export default function Hero({
               #gallery taught the visitor to skip the section the nav lists first. */}
           <a
             href="#apartment"
-            className="hero-cue hero-fade flex flex-col items-center gap-2.5 text-[12px] uppercase tracking-[0.18em] text-white transition-opacity duration-500 hover:opacity-70"
+            className="hero-cue hero-fade flex flex-col items-center gap-2.5 text-label uppercase tracking-[0.18em] text-white transition-opacity duration-500 hover:opacity-70"
             style={{
               ["--stagger-i" as string]: copy.titleLines.length + 1,
               textShadow: "0 1px 16px rgba(8,20,28,0.7)",

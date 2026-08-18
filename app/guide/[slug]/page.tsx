@@ -150,14 +150,14 @@ export default async function GuideArticle({ params }: { params: Promise<{ slug:
               */}
               <div className="mb-5">
                 <span className="hero-rise">
-                  <h1 className="t-display max-w-[17ch] text-[clamp(2.125rem,4.8vw,3.75rem)] leading-[1.06] text-white">
+                  <h1 className="t-display max-w-[17ch] text-headline leading-[1.06] text-white">
                     {article.title}
                   </h1>
                 </span>
               </div>
 
               <p
-                className="hero-fade max-w-[54ch] text-[16px] leading-[1.6] text-white/85 md:text-[17px]"
+                className="hero-fade max-w-[54ch] text-body-md leading-[1.6] text-white/85 md:text-body-lg"
                 style={{ ["--stagger-i" as string]: 1 }}
               >
                 {article.summary}
@@ -178,7 +178,7 @@ export default async function GuideArticle({ params }: { params: Promise<{ slug:
           <div className="mx-auto max-w-[680px] px-5 pb-20 md:px-0 md:pb-24">
             <Link
               href="/guide"
-              className="guide-back inline-flex items-center gap-2.5 border-t border-line pt-8 text-[15px] text-accent"
+              className="guide-back inline-flex items-center gap-2.5 border-t border-line pt-8 text-control text-accent"
             >
               {/* ArrowIcon sets transform inline to mirror itself, so the
                   hover nudge has to move a wrapper rather than the svg. */}

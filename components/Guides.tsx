@@ -37,7 +37,7 @@ export default function Guides({
             <span data-reveal="mask" className="mb-5 block">
               <h2 className="t-h3 max-w-[16ch] text-ink">{copy.home.title}</h2>
             </span>
-            <p className="max-w-[48ch] text-[17px] leading-[1.65] text-body-soft">
+            <p className="max-w-[48ch] text-body-lg leading-[1.65] text-body-soft">
               {copy.home.body}
             </p>
           </div>
@@ -46,7 +46,7 @@ export default function Guides({
             href="/guide"
             data-reveal="fade"
             style={{ ["--stagger-i" as string]: 1 }}
-            className="guide-back inline-flex shrink-0 items-center gap-2.5 text-[15px] text-accent"
+            className="guide-back inline-flex shrink-0 items-center gap-2.5 text-control text-accent"
           >
             {copy.home.link}
             <span className="guide-forward-arrow">

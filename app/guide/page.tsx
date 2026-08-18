@@ -96,7 +96,7 @@ export default function GuideIndex() {
             <span data-reveal="mask" className="mb-6 block">
               <h1 className="t-h3 max-w-[18ch] text-ink">{copy.title}</h1>
             </span>
-            <p className="max-w-[54ch] text-[17px] leading-[1.65] text-body-soft md:text-[18px]">
+            <p className="max-w-[54ch] text-body-lg leading-[1.65] text-body-soft md:text-body-xl">
               {copy.intro}
             </p>
           </div>
@@ -105,7 +105,7 @@ export default function GuideIndex() {
         {articles.length === 0 ? (
           // An empty grid would read as a broken page; this says what is true.
           <div className="mx-auto max-w-[820px] px-5 pb-24 md:px-11 md:pb-28">
-            <p className="border-t border-line pt-8 text-[17px] leading-[1.65] text-body-mute">
+            <p className="border-t border-line pt-8 text-body-lg leading-[1.65] text-body-mute">
               {copy.empty}
             </p>
           </div>

@@ -45,16 +45,16 @@ export default function GuideFeatured({
           <div className="relative w-full p-6 md:p-12">
             <p className="eyebrow mb-4 text-white/80">{meta}</p>
 
-            <h2 className="t-display mb-4 max-w-[16ch] text-[clamp(2rem,4.4vw,3.4rem)] leading-[1.06] text-white">
+            <h2 className="t-display mb-4 max-w-[16ch] text-headline leading-[1.06] text-white">
               {guide.title}
             </h2>
 
-            <p className="mb-8 max-w-[52ch] text-[16px] leading-[1.6] text-white/85 md:text-[17px]">
+            <p className="mb-8 max-w-[52ch] text-body-md leading-[1.6] text-white/85 md:text-body-lg">
               {guide.summary}
             </p>
 
             {/* A span, not a nested link — the whole card is already the link. */}
-            <span className="btn-light inline-flex items-center gap-2.5 rounded-full bg-white px-7 py-3.5 text-[15px] tracking-[0.01em] text-deep">
+            <span className="btn-light inline-flex items-center gap-2.5 rounded-full bg-white px-7 py-3.5 text-control tracking-[0.01em] text-deep">
               {readLabel}
               <ArrowIcon direction="right" size={16} />
             </span>

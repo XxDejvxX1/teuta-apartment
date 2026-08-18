@@ -222,9 +222,7 @@ export default function Availability({
           </span>
           {/* The minimum-stay rule used to live ~1,900px further down the page,
               so people planned stays that would be refused. */}
-          <p className="mx-auto max-w-[52ch] text-[14px] leading-[1.6] text-muted">
-            {copy.minStay}
-          </p>
+          <p className="mx-auto max-w-[52ch] text-note leading-[1.6] text-muted">{copy.minStay}</p>
         </div>
 
         <div data-reveal="fade" style={{ ["--stagger-i" as string]: 1 }}>
@@ -244,7 +242,7 @@ export default function Availability({
                 <p
                   key={slot}
                   className={[
-                    "t-display text-center text-[22px] text-ink md:text-[26px]",
+                    "t-display text-center text-subtitle text-ink md:text-title",
                     slot === 1 ? "hidden md:block" : "",
                   ].join(" ")}
                 >
@@ -283,7 +281,7 @@ export default function Availability({
                         <th
                           key={name}
                           scope="col"
-                          className="pb-3 text-[12px] font-normal uppercase tracking-[0.1em] text-muted"
+                          className="pb-3 text-label font-normal uppercase tracking-[0.1em] text-muted"
                         >
                           {name}
                         </th>
@@ -350,9 +348,9 @@ export default function Availability({
           <div className="mt-10 rounded-2xl border border-line bg-white/50 p-6 md:p-7">
             <div aria-live="polite" className="min-h-[1.5rem]">
               {problem ? (
-                <p className="text-center text-[15px] leading-[1.55] text-accent">{problem}</p>
+                <p className="text-center text-control leading-[1.55] text-accent">{problem}</p>
               ) : selected ? (
-                <p className="text-center text-[16px] text-ink">
+                <p className="text-center text-body-md text-ink">
                   <span className="text-muted">{copy.arrival}</span>{" "}
                   {dateFormatter.format(parseDayKey(selected.arrival)!)}
                   <span aria-hidden className="mx-2 text-muted">
@@ -366,7 +364,7 @@ export default function Availability({
                   {plural(copy.nightsOne, copy.nightsOther, nightCount)}
                 </p>
               ) : arrival ? (
-                <p className="text-center text-[16px] text-ink">
+                <p className="text-center text-body-md text-ink">
                   <span className="text-muted">{copy.arrival}</span>{" "}
                   {dateFormatter.format(parseDayKey(arrival)!)}
                 </p>
@@ -379,11 +377,11 @@ export default function Availability({
               {selected && total !== null && (
                 <p className="mt-5 text-center">
                   <span className="eyebrow block text-muted">{copy.totalLabel}</span>
-                  <span className="t-display mt-1 block text-[34px] leading-none text-ink">
+                  <span className="t-display mt-1 block text-title-lg leading-none text-ink">
                     {rates.currencySymbol}
                     {total}
                   </span>
-                  <span className="mt-2 block text-[14px] leading-[1.5] text-body-mute">
+                  <span className="mt-2 block text-note leading-[1.5] text-body-mute">
                     {copy.totalNote}
                   </span>
                 </p>
@@ -391,12 +389,12 @@ export default function Availability({
             </div>
 
             <div className="mt-5 flex flex-wrap items-center justify-center gap-4">
-              <label className="flex items-center gap-2.5 text-[15px] text-body-soft">
+              <label className="flex items-center gap-2.5 text-control text-body-soft">
                 {copy.guests}
                 <select
                   value={guests}
                   onChange={(event) => setGuests(Number(event.target.value))}
-                  className="rounded-full border border-line bg-sand px-4 py-2 text-[15px] text-ink"
+                  className="rounded-full border border-line bg-sand px-4 py-2 text-control text-ink"
                 >
                   {Array.from({ length: site.capacity.guests }, (_, i) => i + 1).map((n) => (
                     <option key={n} value={n}>
@@ -410,7 +408,7 @@ export default function Availability({
                 <button
                   type="button"
                   onClick={clear}
-                  className="rounded-full px-3 py-2 text-[14px] text-muted underline underline-offset-4 transition-colors duration-300 hover:text-ink"
+                  className="rounded-full px-3 py-2 text-note text-muted underline underline-offset-4 transition-colors duration-300 hover:text-ink"
                 >
                   {copy.clear}
                 </button>
@@ -422,7 +420,7 @@ export default function Availability({
                 href={href}
                 target="_blank"
                 rel="noopener"
-                className="btn-light inline-flex items-center justify-center gap-2.5 rounded-full bg-accent px-7 py-4 text-[16px] text-white"
+                className="btn-light inline-flex items-center justify-center gap-2.5 rounded-full bg-accent px-7 py-4 text-body-md text-white"
               >
                 <WhatsAppIcon size={18} />
                 {selected ? copy.ctaWithDates : copy.cta}
@@ -480,7 +478,7 @@ function DayCell({
   );
 
   const shared = [
-    "relative mx-auto flex h-10 w-10 items-center justify-center rounded-full text-[15px] tabular-nums transition-colors duration-200",
+    "relative mx-auto flex h-10 w-10 items-center justify-center rounded-full text-control tabular-nums transition-colors duration-200",
     surface,
     isToday && !isEdge ? "ring-1 ring-accent ring-offset-1 ring-offset-sand" : "",
   ].join(" ");

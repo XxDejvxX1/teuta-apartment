@@ -22,7 +22,7 @@ export default function ReviewsDeck({
 
   return (
     <>
-      <h3 className="t-display mb-8 text-center text-[26px] text-ink md:mb-12 md:text-[30px]">
+      <h3 className="t-display mb-8 text-center text-title text-ink md:mb-12 md:text-title-lg">
         {copy.reviewsTitle}
       </h3>
 

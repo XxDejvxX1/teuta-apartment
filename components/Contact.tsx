@@ -49,15 +49,18 @@ export default function Contact({
       >
         {/* Measure on the heading, not the mask — see GettingHere. */}
         <span data-reveal="mask" className="mb-7 block">
-          <h2
-            className="t-display mx-auto max-w-[15ch]"
-            style={{ fontSize: "clamp(2.375rem,5vw,5rem)", lineHeight: 1.04 }}
-          >
+          {/*
+            The documented display step, not the inline clamp that used to be
+            here — that was a fourth display size, 38-80px, sitting between
+            headline and display and written into a style attribute where no
+            audit could see it.
+          */}
+          <h2 className="t-display mx-auto max-w-[15ch] text-display leading-[1.04]">
             {copy.title}
           </h2>
         </span>
 
-        <p className="mx-auto mb-10 max-w-[48ch] text-[17px] leading-[1.6] text-white/85 md:mb-11 md:text-[18px]">
+        <p className="mx-auto mb-10 max-w-[48ch] text-body-lg leading-[1.6] text-white/85 md:mb-11 md:text-body-xl">
           {copy.body}
         </p>
 
@@ -65,7 +68,7 @@ export default function Contact({
           href={whatsappHref}
           target="_blank"
           rel="noopener"
-          className="btn-light inline-flex items-center justify-center gap-3 rounded-full bg-white px-9 py-4 text-[16px] tracking-[0.01em] text-deep md:px-11 md:py-[19px] md:text-[17px]"
+          className="btn-light inline-flex items-center justify-center gap-3 rounded-full bg-white px-9 py-4 text-body-md tracking-[0.01em] text-deep md:px-11 md:py-[19px] md:text-body-lg"
         >
           <WhatsAppIcon size={19} />
           {copy.cta}

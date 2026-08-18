@@ -76,26 +76,14 @@ export default function HostAndReviews({
                   stacked unit; flush left beside the copy from 768px up. */}
               <div data-reveal="fade" className="flex justify-center md:block">
                 <div className="host-portrait">
-                  {host.photoSrc ? (
-                    <Image
-                      src={host.photoSrc}
-                      alt={nameList}
-                      width={208}
-                      height={208}
-                      sizes="(max-width: 768px) 168px, 208px"
-                      className="h-full w-full object-cover"
-                    />
-                  ) : (
-                    // Initials of everyone in `names`, filling the same frame,
-                    // so the composition does not change shape when the
-                    // photograph is missing.
-                    <span
-                      aria-hidden
-                      className="flex h-full w-full items-center justify-center bg-accent text-[44px] tracking-[0.02em] text-white"
-                    >
-                      {names.map((name) => name.trim().charAt(0).toUpperCase()).join("")}
-                    </span>
-                  )}
+                  <Image
+                    src={host.photoSrc}
+                    alt={nameList}
+                    width={208}
+                    height={208}
+                    sizes="(max-width: 768px) 168px, 208px"
+                    className="h-full w-full object-cover"
+                  />
                 </div>
               </div>
 
@@ -110,7 +98,7 @@ export default function HostAndReviews({
                 */}
                 <p className="host-name">{nameList}</p>
 
-                <p className="mt-4 max-w-[46ch] text-[17px] leading-[1.7] text-body-soft md:text-[18px]">
+                <p className="mt-4 max-w-[46ch] text-body-lg leading-[1.7] text-body-soft md:text-body-xl">
                   {copy.intro}
                 </p>
               </div>
