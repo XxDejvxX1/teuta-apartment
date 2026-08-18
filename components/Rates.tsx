@@ -1,4 +1,4 @@
-import { rates, hasPublishedRates } from "@/content/rates";
+import { rates, hasPublishedRates, type SeasonKey } from "@/content/rates";
 
 type SeasonCopy = { label: string; months: string };
 
@@ -13,7 +13,10 @@ export default function Rates({
     title: string;
     perNight: string;
     ask: string;
-    seasons: Record<string, SeasonCopy>;
+    // Record<string, …> accepted any key at all, so a season renamed in one
+    // file and not the other fell through to rendering the raw key. This makes
+    // that a build error.
+    seasons: Record<SeasonKey, SeasonCopy>;
   };
 }) {
   if (!hasPublishedRates()) return null;
@@ -50,9 +53,21 @@ export default function Rates({
               key={season.key}
               data-reveal="rise"
               style={{ ["--stagger-i" as string]: index }}
-              className="rounded-2xl border border-line px-6 py-6"
+              className="flex flex-col rounded-2xl border border-line px-6 py-6"
             >
-              <dd className={`text-[34px] leading-none ${priced ? "text-ink" : "text-muted"}`}>
+              {/*
+                <dt> before <dd>, which is what the spec requires and what a
+                screen reader needs in order to pair a price with the season it
+                belongs to. This used to open with a <dd> and no preceding <dt>
+                at all, so the price was announced as an answer to nothing.
+
+                The reading order on screen is unchanged — big number first,
+                caption under it — because that is CSS `order`, not DOM order.
+              */}
+              <dt className="order-2 mt-4 text-[15px] text-ink">{label.label}</dt>
+              <dd
+                className={`order-1 text-[34px] leading-none ${priced ? "text-ink" : "text-muted"}`}
+              >
                 {priced ? (
                   <>
                     {rates.currencySymbol}
@@ -65,8 +80,7 @@ export default function Rates({
                   <span className="text-[24px]">{copy.ask}</span>
                 )}
               </dd>
-              <dt className="mt-4 text-[15px] text-ink">{label?.label ?? season.key}</dt>
-              <dd className="mt-1 text-[13px] text-muted">{label?.months}</dd>
+              <dd className="order-3 mt-1 text-[13px] text-muted">{label.months}</dd>
             </div>
           );
         })}

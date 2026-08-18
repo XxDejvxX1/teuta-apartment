@@ -3,8 +3,14 @@ export default function GoodToKnow({
 }: {
   copy: {
     title: string;
-    rows: { term: string; body: string }[];
-    payment: { term: string; body: string };
+    /*
+      `question` is not rendered here — the visible list uses the short term
+      ("The keys"). It is read by the FAQPage markup on the homepage, which
+      needs the same fact phrased the way a guest would type it. Typing it away
+      meant the page that does use it had no guarantee it was there.
+    */
+    rows: { term: string; question: string; body: string }[];
+    payment: { term: string; question: string; body: string };
   };
 }) {
   // "How do I pay?" is a top pre-booking question with no answer on the page.

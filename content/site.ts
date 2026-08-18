@@ -22,11 +22,29 @@ export const site = {
    */
   localeTag: "en",
 
+  /**
+   * Open Graph wants language_TERRITORY, which is not the same string as the
+   * BCP 47 tag above. `<html lang>` and every Intl formatter want "en";
+   * og:locale wants "en_GB". One value was doing both jobs and getting the
+   * second one wrong.
+   */
+  ogLocale: "en_GB",
+
   geo: { lat: 41.313574, lng: 19.475329 },
 
   address: {
-    // TODO: exact street and number.
-    street: "Rruga Pavarësia",
+    /*
+    Empty until the owners confirm it, and empty on purpose.
+
+    A placeholder here does not sit quietly in a file — it goes into the
+    PostalAddress in the JSON-LD, where Google reads it as a statement of where
+    this apartment is. PRODUCT.md lists the street address as undecided, so
+    until it is decided the markup says nothing rather than something wrong.
+    Locality, region and postcode below are all true.
+
+    Fill this in and app/layout.tsx picks it up with no other change.
+  */
+    street: "",
     locality: "Durrës",
     region: "Durrës County",
     postalCode: "2001",

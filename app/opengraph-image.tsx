@@ -20,7 +20,10 @@ export const dynamic = "force-static";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = `${site.name} — Durrës, Albania`;
+// copyText.meta.ogAlt, not a string built here. The key existed and was read
+// by nothing, so the card described itself twice and only one of them was
+// editable by whoever writes the copy.
+export const alt = copyText.meta.ogAlt;
 
 /**
  * This card is what renders when someone forwards the link on WhatsApp, which

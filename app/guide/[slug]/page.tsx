@@ -31,19 +31,37 @@ export async function generateMetadata({
   const article = guide(slug);
   if (!article) return {};
 
+  /*
+    An article shared on WhatsApp should show its own photograph, not the
+    apartment card every other page uses. Falls back to the site card for an
+    article whose cover is the drawn shoreline rather than a photo.
+
+    This has to be spelled out on both openGraph and twitter: declaring either
+    object replaces the parent entirely, so these pages previously shipped with
+    no og:image and with the homepage's Twitter title.
+  */
+  const image = article.cover ? `/photos/${article.cover}-1200.webp` : "/opengraph-image";
+
   return {
     title: article.title,
     description: article.summary,
     alternates: { canonical: `/guide/${slug}` },
     openGraph: {
       type: "article",
+      siteName: site.name,
       title: article.title,
       description: article.summary,
       url: `/guide/${slug}`,
       publishedTime: article.date,
-      locale: site.localeTag,
+      locale: site.ogLocale,
+      images: [image],
     },
-    robots: { index: true, follow: true },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: article.summary,
+      images: [image],
+    },
   };
 }
 

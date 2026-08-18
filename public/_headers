@@ -40,7 +40,18 @@
 # The social card is emitted as `out/opengraph-image` with NO file extension,
 # so Cloudflare would guess application/octet-stream and every scraper —
 # Facebook, WhatsApp, iMessage, Slack — would silently decline to render a
-# preview. It is a real 1200x630 PNG; say so.
+# preview. It is a real 1200x630 JPEG; say so.
+#
+# JPEG, not PNG: ImageResponse can only emit PNG, and a lossless PNG of a
+# photograph shipped at 1.75 MB — past the size WhatsApp will fetch, so the card
+# was failing at the only job it has. scripts/compress-og.mjs re-encodes it
+# after the export. 136 KB now.
 /opengraph-image
-  Content-Type: image/png
+  Content-Type: image/jpeg
   Cache-Control: public, max-age=3600
+
+# Photographs change only when `npm run photos` regenerates them, and that
+# rewrites every width at once. Nothing was caching them at all, so they fell
+# back to Cloudflare's default while /_next/static sat on a full year.
+/photos/*
+  Cache-Control: public, max-age=2592000

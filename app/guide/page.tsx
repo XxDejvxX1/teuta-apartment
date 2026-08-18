@@ -21,12 +21,27 @@ export const metadata: Metadata = {
   alternates: { canonical: "/guide" },
   openGraph: {
     type: "website",
+    siteName: site.name,
     title: copy.metaTitle,
     description: copy.metaDescription,
     url: "/guide",
-    locale: site.localeTag,
+    locale: site.ogLocale,
+    /*
+      Named explicitly because declaring an openGraph object here replaces the
+      parent one wholesale — including the image Next infers from
+      app/opengraph-image.tsx. Without this line the page shipped with no
+      og:image at all, and sharing it produced a bare block of text.
+    */
+    images: ["/opengraph-image"],
   },
-  robots: { index: true, follow: true },
+  // Same reason: twitter is inherited whole, so without this the card showed
+  // the homepage title and description on every guide URL.
+  twitter: {
+    card: "summary_large_image",
+    title: copy.metaTitle,
+    description: copy.metaDescription,
+    images: ["/opengraph-image"],
+  },
 };
 
 export default function GuideIndex() {

@@ -228,5 +228,12 @@
   "footer": {
     "location": "Teuta Apartment — Durrës, Albania",
     "tagline": "First line, on the beach"
+  },
+  "notFound": {
+    "metaTitle": "Page not found — Teuta Apartment",
+    "title": "There is nothing at this address",
+    "body": "The link may be an old one, or it may have a typo in it. The apartment, the dates and the guides are all still where they were.",
+    "home": "Back to the apartment",
+    "guides": "What to do in Durrës"
   }
 }

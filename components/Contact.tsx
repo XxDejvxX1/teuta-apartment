@@ -19,7 +19,9 @@ export default function Contact({
     <section
       id="contact"
       data-on-dark=""
-      // See GuideCta: the sticky mobile bar hides once this is reached.
+      // MobileCta queries this: the sticky WhatsApp bar hides once this
+      // section is on screen, so the page never shows the same call to action
+      // twice at once.
       data-final-cta=""
       className="relative overflow-hidden bg-deep"
     >

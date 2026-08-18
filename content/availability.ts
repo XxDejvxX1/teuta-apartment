@@ -34,6 +34,16 @@ export type BookedRange = {
     - 20, 21, 22, 23, 24 September
     - October except 1, 2 and 17-20
 */
+/**
+ * The day the ranges below were last changed, YYYY-MM-DD.
+ *
+ * This is the homepage's <lastmod> in the sitemap. That used to be `new Date()`,
+ * which announced a change on every deploy whether or not anything had changed —
+ * and a lastmod that is always "now" is one Google learns to distrust and then
+ * ignore. Bump it when you edit the list.
+ */
+export const availabilityUpdated = "2026-08-18";
+
 export const bookedRanges: BookedRange[] = [
   // August is closed out entirely.
   { from: "2026-08-01", to: "2026-09-01", note: "August full" },

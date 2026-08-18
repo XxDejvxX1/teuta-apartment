@@ -5,7 +5,9 @@ type Item = { title: string; note: string };
 export default function Amenities({
   copy,
 }: {
-  copy: { title: string; items: Record<string, Item> };
+  // Keyed by the icon map's own union: an amenity in the copy with no icon,
+  // or an icon with no copy, is now a build error rather than a blank cell.
+  copy: { title: string; items: Record<AmenityKey, Item> };
 }) {
   const entries = Object.entries(copy.items) as [AmenityKey, Item][];
 

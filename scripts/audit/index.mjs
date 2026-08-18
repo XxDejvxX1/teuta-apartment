@@ -22,9 +22,7 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, "..", "..");
 const hasBuild = existsSync(path.join(root, "out"));
 
-const files = (await readdir(here))
-  .filter((f) => f.endsWith(".mjs") && f !== "index.mjs")
-  .sort();
+const files = (await readdir(here)).filter((f) => f.endsWith(".mjs") && f !== "index.mjs").sort();
 
 let failed = 0;
 let skipped = 0;
