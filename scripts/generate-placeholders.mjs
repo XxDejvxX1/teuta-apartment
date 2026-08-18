@@ -15,12 +15,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
 
-const OUT_DIR = path.join(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "..",
-  "public",
-  "photos",
-);
+const OUT_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "public", "photos");
 
 /** A soft sea-and-sky scene. Enough structure to judge crops and gradients. */
 function seaScene({ w, h, sky, sea, sand, warm }) {

@@ -35,12 +35,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
 
-const PHOTO_DIR = path.join(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "..",
-  "public",
-  "photos",
-);
+const PHOTO_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "public", "photos");
 
 /** Sources we will re-encode. Anything else in the folder is left alone. */
 const SOURCE_EXTENSIONS = new Set([".jpg", ".jpeg", ".png"]);

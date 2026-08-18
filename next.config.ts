@@ -7,8 +7,7 @@ const isDev = process.env.NODE_ENV !== "production";
  * helper server on port 8400. Guarded by NODE_ENV, so it exists only while
  * `next dev` is running.
  */
-const __impeccableLiveDev =
-  process.env.NODE_ENV === "development" ? " http://localhost:8400" : "";
+const __impeccableLiveDev = process.env.NODE_ENV === "development" ? " http://localhost:8400" : "";
 
 /**
  * Content-Security-Policy — DEVELOPMENT ONLY.

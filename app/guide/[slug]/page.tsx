@@ -61,9 +61,7 @@ function ArticleJsonLd({ slug }: { slug: string }) {
     mainEntityOfPage: `${siteUrl()}/guide/${slug}`,
     // Only claim an image when one exists — an empty or invented URL is a
     // broken entity, and the drawn cover is a placeholder, not a photograph.
-    ...(article.cover
-      ? { image: [`${siteUrl()}/photos/${article.cover}.webp`] }
-      : {}),
+    ...(article.cover ? { image: [`${siteUrl()}/photos/${article.cover}.webp`] } : {}),
     author: { "@type": "Organization", name: site.name },
     publisher: { "@type": "Organization", name: site.name },
   };
@@ -80,11 +78,7 @@ function ArticleJsonLd({ slug }: { slug: string }) {
   );
 }
 
-export default async function GuideArticle({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default async function GuideArticle({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const article = guide(slug);
   if (!article) notFound();
@@ -122,13 +116,7 @@ export default async function GuideArticle({
             className="relative flex min-h-[440px] items-end overflow-hidden bg-surface-warm md:min-h-[560px]"
           >
             <div className="absolute inset-0">
-              <GuideCover
-                slug={article.slug}
-                cover={article.cover}
-                alt=""
-                sizes="100vw"
-                priority
-              />
+              <GuideCover slug={article.slug} cover={article.cover} alt="" sizes="100vw" priority />
             </div>
 
             <div aria-hidden className="guide-scrim-featured absolute inset-0" />

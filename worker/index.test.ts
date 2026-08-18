@@ -11,10 +11,9 @@ import worker from "./index";
  */
 function call(path: string) {
   const assets = { fetch: vi.fn(async () => new Response("asset", { status: 200 })) };
-  const response = worker.fetch(
-    new Request(`https://teuta-apartment.com${path}`),
-    { ASSETS: assets },
-  );
+  const response = worker.fetch(new Request(`https://teuta-apartment.com${path}`), {
+    ASSETS: assets,
+  });
   return { response, assets };
 }
 
@@ -40,9 +39,7 @@ describe("legacy /en redirects", () => {
   });
 
   it("keeps the rest of the path", async () => {
-    expect((await redirect("/en/guide")).location).toBe(
-      "https://teuta-apartment.com/guide",
-    );
+    expect((await redirect("/en/guide")).location).toBe("https://teuta-apartment.com/guide");
     expect((await redirect("/en/guide/day-trips")).location).toBe(
       "https://teuta-apartment.com/guide/day-trips",
     );

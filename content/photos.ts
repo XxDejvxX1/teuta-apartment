@@ -24,13 +24,7 @@ import beach from "@/public/photos/beach.webp";
  *
  * Keys must match `gallery.photos.*` in the dictionaries.
  */
-export type PhotoKey =
-  | "window"
-  | "bedroom"
-  | "balcony"
-  | "living"
-  | "kitchen"
-  | "beach";
+export type PhotoKey = "window" | "bedroom" | "balcony" | "living" | "kitchen" | "beach";
 
 export type Photo = {
   key: PhotoKey;

@@ -66,12 +66,7 @@ export default function Page() {
         <GettingHere copy={gettingHere} />
         <GoodToKnow copy={copyText.goodToKnow} />
         <Guides guides={articles} copy={copyText.guides} />
-        <Contact
-          copy={contact}
-          footer={copyText.footer}
-          whatsappHref={whatsappHref}
-          imageAlt=""
-        />
+        <Contact copy={contact} footer={copyText.footer} whatsappHref={whatsappHref} imageAlt="" />
       </main>
 
       <MobileCta label={copyText.nav.whatsapp} href={whatsappHref} />

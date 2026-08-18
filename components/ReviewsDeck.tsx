@@ -51,9 +51,7 @@ export default function ReviewsDeck({
             >
               {(review.title || review.score !== undefined) && (
                 <p className="review-head">
-                  {review.title && (
-                    <span className="t-display review-title">{review.title}</span>
-                  )}
+                  {review.title && <span className="t-display review-title">{review.title}</span>}
                   {/*
                     "10/10" alone is ambiguous read aloud, so the visible figure
                     is hidden from the accessibility tree and the full sentence
@@ -80,9 +78,7 @@ export default function ReviewsDeck({
               <figcaption className="review-by">
                 {review.name}
                 {review.from ? `, ${review.from}` : ""}
-                {review.stayed
-                  ? ` — ${interpolate(copy.stayed, { when: review.stayed })}`
-                  : ""}
+                {review.stayed ? ` — ${interpolate(copy.stayed, { when: review.stayed })}` : ""}
               </figcaption>
             </figure>
           );

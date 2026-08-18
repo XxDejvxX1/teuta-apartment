@@ -17,22 +17,13 @@
   },
   "hero": {
     "eyebrow": "Durrës · Albania",
-    "titleLines": [
-      "Wake up",
-      "on the first line",
-      "of the sea"
-    ],
+    "titleLines": ["Wake up", "on the first line", "of the sea"],
     "scroll": "Look inside"
   },
   "apartment": {
     "title": "One bedroom, one balcony, and the whole Adriatic in front of it.",
     "body": "The sea is the first thing you see as the curtains open in the morning. Beyond the balcony, you see the umbrellas, the palm trees, and then the water, and that is the entire distance separating your bed from the beach.",
-    "tags": [
-      "1 bedroom",
-      "2 sofa beds",
-      "Sea balcony",
-      "5 guests"
-    ],
+    "tags": ["1 bedroom", "2 sofa beds", "Sea balcony", "5 guests"],
     "imageAlt": "The balcony view over the Durrës beachfront"
   },
   "gallery": {

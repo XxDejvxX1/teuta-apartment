@@ -23,10 +23,7 @@ export default function GuideFeatured({
 }) {
   return (
     <div data-reveal="rise" className="mx-auto max-w-[1400px] px-5 md:px-11">
-      <Link
-        href={`/guide/${guide.slug}`}
-        className="guide-card guide-card--wide group block"
-      >
+      <Link href={`/guide/${guide.slug}`} className="guide-card guide-card--wide group block">
         <article
           data-on-dark=""
           className="relative flex min-h-[440px] items-end overflow-hidden rounded-[24px] bg-surface-warm md:min-h-[560px]"

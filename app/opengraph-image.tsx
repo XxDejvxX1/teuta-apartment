@@ -1,3 +1,9 @@
+/*
+  Satori, not the browser. next/image cannot run inside ImageResponse, and an
+  alt attribute is meaningless in something that rasterises straight to PNG —
+  the card advertises its text through the exported `alt` above instead.
+*/
+/* eslint-disable @next/next/no-img-element, jsx-a11y/alt-text */
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { ImageResponse } from "next/og";
@@ -22,90 +28,86 @@ export const alt = `${site.name} — Durrës, Albania`;
  * photo in it rather than a bare title.
  */
 export default async function OpenGraphImage() {
-  const photo = await readFile(
-    path.join(process.cwd(), "public", "photos", "hero-window.jpg"),
-  );
+  const photo = await readFile(path.join(process.cwd(), "public", "photos", "hero-window.jpg"));
   const photoSrc = `data:image/jpeg;base64,${photo.toString("base64")}`;
 
   return new ImageResponse(
-    (
-      <div
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        position: "relative",
+        backgroundColor: "#0d1b22",
+      }}
+    >
+      <img
+        src={photoSrc}
+        width={size.width}
+        height={size.height}
         style={{
+          position: "absolute",
+          inset: 0,
           width: "100%",
           height: "100%",
-          display: "flex",
+          objectFit: "cover",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(180deg, rgba(10,24,32,0.15) 0%, rgba(10,24,32,0.55) 55%, rgba(10,24,32,0.9) 100%)",
+        }}
+      />
+      <div
+        style={{
           position: "relative",
-          backgroundColor: "#0d1b22",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-end",
+          padding: 72,
+          width: "100%",
+          height: "100%",
+          color: "#ffffff",
         }}
       >
-        <img
-          src={photoSrc}
-          width={size.width}
-          height={size.height}
-          style={{
-            position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-          }}
-        />
         <div
           style={{
-            position: "absolute",
-            inset: 0,
-            background:
-              "linear-gradient(180deg, rgba(10,24,32,0.15) 0%, rgba(10,24,32,0.55) 55%, rgba(10,24,32,0.9) 100%)",
-          }}
-        />
-        <div
-          style={{
-            position: "relative",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "flex-end",
-            padding: 72,
-            width: "100%",
-            height: "100%",
-            color: "#ffffff",
+            fontSize: 24,
+            letterSpacing: 6,
+            textTransform: "uppercase",
+            color: "rgba(255,255,255,0.8)",
+            marginBottom: 20,
           }}
         >
-          <div
-            style={{
-              fontSize: 24,
-              letterSpacing: 6,
-              textTransform: "uppercase",
-              color: "rgba(255,255,255,0.8)",
-              marginBottom: 20,
-            }}
-          >
-            {copyText.hero.eyebrow}
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              fontSize: 76,
-              lineHeight: 1.05,
-              maxWidth: 900,
-            }}
-          >
-            {copyText.hero.titleLines.map((line) => (
-              <span key={line}>{line}</span>
-            ))}
-          </div>
-          <div
-            style={{
-              marginTop: 28,
-              fontSize: 28,
-              color: "rgba(255,255,255,0.85)",
-            }}
-          >
-            {site.name}
-          </div>
+          {copyText.hero.eyebrow}
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            fontSize: 76,
+            lineHeight: 1.05,
+            maxWidth: 900,
+          }}
+        >
+          {copyText.hero.titleLines.map((line) => (
+            <span key={line}>{line}</span>
+          ))}
+        </div>
+        <div
+          style={{
+            marginTop: 28,
+            fontSize: 28,
+            color: "rgba(255,255,255,0.85)",
+          }}
+        >
+          {site.name}
         </div>
       </div>
-    ),
+    </div>,
     size,
   );
 }

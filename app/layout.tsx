@@ -134,10 +134,7 @@ function StructuredData() {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang={site.localeTag}
-      className={`${dmSans.variable} ${instrumentSerif.variable}`}
-    >
+    <html lang={site.localeTag} className={`${dmSans.variable} ${instrumentSerif.variable}`}>
       <head>
         <StructuredData />
       </head>

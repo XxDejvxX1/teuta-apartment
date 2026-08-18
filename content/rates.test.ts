@@ -29,9 +29,7 @@ describe("season bands", () => {
    */
   it("prices every month the apartment is open, exactly once", () => {
     for (const month of site.season.openMonths) {
-      const bands = Object.values(seasonMonths).filter((months) =>
-        months.includes(month),
-      );
+      const bands = Object.values(seasonMonths).filter((months) => months.includes(month));
       expect(bands, `month ${month} should sit in exactly one band`).toHaveLength(1);
     }
   });
@@ -66,17 +64,13 @@ describe("stayCost", () => {
   it("splits a stay that crosses a band", () => {
     // 28 June to 3 July: three June nights, two July nights. Multiplying five
     // nights by either rate gives the wrong answer in both directions.
-    expect(stayCost(day("2026-06-28"), day("2026-07-03"))).toBe(
-      3 * SHOULDER + 2 * PEAK,
-    );
+    expect(stayCost(day("2026-06-28"), day("2026-07-03"))).toBe(3 * SHOULDER + 2 * PEAK);
   });
 
   it("splits September into October", () => {
     // 29 September to 2 October is three nights — the 29th, the 30th and the
     // 1st. Two at September's rate, one at October's.
-    expect(stayCost(day("2026-09-29"), day("2026-10-02"))).toBe(
-      2 * SHOULDER + 1 * SPRING,
-    );
+    expect(stayCost(day("2026-09-29"), day("2026-10-02"))).toBe(2 * SHOULDER + 1 * SPRING);
   });
 
   it("returns null when any night is unpriced, rather than a partial total", () => {

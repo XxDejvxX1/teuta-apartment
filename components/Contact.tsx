@@ -37,8 +37,7 @@ export default function Contact({
         aria-hidden
         className="absolute inset-0"
         style={{
-          background:
-            "linear-gradient(180deg,rgba(10,24,32,0.55),rgba(10,24,32,0.85))",
+          background: "linear-gradient(180deg,rgba(10,24,32,0.55),rgba(10,24,32,0.85))",
         }}
       />
 

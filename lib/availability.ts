@@ -16,9 +16,7 @@ export function parseDayKey(key: string): Date | null {
   const date = new Date(Date.UTC(+year, +month - 1, +day, 12));
 
   // Rejects things like 2026-02-31, which Date would silently roll over.
-  return date.getUTCMonth() === +month - 1 && date.getUTCDate() === +day
-    ? date
-    : null;
+  return date.getUTCMonth() === +month - 1 && date.getUTCDate() === +day ? date : null;
 }
 
 /** `YYYY-MM-DD`, built from UTC parts so it never drifts with the host clock. */
@@ -31,9 +29,7 @@ export function dayKey(date: Date): string {
 
 /** Normalises any instant to 12:00 UTC on the same UTC calendar day. */
 export function utcNoon(date: Date): Date {
-  return new Date(
-    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 12),
-  );
+  return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 12));
 }
 
 export function addDays(date: Date, days: number): Date {
@@ -112,11 +108,7 @@ export function nightsBetween(arrival: Date, departure: Date): number {
  * True when every night from `arrival` up to (not including) `departure` is
  * free. Departure day itself is never checked — the guest leaves that morning.
  */
-export function rangeIsFree(
-  arrival: Date,
-  departure: Date,
-  nights: Set<string>,
-): boolean {
+export function rangeIsFree(arrival: Date, departure: Date, nights: Set<string>): boolean {
   let cursor = utcNoon(arrival);
   const checkout = utcNoon(departure);
   if (cursor >= checkout) return false;

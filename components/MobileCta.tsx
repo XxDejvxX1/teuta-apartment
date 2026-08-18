@@ -8,13 +8,7 @@ import { WhatsAppIcon } from "@/components/icons";
  * The header CTA scrolls away on phones, which is where most of this traffic
  * arrives. This keeps one tap to WhatsApp available the whole way down.
  */
-export default function MobileCta({
-  label,
-  href,
-}: {
-  label: string;
-  href: string;
-}) {
+export default function MobileCta({ label, href }: { label: string; href: string }) {
   const [pastHero, setPastHero] = useState(false);
   const [atClosingCta, setAtClosingCta] = useState(false);
 
@@ -41,10 +35,9 @@ export default function MobileCta({
       return () => window.removeEventListener("scroll", onScroll);
     }
 
-    const observer = new IntersectionObserver(
-      ([entry]) => setPastHero(!entry.isIntersecting),
-      { threshold: 0 },
-    );
+    const observer = new IntersectionObserver(([entry]) => setPastHero(!entry.isIntersecting), {
+      threshold: 0,
+    });
     observer.observe(sentinel);
     return () => observer.disconnect();
   }, []);
@@ -59,10 +52,10 @@ export default function MobileCta({
       section has risen far enough that its own button is close to being on
       screen. Hiding on first pixel left a stretch with no WhatsApp button at all.
     */
-    const observer = new IntersectionObserver(
-      ([entry]) => setAtClosingCta(entry.isIntersecting),
-      { rootMargin: "0px 0px -40% 0px", threshold: 0 },
-    );
+    const observer = new IntersectionObserver(([entry]) => setAtClosingCta(entry.isIntersecting), {
+      rootMargin: "0px 0px -40% 0px",
+      threshold: 0,
+    });
     observer.observe(closing);
     return () => observer.disconnect();
   }, []);

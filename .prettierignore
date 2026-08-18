@@ -1,0 +1,28 @@
+# Build output
+.next/
+out/
+.wrangler/
+node_modules/
+
+# Vendored and machine-local
+.claude/skills/
+.impeccable/
+
+# Generated — rewritten by `npm run photos`, so formatting it is pointless
+lib/photo-widths.generated.ts
+next-env.d.ts
+
+# Lockfile: npm owns the formatting
+package-lock.json
+
+# Photographs and icons
+public/photos/
+*.ico
+*.png
+*.jpg
+*.webp
+
+# Prose. The docs are hand-wrapped and DESIGN.md's frontmatter is a contract
+# mirrored in .impeccable/design.json — reformatting it risks changing meaning
+# for no gain. Prettier owns code formatting here, not writing.
+*.md

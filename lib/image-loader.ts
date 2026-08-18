@@ -28,7 +28,8 @@ export default function photoLoader({ src, width }: { src: string; width: number
   if (!available || available.length === 0) return src;
 
   // Smallest width that still covers the requested size; the widest if none does.
-  const chosen = available.find((candidate) => candidate >= width) ?? available[available.length - 1];
+  const chosen =
+    available.find((candidate) => candidate >= width) ?? available[available.length - 1];
 
   // The widest keeps the plain name so a static import resolves to a real file.
   const isWidest = chosen === available[available.length - 1];

@@ -17,9 +17,7 @@ import { useEffect } from "react";
  */
 export default function RevealController() {
   useEffect(() => {
-    const elements = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-reveal]"),
-    );
+    const elements = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
     if (elements.length === 0) return;
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -85,8 +83,7 @@ export default function RevealController() {
 
       revealWhatIsVisible();
       window.addEventListener("scroll", revealWhatIsVisible, { passive: true });
-      removeScrollFallback = () =>
-        window.removeEventListener("scroll", revealWhatIsVisible);
+      removeScrollFallback = () => window.removeEventListener("scroll", revealWhatIsVisible);
     }, 2500);
 
     return () => {

@@ -126,7 +126,6 @@ export default function Gallery({ copy }: { copy: Copy }) {
                     </svg>
                   </span>
                 )}
-
               </button>
             </div>
           );

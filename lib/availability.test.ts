@@ -1,12 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import {
-  blockedNights,
-  dayKey,
-  isBooked,
-  monthCells,
-  parseDayKey,
-} from "@/lib/availability";
+import { blockedNights, dayKey, isBooked, monthCells, parseDayKey } from "@/lib/availability";
 
 describe("parseDayKey", () => {
   it("anchors at 12:00 UTC", () => {
@@ -37,12 +31,7 @@ describe("parseDayKey", () => {
 describe("blockedNights — `to` is the checkout day", () => {
   it("blocks exactly nights 10-13 for a 10-14 August booking", () => {
     const nights = blockedNights([{ from: "2026-08-10", to: "2026-08-14" }]);
-    expect([...nights].sort()).toEqual([
-      "2026-08-10",
-      "2026-08-11",
-      "2026-08-12",
-      "2026-08-13",
-    ]);
+    expect([...nights].sort()).toEqual(["2026-08-10", "2026-08-11", "2026-08-12", "2026-08-13"]);
   });
 
   it("leaves the checkout day open to arrive on", () => {
@@ -67,11 +56,7 @@ describe("blockedNights — `to` is the checkout day", () => {
 
   it("crosses a month boundary", () => {
     const nights = blockedNights([{ from: "2026-08-30", to: "2026-09-02" }]);
-    expect([...nights].sort()).toEqual([
-      "2026-08-30",
-      "2026-08-31",
-      "2026-09-01",
-    ]);
+    expect([...nights].sort()).toEqual(["2026-08-30", "2026-08-31", "2026-09-01"]);
   });
 
   it("handles a single night", () => {

@@ -10,7 +10,6 @@ import {
   nightsBetween,
   parseDayKey,
   rangeIsFree,
-  utcNoon,
 } from "@/lib/availability";
 import { site, whatsappLink } from "@/content/site";
 import { rates, stayCost } from "@/content/rates";
@@ -82,6 +81,9 @@ export default function Availability({
   // server's date first so hydration matches, then correct on mount.
   useEffect(() => {
     const actual = dayKey(new Date());
+    // Correcting a prerendered value on mount is the one case this rule cannot
+    // see: rendering the real date instead would break hydration. Runs once.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (actual !== serverToday) setTodayKey(actual);
   }, [serverToday]);
 
@@ -212,10 +214,7 @@ export default function Availability({
     // heading. The top is trimmed to roughly a third of the bottom so the two
     // sections read as adjacent; the generous bottom is kept, because the rates
     // block below it is the last thing before a different section colour.
-    <section
-      id="availability"
-      className="bg-sand px-5 pb-20 pt-6 md:px-11 md:pb-[120px] md:pt-8"
-    >
+    <section id="availability" className="bg-sand px-5 pb-20 pt-6 md:px-11 md:pb-[120px] md:pt-8">
       <div className="mx-auto max-w-[900px]">
         <div data-reveal="fade" className="mb-10 text-center md:mb-14">
           <span data-reveal="mask" className="mb-5 block">
@@ -273,7 +272,9 @@ export default function Availability({
               return (
                 <table
                   key={slot}
-                  className={["w-full border-collapse", slot === 1 ? "hidden md:table" : ""].join(" ")}
+                  className={["w-full border-collapse", slot === 1 ? "hidden md:table" : ""].join(
+                    " ",
+                  )}
                 >
                   <caption className="sr-only">{monthFormatter.format(monthStart)}</caption>
                   <thead>
@@ -467,11 +468,7 @@ function DayCell({
 }) {
   const isEdge = isArrival || isDeparture;
 
-  const surface = isEdge
-    ? "bg-accent text-white"
-    : inRange
-      ? "bg-highlight text-ink"
-      : "text-ink";
+  const surface = isEdge ? "bg-accent text-white" : inRange ? "bg-highlight text-ink" : "text-ink";
 
   const content = (
     <>

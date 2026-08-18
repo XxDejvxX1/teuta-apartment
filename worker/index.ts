@@ -22,13 +22,12 @@ interface Env {
 
 const LEGACY_PREFIX = "/en";
 
-export default {
+const worker = {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
     const { pathname } = url;
 
-    const isLegacy =
-      pathname === LEGACY_PREFIX || pathname.startsWith(`${LEGACY_PREFIX}/`);
+    const isLegacy = pathname === LEGACY_PREFIX || pathname.startsWith(`${LEGACY_PREFIX}/`);
     if (!isLegacy) return env.ASSETS.fetch(request);
 
     // `/en` and `/en/` both become `/`; `/en/guide` becomes `/guide`.
@@ -48,3 +47,5 @@ export default {
     });
   },
 };
+
+export default worker;

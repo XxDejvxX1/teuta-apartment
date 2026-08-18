@@ -71,10 +71,9 @@ export default function Header({
     const sentinel = document.querySelector("[data-scroll-sentinel]");
     if (!sentinel) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => setPastHero(!entry.isIntersecting),
-      { threshold: 0 },
-    );
+    const observer = new IntersectionObserver(([entry]) => setPastHero(!entry.isIntersecting), {
+      threshold: 0,
+    });
     observer.observe(sentinel);
     return () => observer.disconnect();
   }, [solid]);

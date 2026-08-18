@@ -17,10 +17,7 @@ export const copyText = copy;
 export type Copy = typeof copy;
 
 /** Fills {name} placeholders. Leaves unknown keys untouched so a typo is visible, not silent. */
-export function interpolate(
-  template: string,
-  values: Record<string, string | number>,
-): string {
+export function interpolate(template: string, values: Record<string, string | number>): string {
   return template.replace(/\{(\w+)\}/g, (match, key: string) =>
     key in values ? String(values[key]) : match,
   );

@@ -59,8 +59,7 @@ export default function GuideIndex() {
     return date ? dateFormat.format(date) : "";
   };
 
-  const minutesLabel = (minutes: number) =>
-    interpolate(copy.minutes, { count: minutes });
+  const minutesLabel = (minutes: number) => interpolate(copy.minutes, { count: minutes });
 
   return (
     <>

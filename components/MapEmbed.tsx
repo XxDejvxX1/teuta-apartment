@@ -156,9 +156,7 @@ export default function MapEmbed({
               >
                 {copy.mapLoad}
               </button>
-              <p className="relative text-center text-[13px] text-on-dark-strong">
-                {copy.mapNote}
-              </p>
+              <p className="relative text-center text-[13px] text-on-dark-strong">{copy.mapNote}</p>
             </>
           )}
         </div>

@@ -367,11 +367,7 @@ body {
   height: 38px;
   overflow: hidden;
   border-radius: 9999px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.5),
-    rgba(255, 255, 255, 0.04)
-  );
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.04));
   transition: transform var(--dur-hover) var(--ease-soft);
 }
 
@@ -381,11 +377,7 @@ body {
   top: 0;
   height: 13px;
   border-radius: 9999px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0),
-    rgba(255, 255, 255, 0.95)
-  );
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.95));
   /* Parked out of frame; only the animation brings it in, so a browser that
      skips the animation shows a clean rail rather than a stray dash. */
   transform: translateY(-100%);
@@ -952,14 +944,10 @@ body {
   border-radius: 3px;
 }
 
-.guide-index:has(#gcat-history:checked)
-  [data-guide-category]:not([data-guide-category="history"]),
-.guide-index:has(#gcat-sea:checked)
-  [data-guide-category]:not([data-guide-category="sea"]),
-.guide-index:has(#gcat-food:checked)
-  [data-guide-category]:not([data-guide-category="food"]),
-.guide-index:has(#gcat-trips:checked)
-  [data-guide-category]:not([data-guide-category="trips"]) {
+.guide-index:has(#gcat-history:checked) [data-guide-category]:not([data-guide-category="history"]),
+.guide-index:has(#gcat-sea:checked) [data-guide-category]:not([data-guide-category="sea"]),
+.guide-index:has(#gcat-food:checked) [data-guide-category]:not([data-guide-category="food"]),
+.guide-index:has(#gcat-trips:checked) [data-guide-category]:not([data-guide-category="trips"]) {
   display: none;
 }
 
