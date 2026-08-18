@@ -8,6 +8,15 @@ p1_count: 2
 timestamp: 2026-08-08T20-56-09Z
 slug: app-lang-page-tsx
 ---
+> **Resolved, 18 August 2026.** Kept as a record, not as an open finding.
+>
+> The P0 was 45 WCAG AA text failures traced to one token, `--color-muted` at
+> 3.18:1. It is `#5f747e` at 4.62:1 now, and every text token in
+> `app/globals.css` carries its measured ratio beside it.
+>
+> The target file no longer exists either: `app/[lang]/page.tsx` flattened to
+> `app/page.tsx` when Albanian and Italian were dropped.
+
 Method: dual-agent (A: aea4aca18a76aeb03 · B: adb6bd42682b892e6)
 Target: `app/[lang]/page.tsx` — desktop / PC viewport, 1440×900. Mode: Persuade.
 

@@ -9,7 +9,7 @@
  * while they are all null — so a half-finished rate card can never reach a
  * guest. Put in real numbers and the section appears by itself.
  *
- * Season labels are translated in content/dictionaries/*.json under `rates`.
+ * Season labels live in content/copy.json under `rates`.
  */
 
 export type SeasonKey = "spring" | "shoulder" | "peak";
@@ -50,7 +50,7 @@ export function hasPublishedRates(): boolean {
  *
  * This existed only as a comment beside each season until the calendar needed
  * to total a stay. It is price data, so it lives here with the prices — if a
- * band ever moves, the label in the dictionaries has to move with it, and this
+ * band ever moves, the label in content/copy.json has to move with it, and this
  * is the copy the arithmetic reads.
  *
  * Every month the apartment is open (April–October, see `site.season.openMonths`)

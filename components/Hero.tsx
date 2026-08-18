@@ -68,7 +68,7 @@ export default function Hero({
           </p>
 
           {/*
-            Line breaks are authored in the dictionary rather than left to the
+            Line breaks are authored in content/copy.json rather than left to the
             browser. A phrase this short reads badly when it is allowed to wrap
             wherever the box happens to end, and authored lines also give each
             line its own clip mask to rise out of.

@@ -23,6 +23,7 @@ next-env.d.ts
 # Local-only Worker vars. Nothing secret lives here today, but this is the file
 # Cloudflare's own convention puts secrets in, so it must never be committable.
 .dev.vars
+.dev.vars.*
 
 # Impeccable's skill files are a third-party install, not project source.
 # Reinstall with `npx impeccable install`. launch.json is kept: it is ours.

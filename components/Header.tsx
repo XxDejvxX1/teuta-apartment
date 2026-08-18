@@ -28,7 +28,7 @@ export default function Header({
   whatsappHref: string;
   /** Pin the solid appearance — for pages with no hero behind the header. */
   solid?: boolean;
-  /** Hidden when this language has no articles yet, so the link is never a dead end. */
+  /** Hidden while there are no articles, so the link is never a dead end. */
   showGuides?: boolean;
 }) {
   const [pastHero, setPastHero] = useState(false);

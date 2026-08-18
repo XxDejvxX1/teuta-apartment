@@ -19,11 +19,26 @@ Then open http://localhost:3000.
 
 | Command | |
 |---|---|
+| **`npm run check`** | **everything below, in order. The one to run before pushing.** |
 | `npm run dev` | dev server |
 | `npm run build` | production build |
-| `npm test` | unit tests (booking dates, calendar maths) |
+| `npm run lint` / `lint:fix` | ESLint |
+| `npm run format` / `format:check` | Prettier |
+| `npm run typecheck` | `tsc --noEmit` |
+| `npm test` | unit tests (booking dates, calendar maths, guides, copy) |
 | `npm run test:tz` | the same tests under four timezones — see below |
-| `npm run placeholders` | regenerate stand-in photos (only needed if a real photo goes missing) |
+| `npm run audit` | assets, SEO, design rules, CSP parity, size budget |
+| `npm run photos` | rebuild every WebP width from `assets/photos-src/` |
+| `npm run placeholders` | regenerate stand-in photos (only if a real photo goes missing) |
+
+`npm run check` is also what CI runs on every push, and `.githooks/pre-commit`
+runs its fast half before each commit. Enable the hook once per clone:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for what each stage enforces and why.
 
 ---
 
@@ -39,9 +54,14 @@ every modern phone, which render at 2–3× pixel density. This is the single
 biggest quality problem left on the site, and only bigger files fix it.
 
 **To replace one:** save it as a JPEG with the exact filename below, drop it in
-`public/photos/` over the old one, and restart `npm run dev`. Nothing else to
-change — Next reads the new dimensions, generates the AVIF/WebP versions, builds
-the `srcset` and makes the blur-up placeholder automatically.
+`assets/photos-src/` over the old one, and run `npm run photos`. That writes
+every width into `public/photos/` as WebP and records the dimensions and the
+blur placeholder in `lib/photo-meta.generated.ts`. Commit both the original and
+what the script produced.
+
+Originals live in `assets/photos-src/`, not `public/`, because anything in
+`public/` is copied into the deploy: the JPEGs were being published alongside
+the WebP actually shown, 2.9 MB of files nothing could reach.
 
 | File | Where it appears | Ratio | Minimum | Aim for |
 |---|---|---|---|---|
@@ -51,7 +71,7 @@ the `srcset` and makes the blur-up placeholder automatically.
 | `bedroom.jpg` | Gallery | 3:2 landscape | 1400 × 933 | **2400 × 1600** |
 | `kitchen.jpg` | Gallery | 3:2 landscape | 1400 × 933 | **2400 × 1600** |
 | `living-room.jpg` | Gallery | 3:2 landscape | 1400 × 933 | **2400 × 1600** |
-| `host.jpg` | Portrait of you both — not added yet | 1:1 square | 600 × 600 | **800 × 800** |
+| `host.jpg` | Portrait in **Meet the host** | 1:1 square | 600 × 600 | **800 × 800** |
 
 **Ratio matters more than resolution.** Everything except the host photo is
 cropped to **3:2 landscape**. Shoot landscape, not portrait — `living-room.jpg`
@@ -68,26 +88,29 @@ resize down first — Next re-encodes anyway, so a big clean original gives the
 best result. Files up to about 8 MB are fine. Bake in any rotation rather than
 relying on EXIF.
 
-**For the host photo**, also set `photoSrc: "/photos/host.jpg"` in
-`content/host.ts`. Until then the block shows your initials.
+**For the host photo**, `content/host.ts` points `photoSrc` at
+`/photos/host.webp`, which `npm run photos` produces. It is no longer optional:
+the initials disc that used to stand in for it was removed once there was a real
+photograph, and `npm run audit` fails the build if the file goes missing rather
+than quietly showing a coloured circle instead.
 
 #### Adding a photo, rather than replacing one
 
-Replacing is one step. *Adding* a seventh photo to the gallery is five, across
-five files. Say the new one is `terrace.jpg`:
+Replacing is one step. *Adding* a seventh photo to the gallery is five. Say the
+new one is `terrace.jpg`:
 
-1. Put the file in `public/photos/` — 3:2, 2400 × 1600.
-2. In `content/photos.ts`, add
-   `import terrace from "@/public/photos/terrace.jpg"`.
-3. Add `"terrace"` to the `PhotoKey` list just above it.
-4. Add `{ key: "terrace", image: terrace }` to `galleryPhotos`. Its position in
-   that array is its position in the gallery.
+1. Put the file in `assets/photos-src/` — 3:2, 2400 × 1600.
+2. Run `npm run photos`.
+3. Add `"terrace"` to the `PhotoKey` list in `content/photos.ts`.
+4. Add `{ key: "terrace", image: photo("terrace") }` to `galleryPhotos`. Its
+   position in that array is its position in the gallery.
 5. Add a `"terrace"` entry with `title` and `alt` under `gallery.photos` in
    `content/copy.json`.
 
-**Step 5 fails silently.** Miss it and the photo still appears, but with no alt
-text and no label — no error, no warning, just an invisible hole for screen
-readers and for Google.
+Step 5 used to fail silently — the photo appeared with no alt text and no label,
+no error and no warning. `npm test` now fails on a copy key that nothing reads,
+and `npm run audit` fails on a photograph in `public/photos/` that no manifest
+entry produced, so both halves of that mistake are caught before a commit.
 
 There is no limit in the code, and extra photos cost nothing at load: only
 three are ever downloaded, however many exist, because the deck skips the ones
@@ -127,7 +150,7 @@ the map and the structured data Google reads. The street address in
 
 ### 4. A photograph of the host
 
-`public/photos/host.jpg` is 400×400, which is the smallest file on the site and
+`assets/photos-src/host.jpg` is 400×400, the smallest file on the site and
 the reason the portrait in **Meet the host** is capped at 208px — anything wider
 is upscaled. A 1:1 crop at 800×800 would let that block breathe properly.
 
@@ -146,7 +169,7 @@ live on this domain rather than on a blog somewhere else.
 
 ### Adding one
 
-Create `content/guides/<slug>.<lang>.md`. The slug is the URL, so keep it short
+Create `content/guides/<slug>.md`. The slug is the URL, so keep it short
 and in words, not dates:
 
 ```markdown
@@ -178,13 +201,18 @@ away from the article.
 
 ### Covers
 
-`cover` names a photograph in `public/photos/` **without its extension** —
-`cover: amphitheatre` means `public/photos/amphitheatre.jpg`. Same folder, same
-3:2 crop and same `npm run photos` step as every other picture on the site:
+`cover` names a photograph **without its extension** — `cover: amphitheatre`
+means `assets/photos-src/amphitheatre.jpg`, which `npm run photos` turns into
+`public/photos/amphitheatre.webp` and its widths. Same crop and same step as
+every other picture on the site:
 
-1. Save the JPEG as `public/photos/amphitheatre.jpg`, 2400 × 1600.
+1. Save the JPEG as `assets/photos-src/amphitheatre.jpg`, 2400 × 1600.
 2. Run `npm run photos`.
 3. Add `cover: amphitheatre` to the frontmatter.
+
+`npm test` checks that every `cover` resolves to files that are really on disk
+at every width the manifest claims, so a cover naming a photograph nobody
+generated fails in a second rather than rendering a broken image.
 
 **Leave `cover` out and the page draws one instead** — a shoreline at dusk, with
 a horizon, a low sun and contour lines, generated from the slug so it is the
@@ -277,14 +305,18 @@ for it again without checking that upstream.
 ## How it is put together
 
 ```
-app/[lang]/          the page, per-locale metadata, JSON-LD, social card
-app/[lang]/guide/    the What to do index and one route per article
+app/                 the page, metadata, JSON-LD, social card, 404
+app/guide/           the What to do index and one route per article
 components/          one file per section
-content/             all copy, the bookings, the photo manifest, site.ts
-content/guides/      the articles, as <slug>.<lang>.md
-lib/                 availability maths, locale matching, guide loading
-worker/index.ts      the only per-request code: language choice on `/`
+content/             all copy, the bookings, the photos, site.ts
+content/guides/      the articles, as <slug>.md
+lib/                 availability maths, guide loading, generated photo data
+assets/photos-src/   the JPEG originals — not published, not served
+worker/index.ts      the only per-request code: 301s the retired /en/* URLs
+scripts/             the photo pipeline, the timezone runner
+scripts/audit/       the checks behind `npm run audit`
 public/_headers      production response headers
+.githooks/           the pre-commit gate
 wrangler.jsonc       Cloudflare Worker config
 ```
 

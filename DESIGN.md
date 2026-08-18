@@ -284,17 +284,34 @@ is also the break between "this names something" and "this explains something".
 - **Label** (sans 300, 0.75rem, 0.2em, uppercase): Eyebrows and the calendar
   weekday row.
 
-### Known drift
+### The scale is enforced
 
-Eleven steps is already more than a system this size needs, and six further
-one-off sizes exist outside the scale above — 20px, 24px, 25px, 32px and 34px,
-each used exactly once. They are not sanctioned; they are leftovers from porting
-the original comp. The rate card's 34px price is the only one with a real
-argument for existing.
+Resolved 18 August 2026. This section used to record known drift — one-off sizes
+at 20px, 24px, 25px, 32px and 34px, each used once, left over from porting the
+original comp. They are gone, and nothing can add another.
 
-Treat the eleven documented steps as the scale. Do not add a twelfth to solve a
-local problem, and prefer collapsing a one-off into its nearest step when
-touching that component anyway.
+The twelve steps above are `@theme` tokens in `app/globals.css`, and all 73
+call sites use them by name: `text-body-lg`, not `text-[17px]`. Before that the
+scale lived only in this document, which is why the drift happened at all —
+every component was writing its own pixel value and most of them happened to
+agree.
+
+`scripts/audit/design.mjs` rejects `text-[` and inline `fontSize` anywhere in
+`components/` or `app/`, so `npm run check` fails on a hand-set size. The one
+exemption is `app/opengraph-image.tsx`, which is Satori and has no stylesheet
+to take tokens from.
+
+Two notes on the tokens themselves. The size named `body` here is
+`--text-body-md` in CSS: Tailwind v4 puts font size and text colour in the same
+`text-*` namespace, and `--color-body` already exists, so `--text-body` would
+have captured every `text-body` colour utility on the site. And only sizes are
+declared, not the line heights listed above — Tailwind would apply a paired
+`--text-*--line-height` automatically and restyle every element that sets its
+own leading today. Leading stays explicit at the call site until that is done
+deliberately.
+
+Treat the twelve documented steps as the scale. Do not add a thirteenth to solve
+a local problem; collapse a one-off into its nearest step instead.
 
 ### Named Rules
 
@@ -303,8 +320,8 @@ There were once three sizes across sibling sections with no semantic reason, and
 the gallery — the most persuasive section on the page — drew the smallest.
 Hierarchy comes from position and space, not from a heading being 6px bigger.
 
-**The Authored Break Rule.** The hero's line breaks live in the dictionary as an
-array, not in the browser's wrapping. A phrase that short reads badly when it
+**The Authored Break Rule.** The hero's line breaks live in `content/copy.json`
+as an array, not in the browser's wrapping. A phrase that short reads badly when it
 breaks wherever the box happens to end, and authored lines let each one rise out
 of its own mask.
 
@@ -512,7 +529,7 @@ rather than shown short — the same rule the rate card follows.
   space when something else needs emphasis.
 - **Do** group related items with a 1px Tideline rule and proximity.
 - **Do** keep every peer section heading at the same size.
-- **Do** author hero line breaks in the dictionary rather than letting the
+- **Do** author hero line breaks in `content/copy.json` rather than letting the
   browser wrap them.
 - **Do** clear 4.5:1 for text and 24×24 for any target, in every state.
 - **Do** let photographs run full-bleed and uncropped by ornament.

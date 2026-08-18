@@ -9,7 +9,7 @@ import type { GuideCategory } from "@/lib/guides";
  * boundary or a re-render. On a browser without `:has()` every article stays
  * visible, which is the correct thing to degrade to.
  *
- * A category with no articles in this language never reaches here, so the row
+ * A category with no articles never reaches here, so the row
  * can never offer a filter that empties the grid.
  */
 export default function GuideFilters({

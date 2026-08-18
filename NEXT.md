@@ -18,7 +18,7 @@ Working and verified: date selection that writes the dates into a prefilled
 WhatsApp message, a hand-maintained booking calendar closed outside April–
 September, real prices, three real guest reviews, both hosts named. Zero WCAG
 contrast failures, no horizontal scroll at any width, full readability with
-JavaScript disabled, 21 tests green across four timezones.
+JavaScript disabled, 52 tests green across four timezones, and `npm run check` (format, lint, types, tests, build, five audits) clean.
 
 The last full review is in `.impeccable/critique/` — a `/impeccable critique`
 snapshot scored 24/40 before a fix pass; a follow-up `/impeccable audit` scored
@@ -60,13 +60,14 @@ feature.
 
 ### Shape (as built)
 
-- **Files:** one Markdown file per article per language, in `content/guides/`,
-  named `<slug>.<lang>.md` — e.g. `roman-amphitheatre.en.md`. Frontmatter
-  carries `title`, `summary`, `category`, `date` and an optional `cover`.
-  `cover` names a photo in `public/photos/` rather than a folder of its own, so
-  it goes through the existing `npm run photos` step and image loader unchanged.
-- **Route:** `app/[lang]/guide/[slug]/page.tsx`, with `generateStaticParams`
-  over language × slug and `dynamicParams = false`, matching the existing page.
+- **Files:** one Markdown file per article, in `content/guides/`, named
+  `<slug>.md`. Frontmatter carries `title`, `summary`, `category`, `date` and an
+  optional `cover`. `cover` names a photograph in `assets/photos-src/` rather
+  than a folder of its own, so it goes through the existing `npm run photos`
+  step and image loader unchanged. `npm test` checks that every cover resolves
+  to files really on disk at every width.
+- **Route:** `app/guide/[slug]/page.tsx`, with `generateStaticParams` over the
+  slugs and `dynamicParams = false`, matching the existing page.
 - **Homepage section:** three cards, placed **after "Good to know" and before
   the contact section**. Low on the page on purpose — guides compete with
   booking, so they should catch browsers without pulling away anyone already
@@ -102,8 +103,11 @@ node "C:/Program Files/nodejs/node_modules/npm/bin/npm-cli.js" install <pkg>
 `content/site.ts`, the `data-reveal="fade"` / `data-reveal="mask"` motion
 attributes, `.t-h3` for headings, and the section padding convention
 `px-5 py-20 md:px-11 md:py-28`. Extend `app/sitemap.ts` to include guide
-routes and add `Article` JSON-LD; the per-locale social card in
-`app/[lang]/opengraph-image.tsx` is the pattern to copy for article images.
+routes and add `Article` JSON-LD; the social card in
+`app/opengraph-image.tsx` is the pattern to copy for article images. Note that
+declaring an `openGraph` object in a route replaces the parent one whole,
+image included — which is how `/guide` and all four articles shipped with no
+`og:image` at all. `scripts/audit/seo.mjs` now fails on that.
 
 ### Honest expectation
 

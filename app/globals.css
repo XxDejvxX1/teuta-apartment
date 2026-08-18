@@ -9,12 +9,15 @@
   /*
     The header keeps its burger until 1024px, not 768px.
 
-    The desktop bar has to fit a wordmark, four nav links, a language switcher
-    and a WhatsApp pill on one line. Measured at their natural widths that is
-    150px + 733px + 88px of gutter, so it needs about 1020px before anything can
-    breathe — 1019px in English, 1021px in Albanian, which are near enough
-    identical. Below that the flex row just compresses and the gap between the
-    wordmark and the first link collapses to ~24px.
+    The desktop bar has to fit a wordmark, four nav links and a WhatsApp pill on
+    one line. The measurement behind 1024px also allowed for a language switcher,
+    which went with Albanian and Italian in August 2026 — so there is about 88px
+    more room now than the number assumes. It stays at 1024px anyway: it is the
+    standard tablet-landscape step, and re-tuning it would buy a narrower band of
+    screens a denser header nobody asked for.
+
+    Below it the flex row compresses and the gap between the wordmark and the
+    first link collapses to ~24px, which is why the burger holds until then.
 
     So the switch waits for 1024px, the standard tablet-landscape step. Nothing
     is lost below it: every link is in the burger. The rest of the layout still
@@ -166,6 +169,15 @@ body {
 
 /* ---------------------------------------------------------------------------
    Type scale — clamp() values carried over from the design
+
+   Several measurements below cite Albanian and Italian. The site ran in three
+   languages until August 2026, and those were the widest settings — so they are
+   what the numbers were tuned against, and dropping the languages does not make
+   the numbers wrong. Left as written, because "why is it 13.3vw" has an answer
+   and losing it would mean measuring again.
+
+   The step values themselves are @theme tokens now; these classes carry the
+   family and the leading that go with them.
    --------------------------------------------------------------------------- */
 
 .t-hero {
@@ -175,16 +187,16 @@ body {
     The design's 6.6vw slope left the title occupying barely half the width of a
     phone, which is why it read as timid.
 
-    15.5vw fills ~85% of the available width from 320px up, across all three
-    languages — Italian sets the ceiling, being the widest per character. The
-    3rem floor covers 320px screens.
+    15.5vw filled ~85% of the available width from 320px up in all three
+    languages, Italian setting the ceiling as the widest per character. The 3rem
+    floor covers 320px screens.
 
     13.3vw lands at ~50px on a 375px phone. The ceiling is back to the design's
     6.5rem after the taller setting proved too heavy on mobile.
   */
   font-size: clamp(2.75rem, 13.3vw, 6.5rem);
   /*
-    0.95 collided in all three languages. Instrument Serif puts a descender
+    0.95 collided in every language the site then ran in. Instrument Serif puts a descender
     0.221em below the baseline and an ascender 0.750em above it, so two stacked
     lines need 0.971em of baseline gap before the ink touches — "Wake up" hung
     its p into the f of "first", "Zgjohu" its g and j into "vijën", "Svegliati"

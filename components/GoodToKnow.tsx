@@ -14,7 +14,7 @@ export default function GoodToKnow({
   };
 }) {
   // "How do I pay?" is a top pre-booking question with no answer on the page.
-  // The row appears once you write one in the dictionaries — left blank rather
+  // The row appears once you write one in content/copy.json — left blank rather
   // than filled with terms I'd be inventing on your behalf.
   const rows = copy.payment.body.trim() ? [...copy.rows, copy.payment] : copy.rows;
   return (

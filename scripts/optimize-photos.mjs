@@ -7,8 +7,7 @@
  * ---------------
  * The JPEGs are saved at near-maximum quality: 0.21-0.35 bytes per pixel where
  * a well-encoded photograph sits near 0.10. That is roughly two megabytes of
- * avoidable download on a first visit, paid for by guests on Albanian and
- * Italian mobile data.
+ * avoidable download on a first visit, paid for on holiday mobile data.
  *
  * Next would normally handle this itself, but the site is heading for
  * Cloudflare Workers, which cannot run sharp — so whatever is committed is what

@@ -30,8 +30,11 @@
   X-Frame-Options: DENY
   # This site asks for none of these; say so explicitly.
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
-  # Deliberately no `preload`: that is a hard-to-reverse commitment.
-  Strict-Transport-Security: max-age=31536000
+  # Deliberately no `preload`: that is a hard-to-reverse commitment. The
+  # subdomains are covered because there are none serving anything else, and
+  # anything added later should be https from its first day rather than after
+  # someone remembers to widen this.
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
 
 # Hashed build assets are immutable by construction, so they can be cached hard.
 /_next/static/*
