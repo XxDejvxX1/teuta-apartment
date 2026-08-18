@@ -6,7 +6,7 @@
  *
  * Every file carries a small "PLACEHOLDER" label in the corner. That is
  * deliberate — it makes it impossible to ship these by accident. Replace the
- * files in public/photos/ with real JPEGs at the same names and dimensions and
+ * files in assets/photos-src/ with real JPEGs at the same names and dimensions and
  * nothing in the code needs to change.
  */
 
@@ -15,7 +15,14 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
 
-const OUT_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "public", "photos");
+// Stand-ins are sources, not output: they go where the real originals live, and
+// `npm run photos` turns them into the WebP the site actually serves.
+const OUT_DIR = path.join(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "..",
+  "assets",
+  "photos-src",
+);
 
 /** A soft sea-and-sky scene. Enough structure to judge crops and gradients. */
 function seaScene({ w, h, sky, sea, sand, warm }) {
@@ -187,5 +194,5 @@ for (const photo of PHOTOS) {
   console.log(`  ${name}.jpg  ${w}x${h}`);
 }
 
-console.log(`\nWrote ${PHOTOS.length} placeholders to public/photos/`);
-console.log("Replace them with real JPEGs at the same filenames to go live.");
+console.log(`\nWrote ${PHOTOS.length} placeholders to assets/photos-src/`);
+console.log("Replace them with real JPEGs at the same filenames, then run `npm run photos`.");

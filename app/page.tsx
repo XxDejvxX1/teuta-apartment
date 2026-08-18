@@ -38,11 +38,15 @@ function StructuredData() {
       Schema with no image is a weaker entity than one with it, and this was the
       only obvious gap. Real files rather than the generated OG card, so the URLs
       stay stable across builds.
+
+      WebP rather than JPEG: the originals moved to assets/photos-src/ and are no
+      longer published, so these were the only three .jpg URLs still being served
+      — for the benefit of crawlers that have handled WebP for years.
     */
     image: [
-      `${siteUrl()}/photos/hero-window.jpg`,
-      `${siteUrl()}/photos/balcony.jpg`,
-      `${siteUrl()}/photos/bedroom.jpg`,
+      `${siteUrl()}/photos/hero-window.webp`,
+      `${siteUrl()}/photos/balcony.webp`,
+      `${siteUrl()}/photos/bedroom.webp`,
     ],
     numberOfRooms: site.capacity.bedrooms,
     numberOfBedrooms: site.capacity.bedrooms,

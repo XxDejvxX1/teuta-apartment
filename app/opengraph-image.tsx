@@ -31,7 +31,9 @@ export const alt = copyText.meta.ogAlt;
  * photo in it rather than a bare title.
  */
 export default async function OpenGraphImage() {
-  const photo = await readFile(path.join(process.cwd(), "public", "photos", "hero-window.jpg"));
+  // assets/, not public/: this is a build-time file read, so the original does
+  // not have to be published to the CDN for the card to be built from it.
+  const photo = await readFile(path.join(process.cwd(), "assets", "photos-src", "hero-window.jpg"));
   const photoSrc = `data:image/jpeg;base64,${photo.toString("base64")}`;
 
   return new ImageResponse(
