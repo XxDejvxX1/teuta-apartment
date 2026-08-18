@@ -10,7 +10,7 @@ break without noticing.
 ## Where the site is now
 
 A one-page direct-booking site for Teuta Apartment, Durrës. Next.js 16 (App
-Router), Tailwind v4, three locales (`en` default, `sq`, `it`). Sections in
+Router), Tailwind v4, English only, served from the root. Sections in
 order: hero, the apartment, gallery, availability + rates, amenities, host +
 reviews, getting here, good to know, contact.
 
@@ -26,9 +26,28 @@ snapshot scored 24/40 before a fix pass; a follow-up `/impeccable audit` scored
 
 ---
 
-## Decided, not built: "What to do in Durrës"
+## Built (August 2026): "What to do in Durrës"
 
-A section linking to travel articles the owners write themselves.
+A section linking to travel articles the owners write themselves. **This is
+now built** — four English articles, an index at `/<lang>/guide`, a route per
+article, and three cards on the homepage. What follows is kept because the
+reasoning still governs how it should be extended; `README.md` has the
+day-to-day instructions for writing one.
+
+**Still outstanding on it:**
+
+- **Photographs of Durrës.** Every article currently draws its own cover — a
+  shoreline at dusk, generated from the slug — because there are no photographs
+  of the town, only of the apartment. This is the biggest visual gap on those
+  pages. Drop a 3:2 JPEG in `public/photos/`, run `npm run photos`, add
+  `cover: <name>` to the frontmatter.
+- ~~**Albanian and Italian.**~~ Both editions were removed in August 2026; the
+  site is English only and lives at the root. Nothing about the guides is
+  language-aware any more — files are `<slug>.md`, not `<slug>.<lang>.md`.
+- **A read-through of the four articles.** They were drafted to match the site's
+  voice and deliberately carry no opening hours, ticket prices or restaurant
+  names — anything that goes stale or could not be verified. Read them for
+  anything that is simply wrong about the town.
 
 ### Why it exists
 
@@ -39,12 +58,13 @@ hands the search ranking and the traffic to someone else and forces the reader
 to travel back. That was the decision, and it is the whole point of the
 feature.
 
-### Shape
+### Shape (as built)
 
 - **Files:** one Markdown file per article per language, in `content/guides/`,
   named `<slug>.<lang>.md` — e.g. `roman-amphitheatre.en.md`. Frontmatter
-  carries `title`, `summary`, `cover` (a filename in `public/guides/`) and
-  `date`.
+  carries `title`, `summary`, `category`, `date` and an optional `cover`.
+  `cover` names a photo in `public/photos/` rather than a folder of its own, so
+  it goes through the existing `npm run photos` step and image loader unchanged.
 - **Route:** `app/[lang]/guide/[slug]/page.tsx`, with `generateStaticParams`
   over language × slug and `dynamicParams = false`, matching the existing page.
 - **Homepage section:** three cards, placed **after "Good to know" and before
@@ -57,23 +77,28 @@ feature.
 ### The language rule that matters
 
 An article appears **only in the languages it has actually been written in**.
-If `roman-amphitheatre.it.md` does not exist, the Italian homepage does not
-list that article. Never show an untranslated one, and never machine-translate
-into a guest-facing page.
-
-Flag to the owners before starting: three locales means roughly three times the
-writing. They may reasonably choose to write only in English at first, which
-this design supports.
+*Obsolete since August 2026 — the site is English only.* It is kept here
+because the reasoning would apply again if a language is ever added back: an
+article appears only in a language it was actually written in, never
+machine-translated, and adding a language multiplies the writing rather than
+the code.
 
 ### Dependencies
 
-Two small ones, both needed only at build time: a frontmatter parser
-(`gray-matter`) and a Markdown renderer (`marked` is enough — sync, tiny, no
-plugin pipeline required). No CMS, no external service.
+Two, both build-time only and both now installed: `gray-matter` for frontmatter
+and `marked` for the Markdown. No CMS, no external service.
+
+**Installing anything here needs care.** The globally-installed npm on this
+machine is v12 against Node v20 and cannot resolve, so a plain `npm install`
+fails with `ERR_REQUIRE_ESM`. Node's own bundled npm works:
+
+```bash
+node "C:/Program Files/nodejs/node_modules/npm/bin/npm-cli.js" install <pkg>
+```
 
 ### Reuse rather than rebuild
 
-`getDictionary()` and `LOCALE_TAGS` from `lib/`, `siteUrl()` from
+`copyText` from `lib/dictionary.ts`, `site.localeTag` and `siteUrl()` from
 `content/site.ts`, the `data-reveal="fade"` / `data-reveal="mask"` motion
 attributes, `.t-h3` for headings, and the section padding convention
 `px-5 py-20 md:px-11 md:py-28`. Extend `app/sitemap.ts` to include guide
@@ -130,7 +155,10 @@ do damage.
    palette tokens carry their measured ratios in comments in `globals.css`.
 8. **Colours come from tokens.** There are currently zero hard-coded hexes in
    `components/`.
-9. **A change is not done until it works in all three languages** — including
+9. ~~**A change is not done until it works in all three languages.**~~ English
+   only since August 2026. What survives of this rule: dates, plurals and
+   authored line breaks still go through `Intl` and `site.localeTag` rather than
+   being hardcoded, so adding a language back is a content job. Formerly —
    line breaks, plurals and date formats.
 10. **The page must stay readable with JavaScript disabled.**
 

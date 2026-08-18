@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { closingPhoto } from "@/content/photos";
 import { WhatsAppIcon } from "@/components/icons";
+import SiteFooter from "@/components/SiteFooter";
 
 export default function Contact({
   copy,
@@ -15,7 +16,13 @@ export default function Contact({
   imageAlt: string;
 }) {
   return (
-    <section id="contact" data-on-dark="" className="relative overflow-hidden bg-deep">
+    <section
+      id="contact"
+      data-on-dark=""
+      // See GuideCta: the sticky mobile bar hides once this is reached.
+      data-final-cta=""
+      className="relative overflow-hidden bg-deep"
+    >
       {/* Closes on a photo the visitor has not already seen full-bleed. The
           hero at 50% opacity made the last impression a faded copy of the
           first, which is the weakest possible use of the peak-end moment. */}
@@ -64,12 +71,7 @@ export default function Contact({
         </a>
       </div>
 
-      {/* A real <footer>, so screen readers get the contentinfo landmark. It
-          was a plain div, which meant no "jump to footer". */}
-      <footer className="relative flex flex-col justify-between gap-2 border-t border-white/[0.18] px-5 py-6 text-[13px] text-white/65 sm:flex-row sm:gap-5 md:px-10">
-        <span>{footer.location}</span>
-        <span>{footer.tagline}</span>
-      </footer>
+      <SiteFooter footer={footer} />
     </section>
   );
 }

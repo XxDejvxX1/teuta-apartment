@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
-import { LOCALES, LOCALE_COOKIE, LOCALE_SHORT, type Locale } from "@/lib/i18n";
 import { site } from "@/content/site";
 import { ArrowIcon, WhatsAppIcon } from "@/components/icons";
 
@@ -13,45 +12,72 @@ type NavCopy = {
   availability: string;
   gettingHere: string;
   whatsapp: string;
+  guides: string;
   openMenu: string;
   closeMenu: string;
-  language: string;
   skipToContent: string;
 };
 
 export default function Header({
-  lang,
   nav,
   whatsappHref,
+  solid = false,
+  showGuides = true,
 }: {
-  lang: Locale;
   nav: NavCopy;
   whatsappHref: string;
+  /** Pin the solid appearance — for pages with no hero behind the header. */
+  solid?: boolean;
+  /** Hidden when this language has no articles yet, so the link is never a dead end. */
+  showGuides?: boolean;
 }) {
-  const [scrolled, setScrolled] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
 
+  /*
+    A guide page has no hero photograph for the header to sit over, so there is
+    nothing to be transparent against — white links on sand are invisible.
+    `solid` pins it to the scrolled appearance from the first paint.
+  */
+  const solidHeader = solid || pastHero;
+
+  /*
+    Bare hashes on the homepage, so the browser smooth-scrolls rather than
+    navigating. On a guide page the same links have to carry the path home, or
+    they point at sections that are not on the page.
+  */
+  const base = solid ? "/" : "";
+
+  /*
+    Four links is the budget, not a preference: the desktop bar has to fit the
+    wordmark, the links, the language switcher and the WhatsApp pill above
+    1024px, and a fifth pushes it past that. "What to do" takes the slot that
+    was "Getting here" — the map section is low-intent and still one scroll
+    away, where the articles are the reason someone who has never heard of us
+    is on the site at all.
+  */
   const links = [
-    { href: "#apartment", label: nav.apartment },
-    { href: "#gallery", label: nav.gallery },
-    { href: "#availability", label: nav.availability },
-    { href: "#getting-here", label: nav.gettingHere },
+    { href: `${base}#apartment`, label: nav.apartment },
+    { href: `${base}#gallery`, label: nav.gallery },
+    { href: `${base}#availability`, label: nav.availability },
+    ...(showGuides ? [{ href: "/guide", label: nav.guides }] : []),
   ];
 
   // Watch a sentinel at the top of the hero rather than listening to scroll.
   // No scroll handler means no layout reads on the main thread while scrolling.
   useEffect(() => {
+    if (solid) return; // pinned already; nothing to observe
     const sentinel = document.querySelector("[data-scroll-sentinel]");
     if (!sentinel) return;
 
     const observer = new IntersectionObserver(
-      ([entry]) => setScrolled(!entry.isIntersecting),
+      ([entry]) => setPastHero(!entry.isIntersecting),
       { threshold: 0 },
     );
     observer.observe(sentinel);
     return () => observer.disconnect();
-  }, []);
+  }, [solid]);
 
   // Lock the page behind the mobile sheet, and let Escape close it.
   useEffect(() => {
@@ -74,11 +100,6 @@ export default function Header({
     };
   }, [menuOpen]);
 
-  const chooseLocale = (locale: Locale) => {
-    // Remember the choice so the proxy stops guessing from Accept-Language.
-    document.cookie = `${LOCALE_COOKIE}=${locale}; path=/; max-age=31536000; samesite=lax`;
-  };
-
   return (
     <>
       <a
@@ -88,27 +109,26 @@ export default function Header({
         {nav.skipToContent}
       </a>
 
+      {/*
+        A floating pill rather than a bar welded to the top edge. It is a pill
+        in both states, so only its colours cross-fade on scroll — no width,
+        radius or position animates. See .header-pill in globals.css.
+      */}
       <header
-        data-on-dark={!scrolled ? "" : undefined}
-        className={[
-          "fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,backdrop-filter] duration-500",
-          scrolled
-            ? "bg-sand/85 shadow-[0_1px_0_rgba(18,36,46,0.08)] backdrop-blur-md"
-            : "bg-transparent",
-        ].join(" ")}
-        style={{ transitionTimingFunction: "var(--ease-soft)" }}
+        data-on-dark={!solidHeader ? "" : undefined}
+        className="fixed inset-x-0 top-0 z-50 px-3 pt-3 md:px-6 md:pt-5"
       >
         <div
           className={[
-            "header-bar mx-auto flex max-w-[1600px] items-center justify-between gap-6 px-5 transition-[padding,color] duration-500 md:px-11",
-            scrolled ? "py-3.5 text-ink" : "py-5 text-white md:py-7",
+            "header-bar header-pill mx-auto flex max-w-[1280px] items-center justify-between gap-6 rounded-full px-5 transition-[padding,color,background-color,border-color] duration-500 md:px-7",
+            solidHeader ? "is-solid py-2.5 text-ink" : "py-3.5 text-white",
           ].join(" ")}
           style={{ transitionTimingFunction: "var(--ease-soft)" }}
         >
           <Link
-            href={`/${lang}`}
+            href="/"
             className="t-display text-[22px] tracking-[0.02em] md:text-[25px]"
-            style={{ textShadow: scrolled ? "none" : "0 1px 14px rgba(8,20,28,0.5)" }}
+            style={{ textShadow: solidHeader ? "none" : "0 1px 14px rgba(8,20,28,0.5)" }}
           >
             {site.name}
           </Link>
@@ -119,13 +139,11 @@ export default function Header({
                 key={link.href}
                 href={link.href}
                 className="nav-link"
-                style={{ textShadow: scrolled ? "none" : "0 1px 14px rgba(8,20,28,0.5)" }}
+                style={{ textShadow: solidHeader ? "none" : "0 1px 14px rgba(8,20,28,0.5)" }}
               >
                 {link.label}
               </a>
             ))}
-
-            <LocaleSwitcher lang={lang} label={nav.language} onChoose={chooseLocale} />
 
             {/*
               White over the hero, accent once the header goes solid. A white
@@ -139,7 +157,7 @@ export default function Header({
               rel="noopener"
               className={[
                 "btn-light inline-flex items-center gap-2.5 rounded-[10px] px-5 py-2.5 text-[15px] tracking-[0.01em] shadow-(--shadow-pill)",
-                scrolled ? "bg-accent text-white" : "bg-white text-deep",
+                solidHeader ? "bg-accent text-white" : "bg-white text-deep",
               ].join(" ")}
             >
               <WhatsAppIcon />
@@ -153,7 +171,7 @@ export default function Header({
             onClick={() => setMenuOpen((open) => !open)}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
-            className="-mr-2 flex h-11 w-11 items-center justify-center nav:hidden"
+            className="-mr-1 flex h-11 w-11 items-center justify-center nav:hidden"
           >
             <span className="sr-only">{menuOpen ? nav.closeMenu : nav.openMenu}</span>
             {menuOpen ? (
@@ -200,13 +218,6 @@ export default function Header({
           ))}
         </nav>
 
-        <div
-          className="mt-8 flex items-center gap-4 text-ink"
-          onClick={(event) => event.stopPropagation()}
-        >
-          <LocaleSwitcher lang={lang} label={nav.language} onChoose={chooseLocale} />
-        </div>
-
         <a
           href={whatsappHref}
           target="_blank"
@@ -219,44 +230,5 @@ export default function Header({
         </a>
       </div>
     </>
-  );
-}
-
-function LocaleSwitcher({
-  lang,
-  label,
-  onChoose,
-}: {
-  lang: Locale;
-  label: string;
-  onChoose: (locale: Locale) => void;
-}) {
-  return (
-    <div className="flex items-center text-[13px] tracking-[0.08em]">
-      <span className="sr-only">{label}</span>
-      {LOCALES.map((locale, index) => (
-        <span key={locale} className="flex items-center">
-          {index > 0 && (
-            <span aria-hidden className="opacity-40">
-              ·
-            </span>
-          )}
-          {/* Each was a bare 19x20 word sitting 4px from its neighbour — under
-              the target minimum on both size and spacing. */}
-          <Link
-            href={`/${locale}`}
-            hrefLang={locale}
-            onClick={() => onChoose(locale)}
-            aria-current={locale === lang ? "true" : undefined}
-            className={[
-              "flex min-h-6 items-center px-2 py-1",
-              locale === lang ? "font-medium" : "opacity-65 hover:opacity-100",
-            ].join(" ")}
-          >
-            {LOCALE_SHORT[locale]}
-          </Link>
-        </span>
-      ))}
-    </div>
   );
 }

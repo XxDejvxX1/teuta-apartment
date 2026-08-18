@@ -1,68 +1,49 @@
-import { LOCALE_COOKIE, isLocale, matchAcceptLanguage } from "../lib/i18n";
-
 /**
  * The whole server.
  *
- * Everything on this site is a static file except one decision: which language
- * someone landing on `/` should get. That used to be Next middleware, then a
- * server-rendered route; both needed a Next runtime on the edge, and the adapter
- * that provides one does not work (see next.config.ts). So the site is exported
- * as static files and this is the only code that runs per request.
+ * It used to negotiate a language on `/` and redirect to `/en`, `/sq` or `/it`.
+ * Albanian and Italian were dropped in August 2026 and the pages moved to the
+ * root, so there is no longer a decision to make per request — `/` is a static
+ * file like everything else.
  *
- * `run_worker_first` in wrangler.jsonc limits that to `/` alone. Every other
- * request is served straight from Cloudflare's asset store without waking this
- * up, which is both faster and free — static asset requests are not billed as
- * Worker requests.
+ * What is left is the move itself. The site was live and indexed under `/en/*`,
+ * so those URLs 301 to their new home rather than 404ing: `/en` to `/`,
+ * `/en/guide/day-trips` to `/guide/day-trips`. 301 rather than 307 on purpose —
+ * this is permanent, and a permanent redirect is what passes ranking to the new
+ * URL and gets the old one dropped from the index.
+ *
+ * `run_worker_first` in wrangler.jsonc narrows this to `/en/*`, so the Worker
+ * is not woken for anything else. Once Google has re-crawled, essentially
+ * nothing reaches it at all and the whole file can go.
  */
 interface Env {
   ASSETS: { fetch(request: Request): Promise<Response> };
 }
 
-/** Reads one cookie without pulling in a parser. */
-function readCookie(header: string | null, name: string): string | null {
-  if (!header) return null;
-
-  for (const pair of header.split(";")) {
-    const index = pair.indexOf("=");
-    if (index === -1) continue;
-    if (pair.slice(0, index).trim() !== name) continue;
-
-    try {
-      return decodeURIComponent(pair.slice(index + 1).trim());
-    } catch {
-      // A malformed cookie is not worth a 500; fall through to the header.
-      return null;
-    }
-  }
-
-  return null;
-}
+const LEGACY_PREFIX = "/en";
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
+    const { pathname } = url;
 
-    if (url.pathname !== "/") return env.ASSETS.fetch(request);
+    const isLegacy =
+      pathname === LEGACY_PREFIX || pathname.startsWith(`${LEGACY_PREFIX}/`);
+    if (!isLegacy) return env.ASSETS.fetch(request);
 
-    // An explicit choice from the language switcher always wins over the browser.
-    const chosen = readCookie(request.headers.get("cookie"), LOCALE_COOKIE);
-    const locale =
-      chosen && isLocale(chosen)
-        ? chosen
-        : matchAcceptLanguage(request.headers.get("accept-language"));
+    // `/en` and `/en/` both become `/`; `/en/guide` becomes `/guide`.
+    url.pathname = pathname.slice(LEGACY_PREFIX.length) || "/";
 
+    // Rebuilding from the URL keeps any query string and hash the visitor had.
     return new Response(null, {
-      status: 307,
+      status: 301,
       headers: {
-        Location: `/${locale}`,
+        Location: url.toString(),
         /*
-          The answer differs per visitor, so it must never be cached as one
-          language for everyone — by Cloudflare, by a corporate proxy, or by the
-          browser. `Vary` states what it depends on; `no-store` is the belt to
-          that braces, because a redirect this cheap gains nothing from caching.
+          Safe to cache hard: unlike the language negotiation this replaces, the
+          answer is the same for every visitor and will not change again.
         */
-        Vary: "Accept-Language, Cookie",
-        "Cache-Control": "no-store",
+        "Cache-Control": "public, max-age=86400",
       },
     });
   },

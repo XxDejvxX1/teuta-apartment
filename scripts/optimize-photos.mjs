@@ -23,7 +23,8 @@
  *
  * Safety
  * ------
- * sharp is already a Next.js dependency, so this adds no package. The script
+ * sharp is an explicit devDependency (it also arrives as an optional dependency
+ * of Next, but relying on that made the whole pipeline work by accident). The script
  * takes no input from anywhere: it reads one fixed directory, accepts no path
  * arguments, opens no network connection and runs no subprocess. The only files
  * it will ever read are ones you put in public/photos/ yourself.

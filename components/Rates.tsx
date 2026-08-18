@@ -35,12 +35,23 @@ export default function Rates({
         the order someone actually reads them in.
       */}
       <dl className="grid gap-4 sm:grid-cols-3">
-        {rates.seasons.map((season) => {
+        {rates.seasons.map((season, index) => {
           const label = copy.seasons[season.key];
           const priced = typeof season.perNight === "number";
 
           return (
-            <div key={season.key} className="rounded-2xl border border-line px-6 py-6">
+            /*
+              The three price bands arrive one after another rather than as one
+              block. "rise" rather than "fade" because these are the only real
+              cards in this section, and the stagger is what makes the reader
+              read them left to right instead of taking them in as a slab.
+            */
+            <div
+              key={season.key}
+              data-reveal="rise"
+              style={{ ["--stagger-i" as string]: index }}
+              className="rounded-2xl border border-line px-6 py-6"
+            >
               <dd className={`text-[34px] leading-none ${priced ? "text-ink" : "text-muted"}`}>
                 {priced ? (
                   <>

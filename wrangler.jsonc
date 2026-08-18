@@ -2,14 +2,15 @@
  * Cloudflare Workers configuration.
  *
  * The site is a static export (`out/`) served from Cloudflare's asset store,
- * with one tiny Worker in front of it that exists only to choose a language on
- * `/`. There are no bindings beyond the assets themselves — no R2, no KV, no
- * Images, no D1 — because there is nothing here that needs one, and every one of
- * those is a billable product.
+ * with one tiny Worker in front of it that exists only to 301 the retired
+ * `/en/*` URLs to the root. There are no bindings beyond the assets themselves —
+ * no R2, no KV, no Images, no D1 — because there is nothing here that needs one,
+ * and every one of those is a billable product.
  *
  * The whole deployment therefore has a single metered dimension: Worker
- * requests, on `/` only. Everything else is a static asset request, which
- * Cloudflare does not bill.
+ * requests, on `/en/*` only. Everything else is a static asset request, which
+ * Cloudflare does not bill — and once search engines have followed the
+ * redirects, near enough nothing hits the Worker at all.
  */
 {
   "$schema": "node_modules/wrangler/config-schema.json",
@@ -23,18 +24,18 @@
     "binding": "ASSETS",
 
     /*
-      Only `/` wakes the Worker. Everything else is served straight from the
-      asset store, which is faster and is not billed as a Worker request.
-      Without this the Worker would still be correct — it passes everything
-      else to env.ASSETS — but every request would be a billed invocation for
-      no reason.
+      Only the retired `/en/*` URLs wake the Worker. Everything else — the
+      whole live site — is served straight from the asset store, which is
+      faster and is not billed as a Worker request. Without this the Worker
+      would still be correct, since it passes everything else to env.ASSETS,
+      but every request would be a billed invocation for no reason.
     */
-    "run_worker_first": ["/"],
+    "run_worker_first": ["/en", "/en/*"],
 
     /*
-      The export writes `en.html`, not `en/index.html`, and the canonical URLs
-      are `/en` with no trailing slash. This serves en.html at /en and redirects
-      /en/ to it, so there is one URL per page rather than two.
+      The export writes `guide.html`, not `guide/index.html`, and the canonical
+      URLs carry no trailing slash. This serves guide.html at /guide and
+      redirects /guide/ to it, so there is one URL per page rather than two.
     */
     "html_handling": "auto-trailing-slash",
 

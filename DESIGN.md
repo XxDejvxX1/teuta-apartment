@@ -266,7 +266,7 @@ is also the break between "this names something" and "this explains something".
   only the hero. Line breaks are authored, never left to the browser. 1.05 is a
   constraint, not a preference: Instrument Serif needs 0.971em of baseline gap
   before a descender touches the next line's ascender, and the previous 0.95
-  collided in all three languages.
+  collided in all three languages the site carried at the time.
 - **Headline** (serif 400, `clamp(1.875rem, 3.2vw, 3.125rem)`, 1): Every section
   heading, at one size. The closing "Ask me about your dates" is the single
   exception, set larger to end the page.
@@ -402,12 +402,74 @@ different treatments and the weakest sat at the point of highest intent.
 - **Focus:** The global 2px Sea Glass ring at 3px offset.
 
 ### Navigation
-- Sans at 15px, transparent over the hero with a text shadow, becoming an
-  85%-opacity Warm Sand bar with a backdrop blur once scrolled past.
+- Sans at 15px inside a **floating frosted pill**, inset from the top and side
+  edges rather than welded to them. Over the hero it is a 7%-white fill with a
+  22%-white hairline and a 14px backdrop blur; past the hero it becomes
+  88%-opacity Warm Sand with a Tideline hairline.
+- It is a pill in **both** states. Nothing about its width, radius or position
+  animates on scroll — only the two colours cross-fade, which keeps the header
+  out of the layout-property budget entirely. Its padding still eases, which is
+  the one documented exception it already had.
+- Four links is the cap, not a preference: the wordmark, links, language
+  switcher and WhatsApp pill have to fit on one line above 1024px. "What to do"
+  took the slot that was "Getting here".
 - Links carry a 1px underline that wipes in from the left on hover, 420ms.
 - Below 768px the nav becomes a translucent full-screen sheet at 70% opacity
   with a 40px backdrop blur, so the photograph stays legible behind it. The
   hamburger becomes a back arrow while open.
+
+### The Host Portrait
+
+A mounted print, not an avatar: the photograph at the 20px photographic radius
+resting on the Lift shadow, with a 1px Tideline Soft outline of the same shape
+set 12px down and to the right, the way a print sits slightly off its backing
+board.
+
+It replaced a 144px circle centred above a centred paragraph. That version drew
+the single most persuasive asset on a direct-booking page — a real face — the
+exact way a booking platform draws an account, and squinted at, nothing in the
+section led: heading, name and four centred lines all carried the same weight.
+
+The block is now asymmetric — heading, then portrait beside left-aligned prose —
+which also rhymes with The apartment, the other section built as copy beside a
+photograph. Left-aligned long-form beats centred long-form for reading, and the
+asymmetry is what stops the page reading as one centred column throughout.
+
+- **Size is bounded by the file, not by taste.** 168px on mobile, 208px above
+  768px, because `host.jpg` is 400×400 and a wider frame is upscaling. A bigger
+  photograph is the only thing that buys a bigger portrait.
+- **Arrival:** the mount slides out from behind the picture a beat after it, so
+  the photograph lands first and the frame settles under it. The offset is the
+  resting state and lives outside the motion query, so reduced motion simply
+  shows the mount already in place. Transform only.
+- The name captions the face in the display serif rather than sitting between
+  the heading and the prose, where it read as a third heading.
+### The Guide Card
+
+A photograph at 3:2 with the article title set on it in white, over the page's
+directional scrim. One treatment whether the article is met in the grid, as the
+featured card, or as its own page header.
+
+**This is a scoped exception to "don't print a photograph's name over the
+photograph".** That rule exists because the gallery was labelling pictures with
+their own names, which told the reader nothing. An article's title is not a
+label for its cover — it is the thing being linked to, and the picture is there
+to make it worth reading. The exception does not extend back to the gallery.
+
+Legibility is guaranteed rather than hoped for. The scrim was measured against
+Warm Sand, the brightest ground the system has: the title lands at 7.7:1 and the
+eyebrow, at 80% white, at 5.1:1. Every real photograph is darker than sand, so a
+cover added later can only improve both.
+
+- **Hover:** the picture grows to 1.05 over 600ms inside its own frame, the card
+  lifts 3px, and a 5px Sea Foam ring fades in around it. The ring is a
+  pseudo-element whose *opacity* animates, not a box-shadow — that keeps the
+  transform-and-opacity rule intact instead of adding a third exception to it.
+- **Missing cover:** the card draws a shoreline at dusk — horizon, low sun,
+  contour lines — in Deep Water and Sea Glass Soft, seeded from the slug so it
+  is stable across builds. Drawn dark rather than in sand for two reasons: a
+  near-white drawing under the scrim just turns grey, and deep water reads as a
+  deliberate stand-in rather than a photograph that failed to load.
 
 ### The Deck (signature component)
 The gallery and the reviews share one component. Below 768px it is a scroll-snap
@@ -434,6 +496,15 @@ status in words.
 Free nights are plain. Today carries a 1px Sea Glass ring; a selected range
 fills Sea Foam with Sea Glass at each end.
 
+Once both ends are chosen the summary carries the **total for the stay** — the
+eyebrow label, the figure at 34px in the display serif, and one line of
+qualifier under it. 34px because that is already the rate card's price size, and
+a price should not be two sizes on one page.
+
+It is summed night by night rather than nights × one rate, because a stay can
+cross a band. If any night has no published price the whole figure is withheld
+rather than shown short — the same rule the rate card follows.
+
 ## Do's and Don'ts
 
 ### Do:
@@ -445,6 +516,11 @@ fills Sea Foam with Sea Glass at each end.
   browser wrap them.
 - **Do** clear 4.5:1 for text and 24×24 for any target, in every state.
 - **Do** let photographs run full-bleed and uncropped by ornament.
+- **Do** pick the reveal that matches the content: `fade` (14px, no scale) for
+  prose sections, `mask` for display headings, `rise` (46px plus a 0.965 scale,
+  staggered) for **grids of cards only**. `rise` on a paragraph makes the page
+  read as one repeated effect, which is the exact failure `fade` is kept slight
+  to avoid.
 - **Do** animate `transform` and `opacity`; when a layout property is genuinely
   the design, bound it with `contain: layout style` and say why.
 
@@ -459,4 +535,5 @@ fills Sea Foam with Sea Glass at each end.
   Getting here lists three alternatives, not three steps.
 - **Don't** dim body text below the readable floor to create depth; use scale
   and shadow.
-- **Don't** print a photograph's name over the photograph.
+- **Don't** print a photograph's name over the photograph. An article title over
+  its own cover is the one sanctioned exception — see The Guide Card.

@@ -11,6 +11,17 @@ export const site = {
   /** Human-readable, used as link text. */
   phoneDisplay: "+355 68 607 5195",
 
+  /**
+   * BCP 47 tag for <html lang> and every Intl formatter on the site.
+   *
+   * Was a three-entry LOCALE_TAGS map in lib/i18n.ts. Albanian and Italian were
+   * dropped in August 2026 — nearly everyone arriving read the English pages,
+   * and two translations nobody used still had to be kept correct on every
+   * change. It stays a named constant rather than a literal sprinkled through
+   * the components, so adding a language back is one place to start from.
+   */
+  localeTag: "en",
+
   geo: { lat: 41.313574, lng: 19.475329 },
 
   address: {

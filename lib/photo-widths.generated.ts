@@ -24,6 +24,20 @@ export const PHOTO_WIDTHS: Record<string, number[]> = {
     1200,
     1536
   ],
+  "day-trips": [
+    256,
+    480,
+    768,
+    1200,
+    1492
+  ],
+  "eating-in-durres": [
+    256,
+    480,
+    768,
+    1200,
+    1492
+  ],
   "hero-window": [
     256,
     480,
@@ -48,5 +62,19 @@ export const PHOTO_WIDTHS: Record<string, number[]> = {
     768,
     1200,
     1536
+  ],
+  "roman-amphitheatre": [
+    256,
+    480,
+    768,
+    1200,
+    1492
+  ],
+  "the-beach-hour-by-hour": [
+    256,
+    480,
+    768,
+    1200,
+    1492
   ]
 };

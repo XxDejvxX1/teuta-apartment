@@ -37,10 +37,10 @@
 /_next/static/*
   Cache-Control: public, max-age=31536000, immutable
 
-# The social card is emitted as `out/<lang>/opengraph-image` with NO file
-# extension, so Cloudflare would guess application/octet-stream and every
-# scraper — Facebook, WhatsApp, iMessage, Slack — would silently decline to
-# render a preview. It is a real 1200x630 PNG; say so.
-/*/opengraph-image
+# The social card is emitted as `out/opengraph-image` with NO file extension,
+# so Cloudflare would guess application/octet-stream and every scraper —
+# Facebook, WhatsApp, iMessage, Slack — would silently decline to render a
+# preview. It is a real 1200x630 PNG; say so.
+/opengraph-image
   Content-Type: image/png
   Cache-Control: public, max-age=3600

@@ -753,6 +753,463 @@ body {
 */
 
 /* ---------------------------------------------------------------------------
+   The header pill
+
+   Borrowed from the reference: a floating, frosted container rather than a bar
+   pinned to the top edge. It is a pill in both states, so nothing about its
+   shape or width animates — only the colours change on scroll, which keeps it
+   out of the layout-property budget entirely.
+   --------------------------------------------------------------------------- */
+
+.header-pill {
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.07);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
+}
+
+.header-pill.is-solid {
+  /* Literal first, so a browser without color-mix still gets sand and not the
+     translucent white it was wearing over the photograph. */
+  background: rgba(250, 248, 244, 0.88);
+  background: color-mix(in srgb, var(--color-sand) 88%, transparent);
+  border-color: var(--color-line);
+}
+
+/* ---------------------------------------------------------------------------
+   Guides — "What to do in Durrës"
+   --------------------------------------------------------------------------- */
+
+/*
+  Card scrim.
+
+  Measured against warm sand, which is the brightest thing that can sit under it
+  (the drawn cover is essentially sand): the title lands on rgb(76,84,89) for
+  7.7:1 and the eyebrow, at 80% white, on 5.1:1. Every real photograph is darker
+  than sand, so no cover added later can push either below the 4.5:1 floor.
+*/
+.guide-scrim {
+  background: linear-gradient(
+    180deg,
+    rgba(8, 20, 28, 0) 28%,
+    rgba(8, 20, 28, 0.72) 62%,
+    rgba(8, 20, 28, 0.93) 100%
+  );
+}
+
+/*
+  The wide version, on the featured card and the article header. Two passes, as
+  on the hero: one vertical, one at 100deg that darkens the side the words are
+  on and releases before it reaches the far edge, so the picture keeps its
+  light. The top pass exists so the header pill has something to sit against.
+*/
+.guide-scrim-featured {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(8, 20, 28, 0.34) 0%,
+      rgba(8, 20, 28, 0) 34%,
+      rgba(8, 20, 28, 0.78) 82%,
+      rgba(8, 20, 28, 0.93) 100%
+    ),
+    linear-gradient(
+      100deg,
+      rgba(8, 20, 28, 0.6) 0%,
+      rgba(8, 20, 28, 0.26) 44%,
+      rgba(8, 20, 28, 0) 68%
+    );
+}
+
+.guide-card {
+  position: relative;
+  --guide-radius: 20px;
+}
+
+.guide-card--wide {
+  --guide-radius: 24px;
+}
+
+/*
+  Hover ring. The reference draws it as a fifth box-shadow; here it is a border
+  on a pseudo-element whose opacity animates, which keeps the page's "transform
+  and opacity only" rule intact rather than adding a third exception to it.
+*/
+.guide-card::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border: 5px solid var(--color-highlight);
+  border-radius: calc(var(--guide-radius) + 5px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-hover) var(--ease-soft);
+}
+
+@media (hover: hover) {
+  .guide-card:hover::after {
+    opacity: 1;
+  }
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .guide-card {
+    transition: transform var(--dur-hover) var(--ease-soft);
+  }
+
+  .guide-card:hover {
+    transform: translateY(-3px);
+  }
+
+  /* The picture grows inside its own frame — the one piece of motion on this
+     page that is purely for pleasure. Slow on purpose: at the hover duration it
+     reads as a twitch, at 600ms as the image breathing. */
+  .guide-cover {
+    transition: transform 600ms var(--ease-soft);
+  }
+
+  .guide-card:hover .guide-cover {
+    transform: scale(1.05);
+  }
+
+  .guide-card .btn-light svg {
+    transition: transform var(--dur-hover) var(--ease-soft);
+  }
+
+  .guide-card:hover .btn-light svg {
+    transform: translateX(3px);
+  }
+}
+
+/*
+  Category filter — no JavaScript.
+
+  A radio group plus :has(). The chips are labels, the inputs sit invisibly on
+  top of them, and the rules below hide whatever does not match. With the bundle
+  disabled, or on a browser without :has(), every article stays on the page,
+  which is the right thing for a filter to degrade to.
+*/
+.guide-filter-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.guide-filter-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 0.35em;
+  min-height: 24px;
+  padding-block: 0.25rem;
+  font-size: 17px;
+  color: var(--color-muted);
+  cursor: pointer;
+  transition: color var(--dur-hover) var(--ease-soft);
+}
+
+.guide-filter-count {
+  font-size: 12px;
+  line-height: 1.4;
+  opacity: 0.75;
+}
+
+.guide-filter-input:checked + .guide-filter-chip {
+  color: var(--color-ink);
+}
+
+@media (hover: hover) {
+  .guide-filter-chip:hover {
+    color: var(--color-ink);
+  }
+}
+
+.guide-filter-chip::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-hover) var(--ease-soft);
+}
+
+.guide-filter-input:checked + .guide-filter-chip::after {
+  transform: scaleX(1);
+}
+
+/* The input carries the focus, but it is invisible — so the ring goes on the
+   label the reader can actually see. */
+.guide-filter-input:focus-visible + .guide-filter-chip {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: 3px;
+}
+
+.guide-index:has(#gcat-history:checked)
+  [data-guide-category]:not([data-guide-category="history"]),
+.guide-index:has(#gcat-sea:checked)
+  [data-guide-category]:not([data-guide-category="sea"]),
+.guide-index:has(#gcat-food:checked)
+  [data-guide-category]:not([data-guide-category="food"]),
+.guide-index:has(#gcat-trips:checked)
+  [data-guide-category]:not([data-guide-category="trips"]) {
+  display: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Article prose
+
+   The only place on the site where headings are set by a Markdown renderer
+   rather than by a component, so the type scale is reapplied here by element.
+   --------------------------------------------------------------------------- */
+
+.prose-guide {
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--color-body-soft);
+}
+
+.prose-guide > * + * {
+  margin-top: 1.15em;
+}
+
+.prose-guide > *:first-child {
+  margin-top: 0;
+}
+
+.prose-guide h2,
+.prose-guide h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--color-ink);
+  margin-top: 2.1em;
+  margin-bottom: 0.45em;
+  text-wrap: balance;
+}
+
+.prose-guide h2 {
+  font-size: 30px;
+}
+
+.prose-guide h3 {
+  font-size: 26px;
+}
+
+/* 500, not 700: DM Sans at weight 300 beside a bold is a two-face page. */
+.prose-guide strong {
+  font-weight: 500;
+  color: var(--color-ink);
+}
+
+.prose-guide a {
+  color: var(--color-accent);
+  border-bottom: 1px solid var(--color-line);
+  transition: border-color var(--dur-hover) var(--ease-soft);
+}
+
+.prose-guide a:hover {
+  border-bottom-color: var(--color-accent);
+}
+
+.prose-guide ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.prose-guide li + li {
+  margin-top: 0.6em;
+}
+
+/* A hairline rather than a disc — the same grouping mark the amenities use. */
+.prose-guide ul > li {
+  position: relative;
+  padding-left: 1.5em;
+}
+
+.prose-guide ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.85em;
+  width: 8px;
+  height: 1px;
+  background: var(--color-accent);
+}
+
+.prose-guide ol {
+  padding-left: 1.3em;
+}
+
+.prose-guide hr {
+  border: 0;
+  border-top: 1px solid var(--color-line);
+  margin: 2.6em 0;
+}
+
+.prose-guide blockquote {
+  border-left: 1px solid var(--color-accent);
+  padding-left: 1.4em;
+  color: var(--color-body-mute);
+}
+
+.guide-back {
+  transition: color var(--dur-hover) var(--ease-soft);
+}
+
+.guide-back-arrow,
+.guide-forward-arrow {
+  display: inline-flex;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .guide-back-arrow {
+    transition: transform var(--dur-hover) var(--ease-soft);
+  }
+
+  .guide-back:hover .guide-back-arrow {
+    transform: translateX(-3px);
+  }
+
+  .guide-forward-arrow {
+    transition: transform var(--dur-hover) var(--ease-soft);
+  }
+
+  .guide-back:hover .guide-forward-arrow {
+    transform: translateX(3px);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   The "rise" reveal
+
+   A third reveal variant, for grids of cards only.
+
+   "fade" is deliberately slight (14px, no scale) because it carries whole prose
+   sections, and fifteen sections arriving with the same big lift reads as one
+   repeated effect rather than a composition. A grid of cards is the opposite
+   case: they arrive together, as a set, and the extra distance plus a touch of
+   scale is what makes them feel like objects landing rather than text fading
+   up. Transform and opacity only, and staggered across the row.
+   --------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal="rise"][data-hidden] {
+    transition:
+      opacity var(--dur-reveal) var(--ease-soft),
+      transform var(--dur-reveal) var(--ease-soft);
+    transition-delay: calc(var(--stagger-i, 0) * var(--stagger-step));
+  }
+
+  [data-reveal="rise"][data-hidden]:not([data-shown]) {
+    opacity: 0;
+    transform: translateY(46px) scale(0.965);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   The host portrait
+
+   A mounted print, not an avatar.
+
+   The whole reason to book here rather than on the platform is that a specific
+   person answers, meets you and hands you the keys — so this photograph is the
+   most persuasive thing on the page, and it was being drawn as a 144px disc
+   centred above a paragraph, which is exactly how a platform draws an account.
+
+   The treatment is built entirely from vocabulary the system already has: a
+   hairline mount offset behind the picture, the picture itself resting on the
+   documented Lift shadow, and the 20px photographic radius. Nothing here is a
+   new token, and it could not be lifted onto another site unchanged, because
+   the mount is Tideline Soft — a hairline tinted toward the sea glass rather
+   than left neutral grey.
+   --------------------------------------------------------------------------- */
+
+.host-portrait {
+  position: relative;
+  width: 168px;
+  aspect-ratio: 1;
+}
+
+@media (min-width: 768px) {
+  .host-portrait {
+    width: 208px;
+  }
+}
+
+/* The photograph, resting above the page. `--shadow-lift` is documented as
+   exactly this: a framed photograph, which is the one thing here that genuinely
+   floats. */
+.host-portrait > * {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: var(--shadow-lift);
+}
+
+/* The mount: a hairline the same shape as the picture, set down and to the
+   right the way a print sits slightly off its backing board. */
+.host-portrait::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border: 1px solid var(--color-line-soft);
+  border-radius: 20px;
+  transform: translate(12px, 12px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /*
+    The mount slides out from behind the picture as the block arrives, a beat
+    after it — so the photograph lands first and the frame settles under it,
+    rather than the whole thing fading up as one flat card.
+
+    The offset is the resting state and lives outside this query, so with
+    reduced motion the mount is simply already there. Transform only.
+  */
+  .host-portrait::before {
+    transition: transform var(--dur-mask) var(--ease-soft);
+    transition-delay: 160ms;
+  }
+
+  [data-reveal="fade"][data-hidden]:not([data-shown]) .host-portrait::before {
+    transform: none;
+  }
+}
+
+/* The name opens the text column. Display serif, because it names something —
+   that is the break the two typefaces mark.
+
+   No top margin: on a desktop it sits at the head of the paragraph and aligns
+   with the top of the portrait beside it. On a phone the column collapses under
+   the picture and the grid's 40px row gap does the spacing, which clears the
+   mount's 12px overhang with 28px to spare. */
+.host-name {
+  font-family: var(--font-display);
+  font-size: 26px;
+  line-height: 1.1;
+  color: var(--color-ink);
+  /* Centred under the portrait on a phone, where the two read as one stacked
+     unit; left, with the paragraph it introduces, from 768px up. */
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .host-name {
+    text-align: left;
+  }
+}
+
+/* ---------------------------------------------------------------------------
    Reduced motion — belt and braces. Everything above is already gated, but a
    blanket reset catches any transition added later without thinking.
    --------------------------------------------------------------------------- */
@@ -784,7 +1241,7 @@ body {
   /* The two transitions that resize rather than recolour. Hold their geometry
      steady and let only the colour change through. */
   .header-bar {
-    transition-property: color !important;
+    transition-property: color, background-color, border-color !important;
   }
 
   .deck-dot {

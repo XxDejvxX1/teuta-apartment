@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { DM_Sans, Instrument_Serif } from "next/font/google";
-import { notFound } from "next/navigation";
 
 import "@/app/globals.css";
-import { LOCALES, LOCALE_TAGS, isLocale, type Locale } from "@/lib/i18n";
-import { getDictionary } from "@/lib/dictionary";
+import { copyText } from "@/lib/dictionary";
 import { site, siteUrl } from "@/content/site";
 
 const dmSans = DM_Sans({
@@ -22,61 +20,40 @@ const instrumentSerif = Instrument_Serif({
   display: "swap",
 });
 
-export async function generateStaticParams() {
-  return LOCALES.map((lang) => ({ lang }));
-}
+/*
+  `latin-ext` on both faces is not leftover from the Albanian and Italian
+  editions. The apartment is in Durrës and the host writes Fërgesë and Kruja
+  into the guides — ë and ç are Latin Extended-A, and dropping the subset would
+  leave the page falling back to Georgia mid-word.
+*/
 
-/** Unknown locales 404 rather than rendering an empty shell. */
-export const dynamicParams = false;
+export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl()),
+  title: copyText.meta.title,
+  description: copyText.meta.description,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: site.name,
+    title: copyText.meta.title,
+    description: copyText.meta.description,
+    url: "/",
+    locale: site.localeTag,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: copyText.meta.title,
+    description: copyText.meta.description,
+  },
+  robots: { index: true, follow: true },
+};
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ lang: string }>;
-}): Promise<Metadata> {
-  const { lang } = await params;
-  if (!isLocale(lang)) return {};
-
-  const dict = getDictionary(lang);
-
-  return {
-    metadataBase: new URL(siteUrl()),
-    title: dict.meta.title,
-    description: dict.meta.description,
-    alternates: {
-      canonical: `/${lang}`,
-      languages: {
-        en: "/en",
-        sq: "/sq",
-        it: "/it",
-        "x-default": "/en",
-      },
-    },
-    openGraph: {
-      type: "website",
-      siteName: site.name,
-      title: dict.meta.title,
-      description: dict.meta.description,
-      url: `/${lang}`,
-      locale: LOCALE_TAGS[lang].replace("-", "_"),
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: dict.meta.title,
-      description: dict.meta.description,
-    },
-    robots: { index: true, follow: true },
-  };
-}
-
-function StructuredData({ lang }: { lang: Locale }) {
-  const dict = getDictionary(lang);
-
+function StructuredData() {
   const apartment = {
     "@type": "Apartment",
     name: site.name,
-    description: dict.meta.description,
-    url: `${siteUrl()}/${lang}`,
+    description: copyText.meta.description,
+    url: siteUrl(),
     /*
       Schema with no image is a weaker entity than one with it, and this was the
       only obvious gap. Real files rather than the generated OG card, so the URLs
@@ -108,7 +85,7 @@ function StructuredData({ lang }: { lang: Locale }) {
       latitude: site.geo.lat,
       longitude: site.geo.lng,
     },
-    amenityFeature: Object.values(dict.amenities.items).map((item) => ({
+    amenityFeature: Object.values(copyText.amenities.items).map((item) => ({
       "@type": "LocationFeatureSpecification",
       name: item.title,
       value: true,
@@ -125,9 +102,9 @@ function StructuredData({ lang }: { lang: Locale }) {
     same condition GoodToKnow itself uses, so the markup never describes a row
     that is not on the page.
   */
-  const faqRows = dict.goodToKnow.payment.body.trim()
-    ? [...dict.goodToKnow.rows, dict.goodToKnow.payment]
-    : dict.goodToKnow.rows;
+  const faqRows = copyText.goodToKnow.payment.body.trim()
+    ? [...copyText.goodToKnow.rows, copyText.goodToKnow.payment]
+    : copyText.goodToKnow.rows;
 
   const faq = {
     "@type": "FAQPage",
@@ -155,23 +132,14 @@ function StructuredData({ lang }: { lang: Locale }) {
   );
 }
 
-export default async function LangLayout({
-  children,
-  params,
-}: {
-  children: React.ReactNode;
-  params: Promise<{ lang: string }>;
-}) {
-  const { lang } = await params;
-  if (!isLocale(lang)) notFound();
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
-      lang={LOCALE_TAGS[lang]}
+      lang={site.localeTag}
       className={`${dmSans.variable} ${instrumentSerif.variable}`}
     >
       <head>
-        <StructuredData lang={lang} />
+        <StructuredData />
       </head>
       <body>{children}</body>
     </html>

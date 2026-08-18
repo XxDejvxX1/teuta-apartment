@@ -13,6 +13,7 @@ import {
   utcNoon,
 } from "@/lib/availability";
 import { site, whatsappLink } from "@/content/site";
+import { rates, stayCost } from "@/content/rates";
 import { interpolate } from "@/lib/dictionary";
 import { ArrowIcon, WhatsAppIcon } from "@/components/icons";
 
@@ -41,6 +42,8 @@ type Copy = {
   guestsOther: string;
   tooShort: string;
   rangeTaken: string;
+  totalLabel: string;
+  totalNote: string;
   prefillDates: string;
   closedSeason: string;
 };
@@ -176,6 +179,16 @@ export default function Availability({
   const nightCount = selected
     ? nightsBetween(parseDayKey(selected.arrival)!, parseDayKey(selected.departure)!)
     : 0;
+
+  /*
+    What the stay costs, once both ends are chosen.
+
+    null means at least one night has no published price, and then nothing is
+    shown — a guest is never given a number the rate card cannot account for.
+  */
+  const total = selected
+    ? stayCost(parseDayKey(selected.arrival)!, parseDayKey(selected.departure)!)
+    : null;
 
   /** The whole point of the calendar: hand the dates to WhatsApp, not the guest. */
   const href = selected
@@ -357,6 +370,23 @@ export default function Availability({
                   {dateFormatter.format(parseDayKey(arrival)!)}
                 </p>
               ) : null}
+              {/*
+                Inside the live region on purpose: the price is part of what
+                just changed, and a screen-reader user choosing a departure date
+                should hear the total in the same announcement as the nights.
+              */}
+              {selected && total !== null && (
+                <p className="mt-5 text-center">
+                  <span className="eyebrow block text-muted">{copy.totalLabel}</span>
+                  <span className="t-display mt-1 block text-[34px] leading-none text-ink">
+                    {rates.currencySymbol}
+                    {total}
+                  </span>
+                  <span className="mt-2 block text-[14px] leading-[1.5] text-body-mute">
+                    {copy.totalNote}
+                  </span>
+                </p>
+              )}
             </div>
 
             <div className="mt-5 flex flex-wrap items-center justify-center gap-4">

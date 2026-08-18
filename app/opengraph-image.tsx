@@ -2,31 +2,26 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { ImageResponse } from "next/og";
 
-import { LOCALES, isLocale } from "@/lib/i18n";
-import { getDictionary } from "@/lib/dictionary";
+import { copyText } from "@/lib/dictionary";
 import { site } from "@/content/site";
+
+/*
+  Previously implied by generateStaticParams over the three locales. With one
+  language there are no params, so under `output: "export"` the route has to say
+  for itself that it is static — otherwise the build refuses it as dynamic.
+*/
+export const dynamic = "force-static";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 export const alt = `${site.name} — Durrës, Albania`;
-
-export function generateStaticParams() {
-  return LOCALES.map((lang) => ({ lang }));
-}
 
 /**
  * This card is what renders when someone forwards the link on WhatsApp, which
  * is how most of this site's traffic will actually spread. Worth having the
  * photo in it rather than a bare title.
  */
-export default async function OpenGraphImage({
-  params,
-}: {
-  params: Promise<{ lang: string }>;
-}) {
-  const { lang } = await params;
-  const dict = getDictionary(isLocale(lang) ? lang : "en");
-
+export default async function OpenGraphImage() {
   const photo = await readFile(
     path.join(process.cwd(), "public", "photos", "hero-window.jpg"),
   );
@@ -84,7 +79,7 @@ export default async function OpenGraphImage({
               marginBottom: 20,
             }}
           >
-            {dict.hero.eyebrow}
+            {copyText.hero.eyebrow}
           </div>
           <div
             style={{
@@ -95,7 +90,7 @@ export default async function OpenGraphImage({
               maxWidth: 900,
             }}
           >
-            {dict.hero.titleLines.map((line) => (
+            {copyText.hero.titleLines.map((line) => (
               <span key={line}>{line}</span>
             ))}
           </div>

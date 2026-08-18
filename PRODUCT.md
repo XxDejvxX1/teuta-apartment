@@ -16,9 +16,11 @@ couples use the bedroom and the balcony and ignore the rest. Both groups arrive
 already knowing roughly where they want to be and are choosing between many
 superficially similar apartments.
 
-The site is published in English, Albanian and Italian. Albanian and Italian
-speakers are served deliberately, but neither has been confirmed as a primary
-audience — treat them as reach, not as the group the product is designed around.
+The site is published in English only. It carried Albanian and Italian
+editions until August 2026, dropped on the owner's call: almost everyone
+arriving read the English pages anyway, neither had been confirmed as a primary
+audience, and two translations nobody used still had to be kept correct on every
+change. Albanian and Italian speakers remain welcome reach, in English.
 
 ## Product Purpose
 
@@ -86,10 +88,11 @@ from Tirana on request, €30; the drive is 20–30 minutes.
 **Contact.** WhatsApp only, +355 68 607 5195. No email address, no contact form,
 no payment taken on the site.
 
-**Technical.** Next.js 16 (App Router) and Tailwind v4. Three locales: `en`
-(default), `sq`, `it`. A purely static export is still not an option: `/`
-negotiates the language per request from `Accept-Language`, so one route must be
-server-rendered. Everything else is prerendered.
+**Technical.** Next.js 16 (App Router) and Tailwind v4. One language, served
+from the root — `/`, `/guide`, `/guide/<slug>`. Every page is prerendered and
+the whole site is a pure static export; nothing is decided per request. The
+Worker that used to negotiate a language on `/` now does one thing only, which
+is 301ing the retired `/en/*` URLs to their new homes.
 
 **Hosting: Cloudflare Workers, static export plus a ~40-line Worker.** Chosen in
 August 2026 because Cloudflare does not meter bandwidth, so a traffic spike
@@ -143,7 +146,7 @@ owners do.
 - **Booking.com overall rating: 9.8**, supplied by the owner in August 2026 and
   stated in the host paragraph. The review count is still not recorded. This is
   a published claim about a third-party score, so it has to match the listing:
-  if the score moves, the copy moves with it in all three languages. The five
+  if the score moves, the copy moves with it. The five
   reviews on the page must still never be averaged into a score of our own.
 - **Host identity:** **Dejv**, hosting alone. No photograph yet; the block falls
   back to a single initial. One photograph is wanted, not one per person — the
@@ -166,8 +169,9 @@ that an empty value renders nothing rather than a placeholder.
    feel like an agency listing works against it.
 4. **Upkeep must earn itself.** Availability is edited by hand. Any feature that
    adds a recurring manual task has to be worth more than the burden it creates.
-5. **Three languages are equal.** A change is not finished until it works in
-   Albanian and Italian, including line breaks, plurals and date formats.
+5. **One language, done properly.** English only since August 2026. Nothing is
+   machine translated and no half-translated page ships; if a language is ever
+   added back it is added whole, copy and guides together.
 
 ## Accessibility & Inclusion
 

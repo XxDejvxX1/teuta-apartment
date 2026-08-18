@@ -9,10 +9,10 @@
     "gallery": "Gallery",
     "availability": "Availability",
     "gettingHere": "Getting here",
+    "guides": "What to do",
     "whatsapp": "WhatsApp",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
-    "language": "Language",
     "skipToContent": "Skip to content"
   },
   "hero": {
@@ -113,7 +113,7 @@
         "months": "June and September"
       },
       "peak": {
-        "label": "High summer",
+        "label": "Peak summer",
         "months": "July and August"
       }
     }
@@ -151,6 +151,8 @@
     "guestsOther": "{count} guests",
     "tooShort": "That is only {count}. The minimum for those dates is {min}.",
     "rangeTaken": "Some of those nights are already taken. Choose another arrival day.",
+    "totalLabel": "Total",
+    "totalNote": "Whole apartment, up to 5 guests. Nothing on top.",
     "prefillDates": "Hello! I would like to book Teuta Apartment from {from} to {to} — {nights} for {guests}. Is it free?"
   },
   "gettingHere": {
@@ -202,6 +204,29 @@
         "body": "Four nights in high season, three nights the rest of the year."
       }
     ]
+  },
+  "guides": {
+    "metaTitle": "What to do in Durrës — Teuta Apartment",
+    "metaDescription": "Notes on Durrës from someone who lives on the beach here: the Roman amphitheatre under the town, how the beach day actually runs, what to order, and four days out.",
+    "title": "What to do in Durrës",
+    "intro": "Things worth doing within an hour distance, written down the way I would tell you at the table. A quick note before you dive in: I’ve left out opening times and prices. Those change all the time, and I’d much rather you just ask me so I can give you the right answer.",
+    "filterLegend": "Filter articles by subject",
+    "all": "All",
+    "categories": {
+      "history": "History",
+      "sea": "The sea",
+      "food": "Food",
+      "trips": "Days out"
+    },
+    "readArticle": "Read article",
+    "minutes": "{count} min read",
+    "backToIndex": "All articles",
+    "empty": "Nothing has been written yet.",
+    "home": {
+      "title": "What to do in Durrës",
+      "body": "Notes on the town from the balcony — where to go, when the beach is worth it, and what to order once you get there.",
+      "link": "All articles"
+    }
   },
   "contact": {
     "title": "Ask me about your dates",

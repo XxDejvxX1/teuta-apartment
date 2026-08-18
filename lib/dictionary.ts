@@ -1,20 +1,20 @@
-import type { Locale } from "@/lib/i18n";
-import en from "@/content/dictionaries/en.json";
-import sq from "@/content/dictionaries/sq.json";
-import it from "@/content/dictionaries/it.json";
+import copy from "@/content/copy.json";
 
-/** English is the source of truth for the key shape; the others must match it. */
-export type Dictionary = typeof en;
+/**
+ * All the words on the site.
+ *
+ * This was three files behind a `getDictionary(locale)` lookup while the site
+ * ran in English, Albanian and Italian. It is one file and a plain import now:
+ * Albanian and Italian were dropped in August 2026 on the owner's call — almost
+ * everyone arriving was reading the English pages anyway, and two translations
+ * nobody used still had to be kept correct on every change.
+ *
+ * Everything guest-facing still lives here rather than in components, so a
+ * wording change is one file and never a JSX edit.
+ */
+export const copyText = copy;
 
-const dictionaries: Record<Locale, Dictionary> = {
-  en,
-  sq: sq as Dictionary,
-  it: it as Dictionary,
-};
-
-export function getDictionary(locale: Locale): Dictionary {
-  return dictionaries[locale];
-}
+export type Copy = typeof copy;
 
 /** Fills {name} placeholders. Leaves unknown keys untouched so a typo is visible, not silent. */
 export function interpolate(
