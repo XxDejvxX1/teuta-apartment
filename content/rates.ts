@@ -12,7 +12,7 @@
  * Season labels live in content/copy.json under `rates`.
  */
 
-export type SeasonKey = "spring" | "shoulder" | "peak";
+export type SeasonKey = "spring" | "june" | "peak" | "september";
 
 export type Season = {
   key: SeasonKey;
@@ -26,17 +26,26 @@ export const rates = {
 
   /**
    * Bands are the owner's own, not a generic low/mid/high split, and they
-   * cover the whole open season — April to the end of September. There is no
+   * cover the whole open season — April to the end of October. There is no
    * winter band because the apartment is closed then; see `season.openMonths`
    * in site.ts, which also stops the calendar offering those dates.
    *
    * A band left at `null` would render "ask" rather than disappearing: a rate
    * card with a month silently missing reads as an error, not as discretion.
    */
+  /*
+    June and September used to share one band at the same price. They no
+    longer do — June is €80 and September €70 — so the band that lumped them
+    together is gone and each has its own. Four bands rather than three is not
+    decoration: a single band cannot carry two prices, and pricing them alike
+    to keep the card tidy would overcharge every September guest by €10 a
+    night.
+  */
   seasons: [
     { key: "spring", perNight: 60 }, // April, May and October
-    { key: "shoulder", perNight: 70 }, // June and September
-    { key: "peak", perNight: 85 }, // July and August
+    { key: "june", perNight: 80 }, // June
+    { key: "peak", perNight: 90 }, // July and August
+    { key: "september", perNight: 70 }, // September
   ] as Season[],
 };
 
@@ -59,8 +68,9 @@ export function hasPublishedRates(): boolean {
  */
 export const seasonMonths: Record<SeasonKey, readonly number[]> = {
   spring: [3, 4, 9], // April, May, October
-  shoulder: [5, 8], // June, September
+  june: [5], // June
   peak: [6, 7], // July, August
+  september: [8], // September
 };
 
 function seasonForMonth(month: number): SeasonKey | null {

@@ -72,12 +72,19 @@ sea-view balcony. Free WiFi, free parking beside the building, air conditioning
 in the living room only — corrected by the owner in August 2026; the site
 previously said the bedroom had one too. Full kitchen.
 
-**Season.** Open **April to the end of September**. Closed October to March —
+**Season.** Open **April to the end of October**. Closed November to March —
 the calendar refuses those dates rather than letting someone send an enquiry
-that can only be turned down.
+that can only be turned down. This paragraph said "April to the end of
+September" for months while `site.season.openMonths` in `content/site.ts` sold
+October nights and `content/rates.ts` priced them at €60. The code was right;
+the sentence was not.
 
-**Prices.** Per night, whole apartment, up to five guests: **€60** April–May,
-**€70** June and September, **€85** July–August.
+**Prices.** Per night, whole apartment, up to five guests: **€60**
+April, May and October, **€80** June, **€90** July–August, **€70** September.
+
+June and September were one band at €70 until August 2026. They are priced
+separately now, so a rate card that groups them is out of date wherever it
+appears.
 
 **Booking rules.** Check-in from 14:00, check-out by 11:00. Minimum stay four
 nights in July and August, three nights the rest of the year. Airport transfer

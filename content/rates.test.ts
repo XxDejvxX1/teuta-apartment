@@ -8,16 +8,17 @@ const day = (key: string) => parseDayKey(key)!;
 
 /** The published prices, so a change to rates.ts fails these loudly. */
 const SPRING = 60;
-const SHOULDER = 70;
-const PEAK = 85;
+const JUNE = 80;
+const PEAK = 90;
+const SEPTEMBER = 70;
 
 describe("season bands", () => {
   it("matches the published prices", () => {
     expect(perNightOn(day("2026-04-15"))).toBe(SPRING);
     expect(perNightOn(day("2026-05-15"))).toBe(SPRING);
     expect(perNightOn(day("2026-10-15"))).toBe(SPRING);
-    expect(perNightOn(day("2026-06-15"))).toBe(SHOULDER);
-    expect(perNightOn(day("2026-09-15"))).toBe(SHOULDER);
+    expect(perNightOn(day("2026-06-15"))).toBe(JUNE);
+    expect(perNightOn(day("2026-09-15"))).toBe(SEPTEMBER);
     expect(perNightOn(day("2026-07-15"))).toBe(PEAK);
     expect(perNightOn(day("2026-08-15"))).toBe(PEAK);
   });
@@ -47,7 +48,7 @@ describe("season bands", () => {
     // The boundary local-midnight parsing would get wrong: east of UTC, 1 July
     // read locally can land on 30 June and be charged at the June rate.
     expect(perNightOn(day("2026-07-01"))).toBe(PEAK);
-    expect(perNightOn(day("2026-06-30"))).toBe(SHOULDER);
+    expect(perNightOn(day("2026-06-30"))).toBe(JUNE);
   });
 });
 
@@ -64,13 +65,13 @@ describe("stayCost", () => {
   it("splits a stay that crosses a band", () => {
     // 28 June to 3 July: three June nights, two July nights. Multiplying five
     // nights by either rate gives the wrong answer in both directions.
-    expect(stayCost(day("2026-06-28"), day("2026-07-03"))).toBe(3 * SHOULDER + 2 * PEAK);
+    expect(stayCost(day("2026-06-28"), day("2026-07-03"))).toBe(3 * JUNE + 2 * PEAK);
   });
 
   it("splits September into October", () => {
     // 29 September to 2 October is three nights — the 29th, the 30th and the
     // 1st. Two at September's rate, one at October's.
-    expect(stayCost(day("2026-09-29"), day("2026-10-02"))).toBe(2 * SHOULDER + 1 * SPRING);
+    expect(stayCost(day("2026-09-29"), day("2026-10-02"))).toBe(2 * SEPTEMBER + 1 * SPRING);
   });
 
   it("returns null when any night is unpriced, rather than a partial total", () => {
@@ -86,16 +87,15 @@ describe("stayCost", () => {
 
   it("totals a long stay that spans three bands", () => {
     // 29 May to 2 July: 3 May nights, 30 June nights, 1 July night.
-    expect(stayCost(day("2026-05-29"), day("2026-07-02"))).toBe(
-      3 * SPRING + 30 * SHOULDER + 1 * PEAK,
-    );
+    expect(stayCost(day("2026-05-29"), day("2026-07-02"))).toBe(3 * SPRING + 30 * JUNE + 1 * PEAK);
   });
 
   it("agrees with the published rate card", () => {
     // Nothing here should be able to drift from content/rates.ts silently.
     const byKey = Object.fromEntries(rates.seasons.map((s) => [s.key, s.perNight]));
     expect(byKey.spring).toBe(SPRING);
-    expect(byKey.shoulder).toBe(SHOULDER);
+    expect(byKey.june).toBe(JUNE);
     expect(byKey.peak).toBe(PEAK);
+    expect(byKey.september).toBe(SEPTEMBER);
   });
 });

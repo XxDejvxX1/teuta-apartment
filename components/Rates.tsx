@@ -32,12 +32,15 @@ export default function Rates({
       </div>
 
       {/*
-        One column per season — the grid used to declare four for three bands,
-        leaving a phantom empty column at wide sizes. The price leads each cell
-        now; the season name and its months are the caption underneath, which is
-        the order someone actually reads them in.
+        One column per season, and the count follows the data. It declared
+        four columns for three bands once and left a phantom empty cell at wide
+        sizes; hard-coding three would now clip the fourth. Two-up from 640px
+        and four across from 1024px divides four bands evenly at both stops.
+
+        The price leads each cell; the season name and its months are the
+        caption underneath, which is the order someone actually reads them in.
       */}
-      <dl className="grid gap-4 sm:grid-cols-3">
+      <dl className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {rates.seasons.map((season, index) => {
           const label = copy.seasons[season.key];
           const priced = typeof season.perNight === "number";

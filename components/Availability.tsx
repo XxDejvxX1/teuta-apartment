@@ -15,6 +15,7 @@ import { site, whatsappLink } from "@/content/site";
 import { rates, stayCost } from "@/content/rates";
 import { interpolate } from "@/lib/dictionary";
 import { ArrowIcon, WhatsAppIcon } from "@/components/icons";
+import { CircledPrice, HeadingSwash } from "@/components/accents";
 
 type Copy = {
   title: string;
@@ -35,6 +36,15 @@ type Copy = {
   today: string;
   guests: string;
   clear: string;
+  /*
+    The two states of the empty summary. This box used to reserve 24px of blank
+    height so the WhatsApp button would not jump when a date was clicked; the
+    reservation is gone because there is now always a line of text in it, and a
+    line that tells the guest what to do next is worth more than the same
+    height left empty.
+  */
+  hintArrival: string;
+  hintDeparture: string;
   nightsOne: string;
   nightsOther: string;
   guestsOne: string;
@@ -47,7 +57,7 @@ type Copy = {
   closedSeason: string;
 };
 
-/** The apartment is only open April–September; see site.season.openMonths. */
+/** The apartment is only open April–October; see site.season.openMonths. */
 function isOpen(date: Date): boolean {
   return site.season.openMonths.includes(date.getUTCMonth());
 }
@@ -217,9 +227,29 @@ export default function Availability({
     <section id="availability" className="bg-sand px-5 pb-20 pt-6 md:px-11 md:pb-[120px] md:pt-8">
       <div className="mx-auto max-w-[900px]">
         <div data-reveal="fade" className="mb-10 text-center md:mb-14">
-          <span data-reveal="mask" className="mb-5 block">
-            <h2 className="t-h3 text-ink">{copy.title}</h2>
-          </span>
+          {/*
+            The one swash on the site — under this heading and no other on
+            purpose, because nine of them would be a template.
+
+            The wrapper hugs the heading text so the swash can size itself to
+            the word rather than to the column, and it sits outside the mask
+            span rather than inside it: that span clips its overflow to hide
+            the heading's rise, and an underline below the baseline is exactly
+            what it would clip. Costs no vertical space of its own.
+          */}
+          {/* flex rather than a plain block: an inline-block sits on a line
+              box and inherits its strut, which padded 7px of dead height under
+              a heading that is meant to cost nothing but its own 30px. As a
+              flex item it hugs the text exactly, and justify-center keeps it
+              centred the way the parent's text-center did. */}
+          <div className="mb-5 flex justify-center">
+            <span className="relative inline-block">
+              <span data-reveal="mask" className="block">
+                <h2 className="t-h3 text-ink">{copy.title}</h2>
+              </span>
+              <HeadingSwash />
+            </span>
+          </div>
           {/* The minimum-stay rule used to live ~1,900px further down the page,
               so people planned stays that would be refused. */}
           <p className="mx-auto max-w-[52ch] text-note leading-[1.6] text-muted">{copy.minStay}</p>
@@ -346,7 +376,7 @@ export default function Availability({
 
           {/* Selection summary + the handoff */}
           <div className="mt-10 rounded-2xl border border-line bg-white/50 p-6 md:p-7">
-            <div aria-live="polite" className="min-h-[1.5rem]">
+            <div aria-live="polite">
               {problem ? (
                 <p className="text-center text-control leading-[1.55] text-accent">{problem}</p>
               ) : selected ? (
@@ -364,11 +394,16 @@ export default function Availability({
                   {plural(copy.nightsOne, copy.nightsOther, nightCount)}
                 </p>
               ) : arrival ? (
-                <p className="text-center text-body-md text-ink">
-                  <span className="text-muted">{copy.arrival}</span>{" "}
-                  {dateFormatter.format(parseDayKey(arrival)!)}
-                </p>
-              ) : null}
+                <>
+                  <p className="text-center text-body-md text-ink">
+                    <span className="text-muted">{copy.arrival}</span>{" "}
+                    {dateFormatter.format(parseDayKey(arrival)!)}
+                  </p>
+                  <p className="mt-1 text-center text-note text-muted">{copy.hintDeparture}</p>
+                </>
+              ) : (
+                <p className="text-center text-note text-muted">{copy.hintArrival}</p>
+              )}
               {/*
                 Inside the live region on purpose: the price is part of what
                 just changed, and a screen-reader user choosing a departure date
@@ -377,9 +412,17 @@ export default function Availability({
               {selected && total !== null && (
                 <p className="mt-5 text-center">
                   <span className="eyebrow block text-muted">{copy.totalLabel}</span>
+                  {/*
+                    Keyed on the range so choosing different dates remounts it
+                    and the circle draws again. The number is unchanged — still
+                    the display serif at its step on the scale; the accent only
+                    wraps it.
+                  */}
                   <span className="t-display mt-1 block text-title-lg leading-none text-ink">
-                    {rates.currencySymbol}
-                    {total}
+                    <CircledPrice key={`${selected.arrival}/${selected.departure}`}>
+                      {rates.currencySymbol}
+                      {total}
+                    </CircledPrice>
                   </span>
                   <span className="mt-2 block text-note leading-[1.5] text-body-mute">
                     {copy.totalNote}

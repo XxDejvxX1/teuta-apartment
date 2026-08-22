@@ -522,6 +522,51 @@ It is summed night by night rather than nights × one rate, because a stay can
 cross a band. If any night has no published price the whole figure is withheld
 rather than shown short — the same rule the rate card follows.
 
+### The Hand-Drawn Accents
+
+Two ink strokes, in `components/accents.tsx`, ported from the Claude Design
+"Site Accents" sheet. They are the only ornament the system allows, and the
+count is the constraint.
+
+| Accent | Where | What it does |
+|---|---|---|
+| Heading swash | Underlining Availability's `<h2>` — nowhere else | Two strokes, the second delayed 260ms, as a hand underlining twice |
+| Circled price | The stay total, once both dates are picked | An ellipse scribbled round the figure, redrawn on every new range |
+
+**The swash is an underline, not a row.** It is absolutely positioned against a
+wrapper that hugs the heading text, so it costs no vertical space and stretches
+to the width of the word above it. It sits *outside* the `data-reveal="mask"`
+span, because that span clips its overflow to hide the heading's rise and would
+clip an underline below the baseline along with it.
+
+**What did not come over.** The sheet is ink brown on warm paper, captioned in
+Shantell Sans. That register is the opposite of this one, and importing it
+would have meant a second accent hue and a third typeface — both explicitly
+ruled out below. Only the *line* came over. Every stroke is `currentColor` over
+a token text class, Sea Glass Soft for the swash and Sea Glass for the price
+circle, and there is **no SVG `<text>` anywhere in the file**: the circled
+price wraps the real DOM number so it keeps the display serif and its step on
+the scale.
+
+**What was built and then cut.** Two gulls crossing the gallery divider, a sun
+badge beside the host heading, and the hand-drawn horizon the gulls crossed.
+All three worked; all three looked wrong on the page, and the gallery went back
+to the plain `border-t` hairline it had before. Of the sheet's eight accents,
+two are in use. Do not re-add the rest without a reason.
+
+**The Draw-On Rule.** Every accent's resting state is *finished artwork*, and
+the animation attaches only under a `[data-shown]` ancestor. Since
+`RevealController` sets `data-shown` at runtime and bails out early under
+reduced motion, this single selector covers three cases with no second code
+path: JavaScript off gets complete drawings, reduced motion gets complete
+drawings, and everyone else watches them draw. `pathLength="1"` normalises each
+path so one set of keyframes drives all of them.
+
+**Nothing loops, and nothing travels.** Both accents draw once and hold. The
+sheet idled forever — rotating sun, endlessly circling gull — and on a page
+somebody is reading, perpetual movement beside a paragraph is the thing that
+turns an accent into a distraction.
+
 ## Do's and Don'ts
 
 ### Do:

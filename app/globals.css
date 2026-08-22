@@ -1240,6 +1240,59 @@ body {
 }
 
 /* ---------------------------------------------------------------------------
+   Hand-drawn accents — see components/accents.tsx
+
+   Two ink strokes ported from the Claude Design "Site Accents" sheet: the swash
+   underlining Availability's heading, and the circle around a stay total.
+
+   The whole mechanism is the selector `[data-shown] .accent-ink`.
+   RevealController sets `data-shown` at runtime, which buys two things at once
+   and costs nothing:
+
+     - JavaScript off, or the bundle blocked → `data-shown` never appears, no
+       animation attaches, and the resting state below is finished artwork. The
+       page is complete rather than blank, which is house rule 4's whole point.
+     - Reduced motion → RevealController returns *before* setting `data-shown`,
+       so the same resting state is what a reduced-motion visitor gets. There is
+       no second code path to keep in step. The media query around the animation
+       is belt and braces on top of that.
+
+   Every accent draws once and then holds. Nothing here loops, and nothing here
+   moves across the page: the sheet's endlessly circling gulls and rotating sun
+   were both built, looked at, and cut.
+   --------------------------------------------------------------------------- */
+
+/*
+  Resting state: fully drawn. `pathLength: 1` normalises every path to a length
+  of 1 regardless of its real geometry, so one dash covers any of them and the
+  keyframes below need no per-path magic number.
+*/
+.accent-ink {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-shown] .accent-ink {
+    animation: accent-draw 1000ms var(--ease-soft) both;
+  }
+
+  /* The lighter second pass of the swash, a beat behind the first. */
+  [data-shown] .accent-ink--trail {
+    animation-delay: 260ms;
+  }
+}
+
+@keyframes accent-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ---------------------------------------------------------------------------
    Reduced motion — belt and braces. Everything above is already gated, but a
    blanket reset catches any transition added later without thinking.
    --------------------------------------------------------------------------- */

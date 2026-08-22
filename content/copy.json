@@ -27,7 +27,7 @@
     "imageAlt": "The balcony view over the Durrës beachfront"
   },
   "gallery": {
-    "title": "The place",
+    "title": "Gallery",
     "counter": "{current} / {total}",
     "previous": "Previous photo",
     "next": "Next photo",
@@ -99,13 +99,17 @@
         "label": "Spring",
         "months": "April, May and October"
       },
-      "shoulder": {
-        "label": "Early and late summer",
-        "months": "June and September"
+      "june": {
+        "label": "Early summer",
+        "months": "June"
       },
       "peak": {
         "label": "Peak summer",
         "months": "July and August"
+      },
+      "september": {
+        "label": "Late summer",
+        "months": "September"
       }
     }
   },
@@ -133,6 +137,8 @@
     "closedSeason": "Closed for the season",
     "arrival": "Arrival",
     "departure": "Departure",
+    "hintArrival": "Pick your arrival day",
+    "hintDeparture": "Now pick your departure day",
     "today": "Today",
     "guests": "Guests",
     "clear": "Clear",
