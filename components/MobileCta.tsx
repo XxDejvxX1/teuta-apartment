@@ -75,7 +75,7 @@ export default function MobileCta({ label, href }: { label: string; href: string
         target="_blank"
         rel="noopener"
         tabIndex={visible ? undefined : -1}
-        className="pointer-events-auto flex items-center justify-center gap-2.5 rounded-full bg-ink px-6 py-4 text-body-md text-white shadow-[0_10px_30px_rgba(8,20,28,0.35)]"
+        className="btn-thread pointer-events-auto flex items-center justify-center gap-2.5 px-6 py-4 text-body-md shadow-[0_10px_30px_rgba(8,20,28,0.3)]"
       >
         <WhatsAppIcon size={18} />
         {label}

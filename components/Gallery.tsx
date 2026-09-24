@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { useMemo, useState } from "react";
 
 import { galleryPhotos } from "@/content/photos";
+import { interpolate } from "@/lib/dictionary";
 import { useDeck, deckItemStyle } from "@/components/useDeck";
 import DeckControls from "@/components/DeckControls";
 
@@ -23,6 +24,13 @@ type Copy = {
   photos: Record<string, PhotoCopy>;
 };
 
+/**
+ * The photographs, as a deck on the dark field: a coverflow from 768px, where
+ * the centre photograph faces the visitor and the rest turn away behind it,
+ * and a swipe row on a phone. The layout is CSS (`.deck` in globals.css); the
+ * script only tracks which photograph is at the front, and loads the lightbox
+ * on first open.
+ */
 export default function Gallery({ copy }: { copy: Copy }) {
   const [lightboxAt, setLightboxAt] = useState<number | null>(null);
 
@@ -39,18 +47,21 @@ export default function Gallery({ copy }: { copy: Copy }) {
   const { active, coverflow, trackRef, show, onKeyDown, geometry } = useDeck(count);
 
   return (
-    // The bottom pad meets Availability's top pad, and the two used to stack
-    // into ~230px of empty page between the last gallery control and the next
-    // heading. Trimmed on both sides of that junction rather than all from one,
-    // so neither section ends up looking cramped against its own content.
-    <section id="gallery" data-reveal="fade" className="overflow-hidden pb-14 md:pb-16">
+    <section
+      id="gallery"
+      data-on-dark=""
+      className="deck-field bg-night pb-24 pt-20 text-on-night md:pb-32 md:pt-28"
+    >
       <div className="mx-auto max-w-[1400px] px-5 md:px-11">
-        <div className="mb-12 flex items-baseline justify-between gap-6 border-t border-line pt-8">
-          <h2 className="t-h3 text-ink">{copy.title}</h2>
-          <p className="text-caption tracking-[0.02em] text-muted" aria-live="polite">
-            {copy.counter
-              .replace("{current}", String(active + 1))
-              .replace("{total}", String(count))}
+        <div className="mb-10 flex items-baseline justify-between gap-6 md:mb-14">
+          <span className="rise">
+            <h2 className="t-headline text-on-night">{copy.title}</h2>
+          </span>
+          <p
+            className="text-caption tabular-nums tracking-[0.02em] text-on-night-soft"
+            aria-live="polite"
+          >
+            {interpolate(copy.counter, { current: active + 1, total: count })}
           </p>
         </div>
       </div>
@@ -67,15 +78,15 @@ export default function Gallery({ copy }: { copy: Copy }) {
         {slides.map((slide, index) => {
           const g = geometry(index);
 
-          // Far slides sit behind the stack at opacity 0. Skipping their markup
-          // keeps a six-photo gallery to three downloads instead of six.
+          // The card opposite the front one sits behind the stack at opacity 0.
+          // Skipping its markup saves a photograph nobody can see.
           const worthLoading = !coverflow || g.distance <= 2;
 
           return (
             <div
               key={slide.image.src}
               data-index={index}
-              className="deck-item deck-item--photo"
+              className="deck-item"
               style={deckItemStyle(g)}
             >
               {worthLoading && (
@@ -88,6 +99,9 @@ export default function Gallery({ copy }: { copy: Copy }) {
                 />
               )}
 
+              {/* The photo's name is the button's accessible name, not a printed
+                  caption: a caption states a fact about the room, and each has
+                  to be checked against its picture before one is printed. */}
               <button
                 type="button"
                 onClick={() => (g.isActive ? setLightboxAt(index) : show(index))}
@@ -100,13 +114,12 @@ export default function Gallery({ copy }: { copy: Copy }) {
                   g.isActive ? "cursor-zoom-in" : "cursor-pointer",
                 ].join(" ")}
               >
-                {/* The photo's name is still the button's accessible name and
-                    the image's alt text — it is only no longer printed over
-                    the picture. */}
-                <span className="sr-only">{g.isActive ? copy.open : slide.title}</span>
+                <span className="sr-only">
+                  {g.isActive ? `${copy.open}: ${slide.title}` : slide.title}
+                </span>
 
                 {/* The centre card opens the lightbox, a side card advances the
-                    stack. They used to look identical. */}
+                    stack. Without this mark they look identical. */}
                 {g.isActive && (
                   <span
                     aria-hidden
@@ -144,7 +157,12 @@ export default function Gallery({ copy }: { copy: Copy }) {
         <Lightbox
           slides={slides}
           index={lightboxAt}
-          labels={{ close: copy.close, previous: copy.previous, next: copy.next }}
+          labels={{
+            close: copy.close,
+            previous: copy.previous,
+            next: copy.next,
+            counter: copy.counter,
+          }}
           onClose={() => setLightboxAt(null)}
           onPrev={() => setLightboxAt((at) => (((at! - 1) % count) + count) % count)}
           onNext={() => setLightboxAt((at) => (at! + 1) % count)}

@@ -1,28 +1,22 @@
 ---
 name: Teuta Apartment
-description: A beachfront apartment in Durrës, sold on proximity to the water.
+description: A first-line apartment in Durrës. The photograph opens it; below the photograph the page is one length of woven cloth.
 colors:
-  sea-glass: "#1f6f6a"
-  sea-glass-soft: "#7fc7c0"
-  sea-foam: "#cfe7e3"
-  warm-sand: "#faf8f4"
-  sea-mist: "#edf0ee"
-  warm-shell: "#eceae5"
-  deep-water: "#0d1b22"
-  wet-slate: "#12242e"
-  harbour: "#183341"
-  ink-body: "#1c2b33"
-  ink-soft: "#3a4c56"
-  ink-mute: "#5c6f79"
-  ink-quiet: "#5f747e"
-  tideline: "#dde7e5"
-  tideline-soft: "#d5e2df"
-  taken: "#cfdedb"
-  taken-ink: "#46565e"
-  pebble: "#a9b8b5"
-  on-dark: "#b9c8cf"
-  on-dark-strong: "#cddbe1"
-  on-ink: "#f3f1ec"
+  madder: "#a3302a"
+  madder-deep: "#862520"
+  madder-bright: "#d4705f"
+  linen: "#f4efe5"
+  oat: "#eae3d5"
+  flax: "#dcd3c2"
+  keyline: "#c5baa6"
+  ink: "#2d3942"
+  ink-soft: "#4c5862"
+  ink-mute: "#5a6570"
+  night: "#1b262e"
+  night-line: "#3a464f"
+  deep: "#0d1b22"
+  on-night: "#e9e2d4"
+  on-night-soft: "#b7b9b2"
   white: "#ffffff"
   scrim: "#08141c"
 typography:
@@ -31,15 +25,30 @@ typography:
     fontSize: "clamp(2.75rem, 13.3vw, 6.5rem)"
     fontWeight: 400
     lineHeight: 1.05
-    letterSpacing: "0"
+    letterSpacing: "0.02em"
   headline:
     fontFamily: "Instrument Serif, Georgia, serif"
-    fontSize: "clamp(1.875rem, 3.2vw, 3.125rem)"
+    fontSize: "clamp(2.25rem, 4.4vw, 3.875rem)"
     fontWeight: 400
+    lineHeight: 1.02
+    letterSpacing: "0.01em"
+  stitch-xl:
+    fontFamily: "Handjet, ui-monospace, monospace"
+    fontSize: "clamp(4rem, 9vw, 7rem)"
+    fontWeight: 500
     lineHeight: 1
+    letterSpacing: "0.02em"
+    fontVariation: "'ELSH' 13, 'ELGR' 1.45"
+  stitch-lg:
+    fontFamily: "Handjet, ui-monospace, monospace"
+    fontSize: "clamp(2.5rem, 4.4vw, 3.375rem)"
+    fontWeight: 500
+    lineHeight: 1
+    letterSpacing: "0.02em"
+    fontVariation: "'ELSH' 13, 'ELGR' 1.45"
   title-lg:
     fontFamily: "Instrument Serif, Georgia, serif"
-    fontSize: "30px"
+    fontSize: "32px"
     fontWeight: 400
     lineHeight: 1.1
   title:
@@ -48,554 +57,441 @@ typography:
     fontWeight: 400
     lineHeight: 1.1
   subtitle:
-    fontFamily: "Instrument Serif, Georgia, serif"
-    fontSize: "22px"
-    fontWeight: 400
-    lineHeight: 1.1
+    fontFamily: "Sofia Sans, system-ui, sans-serif"
+    fontSize: "21px"
+    fontWeight: 500
+    lineHeight: 1.3
   body-xl:
-    fontFamily: "DM Sans, system-ui, sans-serif"
-    fontSize: "18px"
-    fontWeight: 300
-    lineHeight: 1.55
+    fontFamily: "Sofia Sans, system-ui, sans-serif"
+    fontSize: "19px"
+    fontWeight: 400
+    lineHeight: 1.7
   body-lg:
-    fontFamily: "DM Sans, system-ui, sans-serif"
+    fontFamily: "Sofia Sans, system-ui, sans-serif"
     fontSize: "17px"
-    fontWeight: 300
+    fontWeight: 400
     lineHeight: 1.65
   body:
-    fontFamily: "DM Sans, system-ui, sans-serif"
+    fontFamily: "Sofia Sans, system-ui, sans-serif"
     fontSize: "16px"
-    fontWeight: 300
-    lineHeight: 1.6
+    fontWeight: 400
+    lineHeight: 1.65
   control:
-    fontFamily: "DM Sans, system-ui, sans-serif"
+    fontFamily: "Sofia Sans, system-ui, sans-serif"
     fontSize: "15px"
-    fontWeight: 300
+    fontWeight: 400
     lineHeight: 1.4
   note:
-    fontFamily: "DM Sans, system-ui, sans-serif"
+    fontFamily: "Sofia Sans, system-ui, sans-serif"
     fontSize: "14px"
-    fontWeight: 300
+    fontWeight: 400
     lineHeight: 1.55
   caption:
-    fontFamily: "DM Sans, system-ui, sans-serif"
+    fontFamily: "Sofia Sans, system-ui, sans-serif"
     fontSize: "13px"
-    fontWeight: 300
+    fontWeight: 400
     lineHeight: 1.5
   label:
-    fontFamily: "DM Sans, system-ui, sans-serif"
-    fontSize: "0.75rem"
-    fontWeight: 300
-    letterSpacing: "0.2em"
+    fontFamily: "Handjet, ui-monospace, monospace"
+    fontSize: "13px"
+    fontWeight: 500
+    lineHeight: 1.2
+    letterSpacing: "0.14em"
+    fontVariation: "'ELSH' 2, 'ELGR' 1"
 rounded:
-  focus: "3px"
-  panel: "16px"
-  card: "20px"
-  sheet: "34px"
+  square: "0px"
+  focus: "2px"
+  control: "3px"
+  deck: "20px"
   pill: "9999px"
 spacing:
+  stitch-mobile: "2px"
+  stitch-desktop: "3px"
   gutter-mobile: "20px"
   gutter-desktop: "44px"
-  section-mobile: "80px"
-  section-desktop: "112px"
+  section-mobile: "96px"
+  section-desktop: "128px"
 components:
-  button-primary:
-    backgroundColor: "{colors.sea-glass}"
-    textColor: "#ffffff"
-    rounded: "{rounded.pill}"
+  button-thread:
+    backgroundColor: "{colors.madder}"
+    textColor: "{colors.linen}"
+    rounded: "{rounded.control}"
     padding: "16px 28px"
-  button-primary-on-dark:
-    backgroundColor: "#ffffff"
-    textColor: "{colors.deep-water}"
-    rounded: "{rounded.pill}"
+  button-thread-hover:
+    backgroundColor: "{colors.madder-deep}"
+    textColor: "{colors.linen}"
+  button-linen:
+    backgroundColor: "{colors.linen}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.control}"
     padding: "16px 36px"
-  button-outline:
+  button-linen-hover:
+    backgroundColor: "{colors.flax}"
+    textColor: "{colors.ink}"
+  button-keyline:
     backgroundColor: "transparent"
-    textColor: "{colors.wet-slate}"
-    rounded: "{rounded.pill}"
-    padding: "14px 28px"
-  button-outline-hover:
-    backgroundColor: "{colors.wet-slate}"
-    textColor: "#ffffff"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.control}"
+    size: "44px"
+  button-keyline-hover:
+    backgroundColor: "{colors.ink}"
+    textColor: "{colors.linen}"
+  plate:
+    backgroundColor: "{colors.linen}"
+    rounded: "{rounded.square}"
+    padding: "28px"
   calendar-day-free:
     backgroundColor: "transparent"
-    textColor: "{colors.wet-slate}"
-    rounded: "{rounded.pill}"
-    size: "40px"
-  calendar-day-taken:
-    backgroundColor: "{colors.taken}"
-    textColor: "{colors.taken-ink}"
-    rounded: "{rounded.pill}"
-    size: "40px"
-  calendar-day-selected:
-    backgroundColor: "{colors.sea-glass}"
-    textColor: "#ffffff"
-    rounded: "{rounded.pill}"
-    size: "40px"
-  deck-card:
-    backgroundColor: "{colors.warm-shell}"
-    rounded: "{rounded.card}"
-  tag-pill:
-    backgroundColor: "transparent"
-    textColor: "{colors.ink-soft}"
-    rounded: "{rounded.pill}"
-    padding: "10px 18px"
+    textColor: "{colors.ink}"
+    typography: "{typography.body-lg}"
+    rounded: "{rounded.square}"
+    height: "44px"
+  calendar-day-chosen:
+    backgroundColor: "{colors.madder}"
+    textColor: "{colors.linen}"
+    rounded: "{rounded.square}"
+    height: "44px"
+  calendar-day-between:
+    backgroundColor: "{colors.flax}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.square}"
+    height: "44px"
+  seam-dark:
+    backgroundColor: "{colors.ink}"
+    height: "45px"
+  seam-light:
+    backgroundColor: "{colors.flax}"
+    height: "45px"
 ---
 
 # Design System: Teuta Apartment
 
 ## Overview
 
-**Creative North Star: "The First Line"**
+**Creative North Star: "One Length of Cloth"**
 
-*Rreshti i parë. Prima fila.* The phrase a Durrës local uses for the buildings
-that sit directly on the sand, with nothing between them and the Adriatic. It is
-the apartment's only real advantage over hundreds of similar flats a road or two
-back, and it is what this entire visual system exists to communicate — before a
-single word is read.
+The page opens on a photograph: the sea through the apartment's own window,
+full-bleed, a serif line over it. That first screen belongs to the place and was
+kept exactly as the owner wanted it. Everything below it is cloth. Oatmeal
+linen for the ground, slate for the thread, one madder red, and a small set of
+stepped motifs (teeth, lozenges, stars, water chevrons) of the kind stitched and
+woven into Albanian textiles for generations. The photographs are mounted into
+that cloth; they are never framed by it.
 
-Everything follows from proximity to water. The page opens full-bleed on the sea
-with no chrome competing. The next section rises over that photograph as a
-rounded sheet, the way the shoreline meets the beach. The one accent colour is
-sea glass, and it is the only saturated thing on the page. Backgrounds are warm
-sand and sea mist rather than white, because white is a hotel and this is
-somebody's home.
+The system's one idea is where the sections meet. No section ends at a straight
+edge. Every join is a woven band: the field above bites down into it as a row of
+stepped teeth, the field below bites up, and a row of motifs runs between. The
+bands stand still, and they are the reason the page reads as one piece rather
+than a stack of blocks.
 
-The register is understated and observational throughout. Copy describes what is
-there rather than claiming benefits, and the visual system matches: hairlines
-instead of boxes, one serif doing all the display work, no gradients used as
-decoration, no icon standing in for a photograph. The apartment is the product;
-the interface gets out of its way.
+The register stays the owner's: understated, first person, descriptive. The
+ornament lives at the seams, in the corner marks of a plate and in the stitched
+numbers. It never climbs into the reading: paragraphs are plain text on plain
+ground, and the headlines are sentences in a quiet serif.
 
 **Key Characteristics:**
-- Photography is full-bleed and uncropped by ornament; the sea is the hero
-- One accent (sea glass) against warm neutrals — no secondary or tertiary hue
-- Hairlines group content; cards are used only where something genuinely floats
-- Serif display over sans body; a single serif carries every heading
-- Flat by default, depth reserved for real elevation
-- Every colour pairing clears WCAG AA by construction
+- The hero photograph and its serif headline open every visit; the cloth starts at the hem.
+- Every join between sections is a woven band. There are no straight section edges.
+- One accent, madder. Everything else is a ground (linen, oat, flax, night, deep) or a thread (ink, keyline).
+- Three faces with one job each: serif for sentences, stitched face for counts and labels, sans for reading.
+- Square corners on plates and photographs; 3px on controls; the header pill and the gallery's deck are the round shapes.
+- Flat. Depth comes from the grounds and the keylines, never from shadows at rest.
 
 ## Colors
 
-A shoreline read literally: warm sand underfoot, sea mist in the shallows, one
-saturated sea glass, and deep water at either end of the page.
+A length of undyed linen with slate thread and one madder dye. The two dark
+grounds come from the hero photograph's own deep water, so the photograph and
+the cloth read as one page.
 
 ### Primary
-- **Sea Glass** (`#1f6f6a`): The only accent in the system. Carries the primary
-  WhatsApp action on light surfaces, amenity icons, focus rings, the selected
-  range in the calendar, and the host initials. Measured 5.6:1 on Warm Sand, so
-  it is safe for body-size text as well as icons.
-- **Sea Glass Soft** (`#7fc7c0`): The same accent lifted for dark surfaces —
-  eyebrows on the ink section, the map placeholder grid. 8.2:1 on Wet Slate.
-- **Sea Foam** (`#cfe7e3`): The palest step. Hover on calendar days, the fill
-  between a selected arrival and departure, hover on light buttons over photos.
+- **Madder** (#a3302a): The only accent, and the red of a dye rather than an alarm. Every WhatsApp action on a light ground, the chosen arrival and departure in the calendar, the stay total, the thread in each band, the corner marks on a plate, today's mark in the calendar, the crosses beside the apartment's four facts. 5.5:1 on oat, and linen on madder is 6.1:1.
+- **Madder Deep** (#862520): Hover and pressed state of madder actions. Nothing else.
+- **Madder Bright** (#d4705f): The same thread on the dark grounds: the bands' motif centres, the corner marks on the featured guide, the cross on the stitched map, the 404 numerals. 4.6:1 on night, so it holds for large text as well as ornament.
 
 ### Neutral
-- **Warm Sand** (`#faf8f4`): The page. Never white — white reads as a booking
-  platform, and this is a home.
-- **Sea Mist** (`#edf0ee`): The alternate section ground, cooler than sand, used
-  to separate What's included and the host section without a rule or a border.
-- **Warm Shell** (`#eceae5`): Sits behind an image while it loads. Warmer than
-  Sea Mist on purpose so a loading photo does not flash cool.
-- **Wet Slate** (`#12242e`): Every heading, and the ground of the Getting here
-  section.
-- **Deep Water** (`#0d1b22`): The two full-bleed photographic sections, hero and
-  close. The darkest value in the system.
-- **Harbour** (`#183341`): The caption bar beneath the map. The single mid-dark
-  surface.
-- **Ink Body** (`#1c2b33`), **Ink Soft** (`#3a4c56`), **Ink Mute** (`#5c6f79`),
-  **Ink Quiet** (`#5f747e`): A four-step text ramp, every step at or above
-  4.5:1 on Warm Sand. Ink Quiet is the floor at 4.62:1 — nothing quieter exists.
-- **Tideline** (`#dde7e5`) and **Tideline Soft** (`#d5e2df`): Hairlines and
-  borders, tinted toward the sea glass rather than left neutral grey.
-- *(Removed August 2026: **Taken** `#cfdedb` and **Taken Ink** `#46565e`, the
-  fill behind a booked night. Booked nights are now struck through in Ink Quiet
-  like every other unavailable date, so the pair had no remaining use.)*
-- **Pebble** (`#a9b8b5`): The resting state of a small control mark, currently
-  the inactive deck dots.
-- **White** (`#ffffff`): Text and button fills *on photographs only* — never a
-  page or card ground. See The No-White Rule.
-- **Scrim** (`#08141c`): Not a surface. This is the ink the hero and closing
-  gradients are mixed from, used at varying alpha (0.05–0.9) and never at full
-  strength. It is what makes white text legible over a photograph.
-
-### The scrim system
-
-The two photographic sections are readable because of two stacked gradients, not
-one flat wash. A vertical pass darkens top and bottom; a 100° horizontal pass
-darkens the left, where the words sit, and releases to fully transparent by 66%
-so the right of the photograph stays bright. Measured against real image pixels,
-the hero's headline holds 9.2–12.4:1 and the scroll cue never drops below
-12.9:1, while the picture itself is barely touched on the side with no text.
-
-**The Directional Scrim Rule.** Darken where the text is, not the whole
-photograph. A uniform overlay is the lazy version and costs the image.
+- **Linen** (#f4efe5): The lightest ground. Plates (the calendar summary, the review cards), the header pill once solid, the linen button. Never white.
+- **Oat** (#eae3d5): The page. Most sections stand on it.
+- **Flax** (#dcd3c2): The alternate field (reviews, the guides on the homepage), the ground of a light band, the nights between a chosen arrival and departure, the hover state of a linen button.
+- **Keyline** (#c5baa6): Hairlines, frames, mounts, running-stitch rules. Decorative only; never carries text.
+- **Ink** (#2d3942): Every heading and all primary text on light grounds, and the ground of a dark band. Slate rather than black: 9.2:1 on oat, 10.2:1 on linen.
+- **Ink Soft** (#4c5862): Running copy and secondary text. 5.7:1 on oat, 4.9:1 on flax.
+- **Ink Mute** (#5a6570): Captions, labels, the calendar's weekday row and struck nights, the borders of keyline controls. 4.6:1 on oat and 5.1:1 on linen, but only 4.0:1 on flax, so it never sits directly on flax.
+- **Night** (#1b262e): The two dark fields: the photographs and Getting here. Also the 404 page and the lightbox.
+- **Night Line** (#3a464f): Hairlines and mounts on night.
+- **Deep** (#0d1b22): Under the two full-bleed photographs, the hero and the close, and the stitched map's panel.
+- **On Night** (#e9e2d4) and **On Night Soft** (#b7b9b2): Text on the dark grounds, 12.2:1 and 7.8:1 on night.
+- **White** (#ffffff): Text over a photograph and the header's WhatsApp button while it sits over the hero. Nowhere else.
+- **Scrim** (#08141c): Not a surface. The ink the photographic scrims are mixed from, always at partial alpha.
 
 ### Named Rules
 
-**The One Accent Rule.** Sea Glass is the only saturated colour in the system.
-There is no secondary and no tertiary hue, and adding one would break the
-shoreline logic the palette is built on. If something needs to stand out and
-Sea Glass is already spoken for, use weight, size or space instead.
+**The Madder Rule.** Madder is the only saturated colour on the page. If a second thing needs emphasis, use size, weight or a keyline; never a second hue.
 
-**The No-White Rule.** Warm Sand is the lightest surface. Pure `#ffffff` appears
-only as text or a button fill on top of a photograph, never as a page or card
-background. White is what a booking platform looks like.
+**The Readable Floor Rule.** Every text colour clears 4.5:1 on the ground it actually sits on, including captions and disabled states. Ink Mute is the floor on oat and linen and is not allowed on flax.
 
-**The Readable Floor Rule.** Every text colour clears 4.5:1 on its own ground,
-including disabled and secondary states. The ramp bottoms out at Ink Quiet
-(4.62:1); if a value looks too quiet, the answer is a smaller size or more
-space, never a lighter colour.
+**The Directional Scrim Rule.** Over a photograph, darken where the words are and leave the rest of the picture alone: a vertical pass plus a 100° pass that releases before the far edge. Used by the hero, the featured guide and every article header.
 
 ## Typography
 
 **Display Font:** Instrument Serif (with Georgia, serif)
-**Body Font:** DM Sans (with system-ui, sans-serif)
+**Body Font:** Sofia Sans (with system-ui, sans-serif)
+**Label/Numeral Font:** Handjet (variable; element shape and grid axes loaded)
 
-**Character:** A high-contrast literary serif against a plain geometric sans.
-The serif does all the speaking — every heading on the page, at one size — while
-the sans stays deliberately quiet at weight 300. The pairing reads closer to a
-printed book than a listing, which is the point.
+**Character:** A quiet literary serif for what the host says, a warm humanist sans for everything read at length, and Handjet, a face built from separate elements on a grid, as the stitched lettering. Opened into crosses it is cross-stitch; closed up it reads as small woven capitals.
 
 ### Hierarchy
-
-Serif from Subtitle up, sans from Body-lg down. The break between the two faces
-is also the break between "this names something" and "this explains something".
-
-- **Display** (serif 400, `clamp(2.75rem, 13.3vw, 6.5rem)`, 1.05): The hero, and
-  only the hero. Line breaks are authored, never left to the browser. 1.05 is a
-  constraint, not a preference: Instrument Serif needs 0.971em of baseline gap
-  before a descender touches the next line's ascender, and the previous 0.95
-  collided in all three languages the site carried at the time.
-- **Headline** (serif 400, `clamp(1.875rem, 3.2vw, 3.125rem)`, 1): Every section
-  heading, at one size. The closing "Ask me about your dates" is the single
-  exception, set larger to end the page.
-- **Title-lg** (serif 400, 30px): Sub-headings that open a block — the rate
-  card, the reviews.
-- **Title** (serif 400, 26px): The same role at the mobile step, and the
-  wordmark.
-- **Subtitle** (serif 400, 22px): Calendar month labels.
-- **Body-lg** (sans 300, 17px, 1.65): Primary running copy, held to ~44–52ch.
-- **Body** (sans 300, 16px, 1.6): Secondary copy and guest quotes.
-- **Control** (sans 300, 15px): Buttons, navigation, calendar days, form
-  controls. The most-used step in the system by a distance.
-- **Note** (sans 300, 14px, 1.55): Captions and supporting notes.
-- **Caption** (sans 300, 13px): Fine print, the gallery counter, attributions.
-- **Label** (sans 300, 0.75rem, 0.2em, uppercase): Eyebrows and the calendar
-  weekday row.
+- **Display** (400, clamp(2.75rem, 13.3vw, 6.5rem), 1.05): The hero headline and the closing "Ask me about your dates". The two photographs speak in it; nothing else does. Line breaks are authored in `content/copy.json`. 1.05 is a constraint: Instrument Serif needs 0.971em of baseline gap before a descender touches the ascender below. Tracking is 0.02em because at zero the owner found the letters crowded.
+- **Headline** (400, clamp(2.25rem, 4.4vw, 3.875rem), 1.02): Every section heading, at one size, and the guide index's h1. Sentences, balanced.
+- **Stitch XL / Stitch LG** (500, clamp(4rem, 9vw, 7rem) / clamp(2.5rem, 4.4vw, 3.375rem), 1): Cross-stitched numbers: the 9.7 in the reviews heading, the four prices, the stay total, the 404. Element shape 13 (a cross), grid 1.45.
+- **Title LG / Title** (400, 32px / 26px, 1.1): Month names, the rate card's heading, review headlines, guide card titles, the Good to know terms, prose h2 and h3.
+- **Subtitle** (Sofia Sans 500, 21px): The three ways of getting here.
+- **Body XL / LG / Body** (400, 19 / 17 / 16px, 1.65–1.7): Running copy, held to 44–58ch. Guide prose runs at 17px, 1.75, in a 680px column.
+- **Control / Note / Caption** (400, 15 / 14 / 13px): Buttons and links, supporting notes, fine print.
+- **Label** (Handjet 500, 13px, 0.14em, uppercase, closed grid): Stitched small capitals: the calendar's weekday row, the arrival and departure labels, "per night", the guide meta line, the footer, and the apartment's four facts (at larger steps, in a ruled plate). The class sets no size, so it is always paired with a step.
 
 ### The scale is enforced
 
-Resolved 18 August 2026. This section used to record known drift — one-off sizes
-at 20px, 24px, 25px, 32px and 34px, each used once, left over from porting the
-original comp. They are gone, and nothing can add another.
-
-The twelve steps above are `@theme` tokens in `app/globals.css`, and all 73
-call sites use them by name: `text-body-lg`, not `text-[17px]`. Before that the
-scale lived only in this document, which is why the drift happened at all —
-every component was writing its own pixel value and most of them happened to
-agree.
-
+Fourteen steps, defined as `@theme` tokens in `app/globals.css`: the twelve the
+site had before the redesign, retuned, plus the two cross-stitch numeral steps.
 `scripts/audit/design.mjs` rejects `text-[` and inline `fontSize` anywhere in
-`components/` or `app/`, so `npm run check` fails on a hand-set size. The one
-exemption is `app/opengraph-image.tsx`, which is Satori and has no stylesheet
-to take tokens from.
+`components/` or `app/`, so a size set by hand fails `npm run check`. The one
+exemption is `app/opengraph-image.tsx`, which is Satori and has no stylesheet.
 
-Two notes on the tokens themselves. The size named `body` here is
-`--text-body-md` in CSS: Tailwind v4 puts font size and text colour in the same
-`text-*` namespace, and `--color-body` already exists, so `--text-body` would
-have captured every `text-body` colour utility on the site. And only sizes are
-declared, not the line heights listed above — Tailwind would apply a paired
-`--text-*--line-height` automatically and restyle every element that sets its
-own leading today. Leading stays explicit at the call site until that is done
-deliberately.
+The step named `body` here is `--text-body-md` in CSS, because Tailwind v4 shares
+the `text-*` namespace between sizes and colours. Only sizes are declared;
+leading stays explicit at the call site.
 
-Treat the twelve documented steps as the scale. Do not add a thirteenth to solve
-a local problem; collapse a one-off into its nearest step instead.
+Custom classes in `globals.css` are unlayered and so beat Tailwind's layered
+utilities. That is why `.label` and `.stitch` carry no font size: a size set
+there could never be overridden where they are used.
 
 ### Named Rules
 
-**The One Heading Size Rule.** Every peer section heading is the same size.
-There were once three sizes across sibling sections with no semantic reason, and
-the gallery — the most persuasive section on the page — drew the smallest.
-Hierarchy comes from position and space, not from a heading being 6px bigger.
+**The Three Voices Rule.** The serif sets sentences, the stitched face sets counts and labels, the sans sets everything read at length. A paragraph is never stitched, and a date is never serif.
 
-**The Authored Break Rule.** The hero's line breaks live in `content/copy.json`
-as an array, not in the browser's wrapping. A phrase that short reads badly when it
-breaks wherever the box happens to end, and authored lines let each one rise out
-of its own mask.
+**The Legible Zero Rule.** Handjet draws every zero with a bar through it. At display sizes that reads as a slashed zero; at text sizes 20 and 28 become too close to call. Dates, scores and any number below the stitch-lg step are set in Sofia Sans with tabular figures.
 
-**The Serif-Only Display Rule.** Instrument Serif carries every heading. DM Sans
-never sets a heading, and no third face enters the system.
+**The Authored Break Rule.** The hero's line breaks live in `content/copy.json` as an array. A phrase that short reads badly when the browser decides where it wraps.
+
+**The Unbroken Phrase Rule.** A heading never ends a line on "to", "and", "your" or a bare number: "Good to / know" and "2 / sofa beds" were both on the page. Every heading balances its lines (`.t-headline` and `.t-display` both set `text-wrap: balance`), and every heading is rendered through `keepTogether()` in `lib/typography.ts`, which binds each short word to the word after it with a no-break space. Article headings get the same treatment when their Markdown is rendered. Headings carry no narrow `ch` caps that force a break the line length does not need.
 
 ## Layout
 
-A single centred column with two container widths: 1400px for full-width
-sections, 900px where reading matters (the calendar, Good to know). Gutters are
-20px on mobile and 44px from 768px up.
+A single column with a 1400px container for full-width sections and narrower
+measures where reading matters: 980px for the calendar, 680px for its summary
+plate and for article prose. Gutters are 20px on a phone and 44px from 768px.
+Sections take 96px of vertical padding on a phone and 128px from 768px, and
+headings sit closer to what they introduce than to the seam above them.
 
-Vertical rhythm runs on a 4px grid: sections take 80px of padding on mobile and
-112px on desktop, with the two photographic sections instead filling the
-viewport. The one breakpoint that matters is 768px — below it every grid
-collapses to a single column, the header becomes a sheet, and both decks become
-scroll-snap rows.
+The breakpoint that matters is 768px: grids open, the photographs go from a
+swipe row to a coverflow, the reviews go from a swipe row to columns, and the
+calendar shows two months. The navigation holds its burger until 1024px,
+where the bar has room for the wordmark, four links and the WhatsApp button.
 
-Density is deliberately uneven, and that is the composition: the hero and the
-gallery are generous and photographic, the calendar and Good to know are dense
-and functional. Reference material (Getting here) sits beside its map rather
-than above it, so logistics never outweigh the apartment.
+Section grounds alternate so that every seam is also a change of fabric. On the
+homepage, in order: photograph, oat, night, oat, flax, oat, night, oat, flax,
+photograph. Several sections set their heading in a narrow left column beside
+the content (What's included, Good to know); the calendar, the rate card and the
+reviews run full-width under theirs.
 
-**The Sheet Rule.** The Apartment section pulls itself up 72px over the hero
-with a 34px top radius, so the page begins by rising over the photograph. Any
-content in the hero must clear that overlap — 124px on mobile, 152px on desktop.
+**The Seam Rule.** No two sections meet at a straight edge. Every join is a band
+from `components/Seam.tsx`, whose top teeth take the colour of the field above
+and whose bottom teeth take the field below. Dark bands (ink ground) mark the
+turns into and out of the dark fields and the photographs; light bands (flax
+ground, running stitch or star) sit between two light sections, so a run of
+seams never becomes a row of black stripes. A photograph is a ground of its own,
+`photo`: where a band meets one (the hero, an article's cover, the closing
+section) the picture shows between the band's teeth, and the band rides four
+stitches over its edge. Never name the `deep` under a photograph instead; the
+teeth would come out near-black against a picture that is not.
+
+**The Hem Rule.** The Apartment section still pulls up 72px over the hero, as the
+rounded sheet it replaced did, so nothing in the hero's own composition moves.
+Anything placed in the hero must clear that edge: 124px on a phone, 152px on
+a desktop.
 
 ## Elevation & Depth
 
-Flat by default; depth is an event, not a texture. Surfaces sit directly on
-their ground and are separated by colour and hairlines. Four shadows exist, and
-each marks something that genuinely floats above the page rather than decorating
-a box.
+Flat. The page is cloth, and cloth does not float. Depth comes from the order of
+the grounds (linen over oat over flax, night under all of them) and from
+keylines, mounts and corner marks. Only two things cast a shadow, because only
+two things actually hover over the page.
 
 ### Shadow Vocabulary
-- **Sheet** (`0 -30px 70px rgba(8, 20, 28, 0.28)`): Cast *upward* by the
-  Apartment section onto the hero photograph. The only upward shadow.
-- **Lift** (`0 24px 60px rgba(12, 36, 46, 0.16)`): A framed photograph resting
-  above the page.
-- **Float** (`0 28px 70px rgba(0, 0, 0, 0.35)`): The map, on the dark section.
-- **Pill** (`0 6px 20px rgba(8, 20, 28, 0.22)`): The header's primary action,
-  which sits over a photograph and needs separation from it.
+- **Pill** (`box-shadow: 0 6px 20px rgba(8, 20, 28, 0.22)`): The header's white WhatsApp button while it sits over the hero photograph.
+- **Bar** (`box-shadow: 0 10px 30px rgba(8, 20, 28, 0.3)`): The phone's sticky WhatsApp bar, which rides over whatever section is under it.
 
-Deck cards carry a shadow that scales with depth in the stack, from
-`0 18px 44px` at rest to `0 40px 90px` on the centred card.
+### Named Rules
 
-**The Earned Shadow Rule.** A shadow means the surface is above the page. Cards,
-list rows and calendar cells get none. If a new surface wants one, the question
-is whether it actually floats — if not, use a hairline.
+**The Flat Cloth Rule.** Plates, cards, photographs and calendar cells have no shadow. If a new surface seems to need one, it needs a keyline or a different ground instead.
 
 ## Shapes
 
-Two radii, a pill, and a 3px focus-ring corner. Cards and photographs take 20px;
-smaller panels and the rate cells take 16px; anything interactive is fully rounded —
-buttons, calendar days, avatars, the deck dots. The one outlier is the 34px top
-radius on the Apartment sheet, which is larger on purpose so the page reads as
-rising over the hero.
+Square by default. Plates, photographs, calendar cells, the seams and the
+stitched map are square-cornered, because woven and stitched things are built
+on a grid. Controls (buttons, the guest select, keyline buttons) take a 3px
+radius, just enough to read as something to press. The focus ring has a 2px
+corner. The header pill is fully round, inherited from the hero.
 
-Borders are always 1px and always a tideline colour. There are no heavy rules,
-no coloured left-borders, and no dashed or dotted strokes anywhere.
+The gallery is the one exception. Its deck keeps the 20px corners, round arrow
+buttons and pill dots it had before the woven redesign, because the owner asked
+for that gallery back as it was. Its photographs are not mounted.
 
-**The Hairline-Over-Box Rule.** Related items are grouped by a 1px rule and
-proximity, not by giving each one a container. Six amenities as six identical
-cards made every amenity look like a separate product; as a hairline list they
-read as one set.
+Lines are either a 1px keyline or a running stitch: a dash pattern of 55% thread
+to 45% gap. The running stitch appears under captions, between list rows, as
+link underlines, as the sewn edge 4px inside every button, and as the frame
+round the stay total.
+
+**The Mount Rule.** A photograph is mounted, never boxed: a 1px keyline set 6px
+off the picture (an outline, so it costs no layout), keyline on light grounds and
+night line on dark ones. The gallery's deck is the exception above.
 
 ## Components
 
 ### Buttons
-- **Shape:** Fully rounded (pill) for every action; the header's WhatsApp button
-  is the one 10px-radius exception, inherited from the original design.
-- **Primary:** Sea Glass fill with white text on light grounds; white fill with
-  Deep Water text on photographs. The fill adapts to the surface, the shape,
-  glyph and label never do.
-- **Hover / Focus:** Colour transition at 420ms on the house easing, plus a 2px
-  lift on pointer devices. Focus shows a 2px Sea Glass ring at 3px offset, or
-  Sea Foam on dark grounds.
-- **Outline:** 1px Tideline border, transparent fill, inverting to Wet Slate on
-  hover. Used for month paging and the gallery arrows.
+- **Shape:** Squared woven labels (3px), with a running stitch sewn 4px inside the edge.
+- **Thread (primary on light grounds):** Madder, linen lettering, the WhatsApp glyph and the word "WhatsApp" in the label. Every WhatsApp action on oat, linen or flax, and the phone's sticky bar.
+- **Linen (primary on dark grounds and photographs):** Linen, ink lettering; the WhatsApp glyph in madder when it is a WhatsApp action. The closing section, the map's "Show map", the featured guide's "Read article", the 404's way home.
+- **Keyline (secondary):** 44px squares with a 1px ink-mute border for month paging and the lightbox; they fill with ink (or on-night on dark grounds) on hover.
+- **Deck arrows:** 48px circles with a night-line ring, under the gallery only; they fill with on-night on hover, on pointer devices only, so a tap on a phone does not leave one filled.
+- **Hover / Focus:** Colour only, over 320ms on the house curve (`cubic-bezier(0.22, 0.9, 0.24, 1)`), plus a 1px press. Focus is a 2px madder ring at 3px offset, on-night on dark grounds.
+- **The header's WhatsApp button** over the hero stays white with a 10px radius and the Pill shadow, as it was; once the header is solid it becomes a thread button.
 
-**The One CTA Shape Rule.** Every WhatsApp action is a filled pill with the
-WhatsApp glyph and the word "WhatsApp" in its label. There were once three
-different treatments and the weakest sat at the point of highest intent.
+### Links
+Ink or on-night text with a running-stitch underline that closes into a solid thread, and turns madder, on hover. An arrow beside a link nudges 3px toward where it points.
 
-### Cards / Containers
-- **Corner Style:** 20px for photographic cards, 16px for panels.
-- **Background:** Warm Sand on Sea Mist grounds; Warm Shell behind loading images.
-- **Shadow Strategy:** None at rest. See The Earned Shadow Rule.
-- **Border:** 1px Tideline where a card needs an edge without a fill.
-- **Internal Padding:** 24–28px.
+### Plates
+- **Corner Style:** Square.
+- **Background:** Linen on oat or flax, with a 1px keyline.
+- **Corner marks:** Madder L-marks at the four corners on the one plate that matters most, the calendar summary, and on the featured guide. Not on every card.
+- **Internal Padding:** 24–40px.
 
 ### Inputs / Fields
-- **Style:** Pill, 1px Tideline border, Warm Sand fill. Only one exists — the
-  guest count.
-- **Focus:** The global 2px Sea Glass ring at 3px offset.
+- **Style:** The guest count select: linen fill, 1px ink-mute border (3:1 or better on oat), 3px radius. The only form control on the site.
+- **Focus:** The global madder ring.
 
 ### Navigation
-- Sans at 15px inside a **floating frosted pill**, inset from the top and side
-  edges rather than welded to them. Over the hero it is a 7%-white fill with a
-  22%-white hairline and a 14px backdrop blur; past the hero it becomes
-  88%-opacity Warm Sand with a Tideline hairline.
-- It is a pill in **both** states. Nothing about its width, radius or position
-  animates on scroll — only the two colours cross-fade, which keeps the header
-  out of the layout-property budget entirely. Its padding still eases, which is
-  the one documented exception it already had.
-- Four links is the cap, not a preference: the wordmark, links, language
-  switcher and WhatsApp pill have to fit on one line above 1024px. "What to do"
-  took the slot that was "Getting here".
-- Links carry a 1px underline that wipes in from the left on hover, 420ms.
-- Below 768px the nav becomes a translucent full-screen sheet at 70% opacity
-  with a 40px backdrop blur, so the photograph stays legible behind it. The
-  hamburger becomes a back arrow while open.
+A floating frosted pill over the hero photograph (7% white, 22% white hairline,
+14px backdrop blur), becoming linen at 90% with a keyline once the page scrolls.
+Only colours cross-fade; the padding eases inside a `contain: layout style`
+boundary, the one layout transition on the site. Links are sans 15px with a
+running-stitch underline that wipes in from the left. Below 1024px the links
+move to a translucent linen sheet with serif links on dashed keylines and a
+thread WhatsApp button.
 
-### The Host Portrait
+### The Seam (signature component)
+Fifteen stitches tall: 2px stitches on a phone, 3px from 768px (30px and 45px).
+Top to bottom: three stitches of teeth in the upper field's colour, a gap, a
+seven-stitch motif row, a gap, three stitches of teeth in the lower field's
+colour. Every bar of stitches is a background gradient on one element, so a band
+changes thread by changing a colour. Motifs: lozenge (a hollow stepped diamond
+with a madder centre), star (an eight-point star), water (a stepped chevron with
+a drop beneath), running (a running stitch, no thread).
 
-A mounted print, not an avatar: the photograph at the 20px photographic radius
-resting on the Lift shadow, with a 1px Tideline Soft outline of the same shape
-set 12px down and to the right, the way a print sits slightly off its backing
-board.
+Until September 2026 the units were SVGs used as masks. On phones with a
+fractional pixel ratio a masked strip leaked a one-pixel line along its edges,
+and two of those crossed every band. `.seam` in globals.css records the two
+rules that keep the gradients clean: no two layers end on the same line, and a
+stitch and a half of each field lies across the band's own edges.
 
-It replaced a 144px circle centred above a centred paragraph. That version drew
-the single most persuasive asset on a direct-booking page — a real face — the
-exact way a booking platform draws an account, and squinted at, nothing in the
-section led: heading, name and four centred lines all carried the same weight.
+The ASCII grids the rows are read from:
 
-The block is now asymmetric — heading, then portrait beside left-aligned prose —
-which also rhymes with The apartment, the other section built as copy beside a
-photograph. Left-aligned long-form beats centred long-form for reading, and the
-asymmetry is what stops the page reading as one centred column throughout.
+```
+teeth-down  ######   lozenge  .....##.....   star  .....##.....   water  #..........#
+            .####.            ....#..#....         ..#..##..#..          .#........#.
+            ..##..            ...#....#...         ...#.##.#...          ..#......#..
+                              ..#......#..         .####..####.          ...#....#...
+                              ...#....#...         ...#.##.#...          ....#..#....
+                              ....#..#....         ..#..##..#..          .....##.....
+                              .....##.....         .....##.....          ............
+```
 
-- **Size is bounded by the file, not by taste.** 168px on mobile, 208px above
-  768px, because `host.jpg` is 400×400 and a wider frame is upscaling. A bigger
-  photograph is the only thing that buys a bigger portrait.
-- **Arrival:** the mount slides out from behind the picture a beat after it, so
-  the photograph lands first and the frame settles under it. The offset is the
-  resting state and lives outside the motion query, so reduced motion simply
-  shows the mount already in place. Transform only.
-- The name captions the face in the display serif rather than sitting between
-  the heading and the prose, where it read as a third heading.
-### The Guide Card
+**The Still Band Rule.** The bands do not move. Their rows used to slide half a
+unit into registration as each band crossed the screen; in September 2026 the
+owner asked for them to stop moving while the page scrolls. The band is a
+finished drawing standing still.
 
-A photograph at 3:2 with the article title set on it in white, over the page's
-directional scrim. One treatment whether the article is met in the grid, as the
-featured card, or as its own page header.
-
-**This is a scoped exception to "don't print a photograph's name over the
-photograph".** That rule exists because the gallery was labelling pictures with
-their own names, which told the reader nothing. An article's title is not a
-label for its cover — it is the thing being linked to, and the picture is there
-to make it worth reading. The exception does not extend back to the gallery.
-
-Legibility is guaranteed rather than hoped for. The scrim was measured against
-Warm Sand, the brightest ground the system has: the title lands at 7.7:1 and the
-eyebrow, at 80% white, at 5.1:1. Every real photograph is darker than sand, so a
-cover added later can only improve both.
-
-- **Hover:** the picture grows to 1.05 over 600ms inside its own frame, the card
-  lifts 3px, and a 5px Sea Foam ring fades in around it. The ring is a
-  pseudo-element whose *opacity* animates, not a box-shadow — that keeps the
-  transform-and-opacity rule intact instead of adding a third exception to it.
-- **Missing cover:** the card draws a shoreline at dusk — horizon, low sun,
-  contour lines — in Deep Water and Sea Glass Soft, seeded from the slug so it
-  is stable across builds. Drawn dark rather than in sand for two reasons: a
-  near-white drawing under the scrim just turns grey, and deep water reads as a
-  deliberate stand-in rather than a photograph that failed to load.
-
-### The Deck (signature component)
-The gallery and the reviews share one component. Below 768px it is a scroll-snap
-row; above, a 3D coverflow where the centred item sits flat and neighbours are
-pushed back in Z and turned on Y. Offsets are expressed as a ratio of card width
-so the stack never collapses under zoom.
-
-Its two decks differ only in parameters. Photographs turn 26° and dim to 0.72 —
-they stay readable in the periphery. **Review cards turn 0° and stay at full
-opacity**, because rotated body text is unreadable and dimming Ink Soft to 0.72
-lands at 4.05:1, below the readable floor. Depth on the review deck comes from
-scale and shadow alone.
+**The Rise.** A headline wrapped in `.rise` comes up from under the band above
+it on a view timeline. Because it is scroll-driven, scrolling back up plays it
+backwards. It is the page's only scroll motion.
 
 ### The Calendar (signature component)
-40px circular cells on a Monday-first grid. A night is free or it is not.
+A stitch chart. 44px square cells on a Monday-first grid, with the day numbers
+in Sofia Sans tabular (see The Legible Zero Rule).
 
-**The One Unavailable Look Rule.** Every night you cannot have looks the same —
-struck through, Ink Quiet, not a button — whether it is booked, out of season or
-already past. Booked nights were once a Taken fill instead, which made one grid
-read as two systems at once and drew the eye hardest to the dates of least use.
-The strike is never the only signal: each cell's screen-reader label carries its
-status in words.
+**The One Unavailable Look Rule.** Every night you cannot have looks the same,
+whether it is booked, out of season or past: ink-mute, crossed by one diagonal
+keyline thread, and not a button. A run of taken nights becomes a hatched block.
+The line is never the only signal: each cell's screen-reader label says "Taken"
+or "Closed for the season" in words.
 
-Free nights are plain. Today carries a 1px Sea Glass ring; a selected range
-fills Sea Foam with Sea Glass at each end.
+Free nights are plain. Today carries a short madder stitch under its number.
+A chosen arrival and departure fill madder with linen numbers; the nights
+between fill flax. The summary plate beneath carries the dates, the night
+count, and, once both ends are chosen, the total for the stay in cross-stitch
+inside a madder running-stitch frame that is sewn on left to right (clip-path,
+not width) each time a new range is picked. The total is summed night by
+night, and withheld entirely if any night has no published price.
 
-Once both ends are chosen the summary carries the **total for the stay** — the
-eyebrow label, the figure at 34px in the display serif, and one line of
-qualifier under it. 34px because that is already the rate card's price size, and
-a price should not be two sizes on one page.
+### The Rate Card
+One ruled plate divided into a column per season (two across on a phone, four
+from 1024px) by the grid's own 1px keyline gap. The price leads each cell in
+cross-stitch; the season and its months are the caption beneath.
 
-It is summed night by night rather than nights × one rate, because a stay can
-cross a band. If any night has no published price the whole figure is withheld
-rather than shown short — the same rule the rate card follows.
+### The Reviews
+Linen plates on the flax field: the guest's headline in the serif, the score in
+madder Sofia Sans, the review verbatim, and the name and country as a stitched
+caption under a running stitch. A swipe row on a phone, columns from 768px.
+The section heading carries the Booking.com score inside the sentence, in
+cross-stitch, while one is recorded.
 
-### The Hand-Drawn Accents
+### The Photographs
+A deck on the night field, as it was before the redesign. From 768px it is a
+coverflow: the front photograph faces the visitor, and two either side turn 26°
+away and dim to 0.72 brightness. On a phone it is a swipe row. Round arrows and
+pill dots sit beneath, the count ("1 / 6") beside the heading, and the front
+card opens the lightbox. The rooms' names are the buttons' accessible names and
+are not printed, because a printed caption is a claim about the room and each
+has to be checked against its picture first.
 
-Two ink strokes, in `components/accents.tsx`, ported from the Claude Design
-"Site Accents" sheet. They are the only ornament the system allows, and the
-count is the constraint.
+The balcony photograph beside the apartment's heading is the way into the deck.
+It is mounted like any other, and on hover the picture drifts in to 1.05, the
+mount's keyline turns madder and steps out to 12px, and a linen label, "See the
+photographs", comes up. On a phone there is no hover, so the label stays in
+view. Transform, opacity and paint only.
 
-| Accent | Where | What it does |
-|---|---|---|
-| Heading swash | Underlining Availability's `<h2>` — nowhere else | Two strokes, the second delayed 260ms, as a hand underlining twice |
-| Circled price | The stay total, once both dates are picked | An ellipse scribbled round the figure, redrawn on every new range |
+### The Stitched Chart
+The map's stand-in until someone asks for Google Maps: sand in scattered knots,
+water in rows of wave stitches, the shoreline as a stepped running stitch, and
+the apartment as a single madder-bright cross sewn on the line. Abstract on
+purpose: no real coastline and no place names.
 
-**The swash is an underline, not a row.** It is absolutely positioned against a
-wrapper that hugs the heading text, so it costs no vertical space and stretches
-to the width of the word above it. It sits *outside* the `data-reveal="mask"`
-span, because that span clips its overflow to hide the heading's rise and would
-clip an underline below the baseline along with it.
-
-**What did not come over.** The sheet is ink brown on warm paper, captioned in
-Shantell Sans. That register is the opposite of this one, and importing it
-would have meant a second accent hue and a third typeface — both explicitly
-ruled out below. Only the *line* came over. Every stroke is `currentColor` over
-a token text class, Sea Glass Soft for the swash and Sea Glass for the price
-circle, and there is **no SVG `<text>` anywhere in the file**: the circled
-price wraps the real DOM number so it keeps the display serif and its step on
-the scale.
-
-**What was built and then cut.** Two gulls crossing the gallery divider, a sun
-badge beside the host heading, and the hand-drawn horizon the gulls crossed.
-All three worked; all three looked wrong on the page, and the gallery went back
-to the plain `border-t` hairline it had before. Of the sheet's eight accents,
-two are in use. Do not re-add the rest without a reason.
-
-**The Draw-On Rule.** Every accent's resting state is *finished artwork*, and
-the animation attaches only under a `[data-shown]` ancestor. Since
-`RevealController` sets `data-shown` at runtime and bails out early under
-reduced motion, this single selector covers three cases with no second code
-path: JavaScript off gets complete drawings, reduced motion gets complete
-drawings, and everyone else watches them draw. `pathLength="1"` normalises each
-path so one set of keyframes drives all of them.
-
-**Nothing loops, and nothing travels.** Both accents draw once and hold. The
-sheet idled forever — rotating sun, endlessly circling gull — and on a page
-somebody is reading, perpetual movement beside a paragraph is the thing that
-turns an accent into a distraction.
+### The Guide Card
+A mounted print with its caption: the cover at 3:2, the title beneath it in the
+serif (turning madder on hover as the cover grows to 1.04 inside its mount), and
+the category and reading time as a stitched caption. The featured card on the
+index is the one that keeps its title on the photograph, under the directional
+scrim, because at that width it is the page's opening picture.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** use Sea Glass (`#1f6f6a`) as the only accent, and reach for weight or
-  space when something else needs emphasis.
-- **Do** group related items with a 1px Tideline rule and proximity.
-- **Do** keep every peer section heading at the same size.
-- **Do** author hero line breaks in `content/copy.json` rather than letting the
-  browser wrap them.
-- **Do** clear 4.5:1 for text and 24×24 for any target, in every state.
-- **Do** let photographs run full-bleed and uncropped by ornament.
-- **Do** pick the reveal that matches the content: `fade` (14px, no scale) for
-  prose sections, `mask` for display headings, `rise` (46px plus a 0.965 scale,
-  staggered) for **grids of cards only**. `rise` on a paragraph makes the page
-  read as one repeated effect, which is the exact failure `fade` is kept slight
-  to avoid.
-- **Do** animate `transform` and `opacity`; when a layout property is genuinely
-  the design, bound it with `contain: layout style` and say why.
+- **Do** put a `<Seam>` on every join between two sections, with `from` and `to` naming the two grounds (`photo` for a photograph), and pick dark or light by whether the turn is into a dark field or photograph.
+- **Do** keep madder (#a3302a) for WhatsApp actions, chosen dates, prices that are the answer, and thread. Use size, weight or a keyline for any other emphasis.
+- **Do** set sentences in Instrument Serif, counts and labels in Handjet, and everything read at length in Sofia Sans.
+- **Do** set dates, scores and small numbers in Sofia Sans with tabular figures.
+- **Do** mount photographs with a keyline 6px off the picture, and keep their corners square. The gallery's deck is the one exception.
+- **Do** draw new lines as a 1px keyline or a running stitch, and new icons as stitched paths (a 2.4 / 1.5 dash, butt caps) in madder.
+- **Do** keep scroll motion to the headline rise, as transform on a scroll timeline, with a still, finished resting state.
+- **Do** clear 4.5:1 for text and 24×24 for every target, in every state.
 
 ### Don't:
-- **Don't** use `#ffffff` as a page or card background.
-- **Don't** add a second accent hue, a third typeface, or a gradient used as
-  decoration.
-- **Don't** put six same-size icon-heading-text cards on the page as structure.
-- **Don't** give a resting surface a shadow, or a non-interactive element a
-  hover lift.
-- **Don't** number a set of items unless the sequence carries information —
-  Getting here lists three alternatives, not three steps.
-- **Don't** dim body text below the readable floor to create depth; use scale
-  and shadow.
-- **Don't** print a photograph's name over the photograph. An article title over
-  its own cover is the one sanctioned exception — see The Guide Card.
+- **Don't** end a section on a straight edge or stack two sections without a band between them.
+- **Don't** add a second accent hue, a gradient used as decoration, or pure white as a ground.
+- **Don't** set a paragraph, a date or a phone number in the stitched face.
+- **Don't** give a plate, card, photograph or calendar cell a shadow.
+- **Don't** lay out a set of items as equal tiles of icon over heading over note; rule them into a list.
+- **Don't** put a label or a number above a section heading; the heading carries its own weight.
+- **Don't** set the bands moving again, or give sections a scroll entrance of their own.
+- **Don't** animate a layout property. The header's padding is the one bounded exception.
+- **Don't** print a photograph's name over or under it until it has been checked against the picture.

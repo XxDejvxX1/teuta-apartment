@@ -1,69 +1,57 @@
 import Link from "next/link";
 
 import type { Guide } from "@/lib/guides";
+import { keepTogether } from "@/lib/typography";
 import GuideCover from "@/components/GuideCover";
 
 /**
- * One article in the index grid.
+ * One article, as a mounted print with its caption.
  *
- * The title sits on the cover rather than under it. That is a deliberate,
- * scoped exception to "don't print a photograph's name over the photograph" —
- * that rule exists because the gallery was labelling pictures with their own
- * filenames, which told the reader nothing. An article's title is not a label
- * for its cover; it is the thing being linked to, and the picture is there to
- * make it worth reading. See DESIGN.md.
- *
- * Legibility does not depend on which photograph ends up here. The scrim is the
- * page's existing directional-scrim system: measured over the brightest ground
- * on the site (warm sand, which is roughly what the drawn cover is), the title
- * holds 7.7:1 and the eyebrow 5.1:1. Any real photograph is darker than that,
- * so every later cover can only improve those numbers.
+ * The title used to be printed over the cover under a scrim. Under the cover
+ * it reads as a plate and its caption — the same grammar as the photographs —
+ * needs no scrim at all, and a postcard-style cover keeps its own lettering
+ * clear. The category and reading time follow the title rather than sitting
+ * above it as a label.
  */
 export default function GuideCard({
   guide,
   categoryLabel,
   minutesLabel,
-  index,
   priority,
 }: {
   guide: Guide;
   categoryLabel: string;
   minutesLabel: string;
-  index: number;
   priority?: boolean;
 }) {
   return (
-    <li
-      // Read by the no-JS category filter in globals.css.
-      data-guide-category={guide.category}
-      data-reveal="rise"
-      style={{ ["--stagger-i" as string]: index % 3 }}
-    >
+    // Read by the no-JS category filter in globals.css.
+    <li data-guide-category={guide.category}>
       <Link href={`/guide/${guide.slug}`} className="guide-card group block">
-        <div className="relative aspect-[3/2] overflow-hidden rounded-[20px] bg-surface-warm">
-          <div className="guide-cover absolute inset-0">
-            <GuideCover
-              slug={guide.slug}
-              cover={guide.cover}
-              alt=""
-              sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 31vw"
-              priority={priority}
-            />
-          </div>
+        <span className="mount block">
+          <span className="relative block aspect-[3/2] overflow-hidden bg-night">
+            <span className="guide-cover absolute inset-0 block">
+              <GuideCover
+                slug={guide.slug}
+                cover={guide.cover}
+                alt=""
+                sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 31vw"
+                priority={priority}
+              />
+            </span>
+          </span>
+        </span>
 
-          <div aria-hidden className="guide-scrim absolute inset-0" />
-
-          <div className="absolute inset-x-0 bottom-0 p-[22px]">
-            <p className="eyebrow mb-2 text-white/80">
-              {categoryLabel}
-              <span aria-hidden className="px-1.5 opacity-60">
-                ·
-              </span>
-              {minutesLabel}
-            </p>
-            <h3 className="t-display text-title leading-[1.12] text-white">{guide.title}</h3>
-          </div>
-        </div>
+        <h3 className="guide-card-title t-display mt-7 text-title leading-[1.12] text-ink">
+          {keepTogether(guide.title)}
+        </h3>
+        <p className="label mt-3 text-caption text-ink-soft">
+          {categoryLabel}
+          <span aria-hidden className="px-2 text-madder">
+            ·
+          </span>
+          {minutesLabel}
+        </p>
       </Link>
     </li>
   );

@@ -15,7 +15,6 @@ import { site, whatsappLink } from "@/content/site";
 import { rates, stayCost } from "@/content/rates";
 import { interpolate } from "@/lib/dictionary";
 import { ArrowIcon, WhatsAppIcon } from "@/components/icons";
-import { CircledPrice, HeadingSwash } from "@/components/accents";
 
 type Copy = {
   title: string;
@@ -218,261 +217,244 @@ export default function Availability({
     new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth() + offset + slot, 1, 12));
 
   return (
-    // Asymmetric padding on purpose. The gallery above already ends with 96px
-    // (128px on desktop) of its own bottom padding, and a matching top pad here
-    // stacked into 248px of empty page between the last photo control and this
-    // heading. The top is trimmed to roughly a third of the bottom so the two
-    // sections read as adjacent; the generous bottom is kept, because the rates
-    // block below it is the last thing before a different section colour.
-    <section id="availability" className="bg-sand px-5 pb-20 pt-6 md:px-11 md:pb-[120px] md:pt-8">
-      <div className="mx-auto max-w-[900px]">
-        <div data-reveal="fade" className="mb-10 text-center md:mb-14">
-          {/*
-            The one swash on the site — under this heading and no other on
-            purpose, because nine of them would be a template.
-
-            The wrapper hugs the heading text so the swash can size itself to
-            the word rather than to the column, and it sits outside the mask
-            span rather than inside it: that span clips its overflow to hide
-            the heading's rise, and an underline below the baseline is exactly
-            what it would clip. Costs no vertical space of its own.
-          */}
-          {/* flex rather than a plain block: an inline-block sits on a line
-              box and inherits its strut, which padded 7px of dead height under
-              a heading that is meant to cost nothing but its own 30px. As a
-              flex item it hugs the text exactly, and justify-center keeps it
-              centred the way the parent's text-center did. */}
-          <div className="mb-5 flex justify-center">
-            <span className="relative inline-block">
-              <span data-reveal="mask" className="block">
-                <h2 className="t-h3 text-ink">{copy.title}</h2>
-              </span>
-              <HeadingSwash />
-            </span>
-          </div>
+    <section id="availability" className="bg-oat px-5 pb-24 pt-20 md:px-11 md:pb-32 md:pt-28">
+      <div className="mx-auto max-w-[980px]">
+        <div className="mb-12 md:mb-16">
+          <span className="rise mb-5">
+            <h2 className="t-headline text-ink">{copy.title}</h2>
+          </span>
           {/* The minimum-stay rule used to live ~1,900px further down the page,
               so people planned stays that would be refused. */}
-          <p className="mx-auto max-w-[52ch] text-note leading-[1.6] text-muted">{copy.minStay}</p>
+          <p className="max-w-[52ch] text-body-md leading-[1.6] text-ink-soft">{copy.minStay}</p>
         </div>
 
-        <div data-reveal="fade" style={{ ["--stagger-i" as string]: 1 }}>
-          <div className="mb-6 flex items-center justify-between gap-4">
-            <button
-              type="button"
-              onClick={() => setOffset((v) => Math.max(0, v - 1))}
-              disabled={offset === 0}
-              aria-label={copy.previousMonth}
-              className="btn-outline flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-line text-ink disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-line disabled:hover:bg-transparent disabled:hover:text-ink"
-            >
-              <ArrowIcon direction="left" />
-            </button>
+        <div className="mb-6 flex items-center justify-between gap-4">
+          <button
+            type="button"
+            onClick={() => setOffset((v) => Math.max(0, v - 1))}
+            disabled={offset === 0}
+            aria-label={copy.previousMonth}
+            className="btn-keyline flex h-11 w-11 shrink-0 items-center justify-center text-ink disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            <ArrowIcon direction="left" />
+          </button>
 
-            <div className="flex flex-1 justify-around gap-4">
-              {[0, 1].map((slot) => (
-                <p
-                  key={slot}
-                  className={[
-                    "t-display text-center text-subtitle text-ink md:text-title",
-                    slot === 1 ? "hidden md:block" : "",
-                  ].join(" ")}
-                >
-                  {monthFormatter.format(monthStartFor(slot))}
-                </p>
-              ))}
-            </div>
-
-            <button
-              type="button"
-              onClick={() => setOffset((v) => Math.min(MONTHS_AHEAD, v + 1))}
-              disabled={offset >= MONTHS_AHEAD}
-              aria-label={copy.nextMonth}
-              className="btn-outline flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-line text-ink disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-line disabled:hover:bg-transparent disabled:hover:text-ink"
-            >
-              <ArrowIcon direction="right" />
-            </button>
-          </div>
-
-          <div className="grid gap-10 md:grid-cols-2 md:gap-14">
-            {[0, 1].map((slot) => {
-              const monthStart = monthStartFor(slot);
-              const cells = monthCells(monthStart.getUTCFullYear(), monthStart.getUTCMonth());
-
-              return (
-                <table
-                  key={slot}
-                  className={["w-full border-collapse", slot === 1 ? "hidden md:table" : ""].join(
-                    " ",
-                  )}
-                >
-                  <caption className="sr-only">{monthFormatter.format(monthStart)}</caption>
-                  <thead>
-                    <tr>
-                      {weekdayNames.map((name) => (
-                        <th
-                          key={name}
-                          scope="col"
-                          className="pb-3 text-label font-normal uppercase tracking-[0.1em] text-muted"
-                        >
-                          {name}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {Array.from({ length: cells.length / 7 }, (_, week) => (
-                      <tr key={week}>
-                        {cells.slice(week * 7, week * 7 + 7).map((date, index) => {
-                          if (!date) return <td key={index} className="p-0.5" />;
-
-                          const key = dayKey(date);
-                          const closed = !isOpen(date);
-                          const isPast = key < todayKey;
-                          const isToday = key === todayKey;
-                          const booked = isBooked(date, nights);
-
-                          const isArrival = key === arrival;
-                          const isDeparture = key === departure;
-                          const inRange =
-                            !!arrival && !!departure && key > arrival && key < departure;
-
-                          // A guest can arrive on any night that is free, and
-                          // depart on any later day whose intervening nights are.
-                          const selectable =
-                            !isPast && !closed && (!booked || (!!arrival && !departure));
-
-                          return (
-                            <td key={index} className="p-0.5 text-center">
-                              <DayCell
-                                date={date}
-                                label={dateFormatter.format(date)}
-                                statusText={
-                                  closed
-                                    ? copy.closedSeason
-                                    : booked
-                                      ? copy.legend.booked
-                                      : copy.legend.free
-                                }
-                                booked={booked}
-                                closed={closed}
-                                isPast={isPast}
-                                isToday={isToday}
-                                todayLabel={copy.today}
-                                isArrival={isArrival}
-                                isDeparture={isDeparture}
-                                inRange={inRange}
-                                selectable={selectable}
-                                onPick={() => pick(key)}
-                              />
-                            </td>
-                          );
-                        })}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              );
-            })}
-          </div>
-
-          {/* Selection summary + the handoff */}
-          <div className="mt-10 rounded-2xl border border-line bg-white/50 p-6 md:p-7">
-            <div aria-live="polite">
-              {problem ? (
-                <p className="text-center text-control leading-[1.55] text-accent">{problem}</p>
-              ) : selected ? (
-                <p className="text-center text-body-md text-ink">
-                  <span className="text-muted">{copy.arrival}</span>{" "}
-                  {dateFormatter.format(parseDayKey(selected.arrival)!)}
-                  <span aria-hidden className="mx-2 text-muted">
-                    ·
-                  </span>
-                  <span className="text-muted">{copy.departure}</span>{" "}
-                  {dateFormatter.format(parseDayKey(selected.departure)!)}
-                  <span aria-hidden className="mx-2 text-muted">
-                    ·
-                  </span>
-                  {plural(copy.nightsOne, copy.nightsOther, nightCount)}
-                </p>
-              ) : arrival ? (
-                <>
-                  <p className="text-center text-body-md text-ink">
-                    <span className="text-muted">{copy.arrival}</span>{" "}
-                    {dateFormatter.format(parseDayKey(arrival)!)}
-                  </p>
-                  <p className="mt-1 text-center text-note text-muted">{copy.hintDeparture}</p>
-                </>
-              ) : (
-                <p className="text-center text-note text-muted">{copy.hintArrival}</p>
-              )}
-              {/*
-                Inside the live region on purpose: the price is part of what
-                just changed, and a screen-reader user choosing a departure date
-                should hear the total in the same announcement as the nights.
-              */}
-              {selected && total !== null && (
-                <p className="mt-5 text-center">
-                  <span className="eyebrow block text-muted">{copy.totalLabel}</span>
-                  {/*
-                    Keyed on the range so choosing different dates remounts it
-                    and the circle draws again. The number is unchanged — still
-                    the display serif at its step on the scale; the accent only
-                    wraps it.
-                  */}
-                  <span className="t-display mt-1 block text-title-lg leading-none text-ink">
-                    <CircledPrice key={`${selected.arrival}/${selected.departure}`}>
-                      {rates.currencySymbol}
-                      {total}
-                    </CircledPrice>
-                  </span>
-                  <span className="mt-2 block text-note leading-[1.5] text-body-mute">
-                    {copy.totalNote}
-                  </span>
-                </p>
-              )}
-            </div>
-
-            <div className="mt-5 flex flex-wrap items-center justify-center gap-4">
-              <label className="flex items-center gap-2.5 text-control text-body-soft">
-                {copy.guests}
-                <select
-                  value={guests}
-                  onChange={(event) => setGuests(Number(event.target.value))}
-                  className="rounded-full border border-line bg-sand px-4 py-2 text-control text-ink"
-                >
-                  {Array.from({ length: site.capacity.guests }, (_, i) => i + 1).map((n) => (
-                    <option key={n} value={n}>
-                      {n}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
-              {(arrival || departure) && (
-                <button
-                  type="button"
-                  onClick={clear}
-                  className="rounded-full px-3 py-2 text-note text-muted underline underline-offset-4 transition-colors duration-300 hover:text-ink"
-                >
-                  {copy.clear}
-                </button>
-              )}
-            </div>
-
-            <div className="mt-6 text-center">
-              <a
-                href={href}
-                target="_blank"
-                rel="noopener"
-                className="btn-light inline-flex items-center justify-center gap-2.5 rounded-full bg-accent px-7 py-4 text-body-md text-white"
+          <div className="flex flex-1 justify-around gap-4">
+            {[0, 1].map((slot) => (
+              <p
+                key={slot}
+                className={[
+                  "t-display text-center text-title text-ink md:text-title-lg",
+                  slot === 1 ? "hidden md:block" : "",
+                ].join(" ")}
               >
-                <WhatsAppIcon size={18} />
-                {selected ? copy.ctaWithDates : copy.cta}
-              </a>
-            </div>
+                {monthFormatter.format(monthStartFor(slot))}
+              </p>
+            ))}
           </div>
 
-          {children}
+          <button
+            type="button"
+            onClick={() => setOffset((v) => Math.min(MONTHS_AHEAD, v + 1))}
+            disabled={offset >= MONTHS_AHEAD}
+            aria-label={copy.nextMonth}
+            className="btn-keyline flex h-11 w-11 shrink-0 items-center justify-center text-ink disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            <ArrowIcon direction="right" />
+          </button>
         </div>
+
+        {/*
+          Two months side by side from 768px, one on a phone. Each is a real
+          <table> with a caption, so a screen reader can move by week and day.
+        */}
+        <div className="grid gap-10 md:grid-cols-2 md:gap-14">
+          {[0, 1].map((slot) => {
+            const monthStart = monthStartFor(slot);
+            const cells = monthCells(monthStart.getUTCFullYear(), monthStart.getUTCMonth());
+
+            return (
+              <table
+                key={slot}
+                className={["w-full border-collapse", slot === 1 ? "hidden md:table" : ""].join(
+                  " ",
+                )}
+              >
+                <caption className="sr-only">{monthFormatter.format(monthStart)}</caption>
+                <thead>
+                  <tr>
+                    {weekdayNames.map((name) => (
+                      <th
+                        key={name}
+                        scope="col"
+                        className="label pb-3 text-caption font-normal text-ink-mute"
+                      >
+                        {name}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {Array.from({ length: cells.length / 7 }, (_, week) => (
+                    <tr key={week}>
+                      {cells.slice(week * 7, week * 7 + 7).map((date, index) => {
+                        if (!date) return <td key={index} className="py-0.5" />;
+
+                        const key = dayKey(date);
+                        const closed = !isOpen(date);
+                        const isPast = key < todayKey;
+                        const isToday = key === todayKey;
+                        const booked = isBooked(date, nights);
+
+                        const isArrival = key === arrival;
+                        const isDeparture = key === departure;
+                        const inRange =
+                          !!arrival && !!departure && key > arrival && key < departure;
+
+                        // A guest can arrive on any night that is free, and
+                        // depart on any later day whose intervening nights are.
+                        const selectable =
+                          !isPast && !closed && (!booked || (!!arrival && !departure));
+
+                        return (
+                          <td key={index} className="py-0.5 text-center">
+                            <DayCell
+                              date={date}
+                              label={dateFormatter.format(date)}
+                              statusText={
+                                closed
+                                  ? copy.closedSeason
+                                  : booked
+                                    ? copy.legend.booked
+                                    : copy.legend.free
+                              }
+                              booked={booked}
+                              closed={closed}
+                              isPast={isPast}
+                              isToday={isToday}
+                              todayLabel={copy.today}
+                              isArrival={isArrival}
+                              isDeparture={isDeparture}
+                              inRange={inRange}
+                              selectable={selectable}
+                              onPick={() => pick(key)}
+                            />
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            );
+          })}
+        </div>
+
+        {/* The selection, the price, and the handoff to WhatsApp. */}
+        <div className="plate corners mx-auto mt-12 max-w-[680px] px-6 py-8 text-center md:mt-14 md:px-10 md:py-10">
+          <div aria-live="polite">
+            {problem ? (
+              <p className="text-control leading-[1.55] text-madder">{problem}</p>
+            ) : selected ? (
+              // Each label keeps its date on the same line; a phone wraps
+              // between the pairs, never inside one.
+              <p className="text-body-md leading-[1.7] text-ink">
+                <span className="whitespace-nowrap">
+                  <span className="label text-caption text-ink-mute">{copy.arrival}</span>{" "}
+                  {dateFormatter.format(parseDayKey(selected.arrival)!)}
+                </span>
+                <span aria-hidden className="mx-3 text-madder">
+                  ·
+                </span>
+                <span className="whitespace-nowrap">
+                  <span className="label text-caption text-ink-mute">{copy.departure}</span>{" "}
+                  {dateFormatter.format(parseDayKey(selected.departure)!)}
+                </span>
+                <span aria-hidden className="mx-3 text-madder">
+                  ·
+                </span>
+                <span className="whitespace-nowrap">
+                  {plural(copy.nightsOne, copy.nightsOther, nightCount)}
+                </span>
+              </p>
+            ) : arrival ? (
+              <>
+                <p className="text-body-md text-ink">
+                  <span className="label text-caption text-ink-mute">{copy.arrival}</span>{" "}
+                  {dateFormatter.format(parseDayKey(arrival)!)}
+                </p>
+                <p className="mt-1 text-note text-ink-soft">{copy.hintDeparture}</p>
+              </>
+            ) : (
+              <p className="text-body-md text-ink-soft">{copy.hintArrival}</p>
+            )}
+            {/*
+              Inside the live region on purpose: the price is part of what just
+              changed, and a screen-reader user choosing a departure should hear
+              the total in the same announcement as the nights.
+            */}
+            {selected && total !== null && (
+              <p className="mt-7">
+                <span className="label block text-caption text-ink-mute">{copy.totalLabel}</span>
+                {/*
+                  Keyed on the range so a new choice remounts the frame and it
+                  is sewn on again — the stitching is what says "this is the
+                  answer to what you just picked".
+                */}
+                <span key={`${selected.arrival}/${selected.departure}`} className="sewn mt-3">
+                  <span className="stitch-x block text-stitch-lg text-madder">
+                    {rates.currencySymbol}
+                    {total}
+                  </span>
+                </span>
+                <span className="mt-3 block text-note leading-[1.5] text-ink-soft">
+                  {copy.totalNote}
+                </span>
+              </p>
+            )}
+          </div>
+
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-4">
+            <label className="flex items-center gap-3 text-control text-ink-soft">
+              {copy.guests}
+              <select
+                value={guests}
+                onChange={(event) => setGuests(Number(event.target.value))}
+                className="rounded-[3px] border border-ink-mute bg-linen px-4 py-2 text-control text-ink"
+              >
+                {Array.from({ length: site.capacity.guests }, (_, i) => i + 1).map((n) => (
+                  <option key={n} value={n}>
+                    {n}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            {(arrival || departure) && (
+              <button
+                type="button"
+                onClick={clear}
+                className="link-stitch px-1 py-2 text-note text-ink-soft"
+              >
+                {copy.clear}
+              </button>
+            )}
+          </div>
+
+          <div className="mt-7">
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener"
+              className="btn-thread inline-flex items-center justify-center gap-2.5 px-7 py-4 text-body-md"
+            >
+              <WhatsAppIcon size={18} />
+              {selected ? copy.ctaWithDates : copy.cta}
+            </a>
+          </div>
+        </div>
+
+        {children}
       </div>
     </section>
   );
@@ -509,7 +491,11 @@ function DayCell({
 }) {
   const isEdge = isArrival || isDeparture;
 
-  const surface = isEdge ? "bg-accent text-white" : inRange ? "bg-highlight text-ink" : "text-ink";
+  const shared = [
+    "day",
+    isEdge ? "day--edge" : inRange ? "day--range" : "",
+    isToday ? "day--today" : "",
+  ].join(" ");
 
   const content = (
     <>
@@ -520,40 +506,29 @@ function DayCell({
     </>
   );
 
-  const shared = [
-    "relative mx-auto flex h-10 w-10 items-center justify-center rounded-full text-control tabular-nums transition-colors duration-200",
-    surface,
-    isToday && !isEdge ? "ring-1 ring-accent ring-offset-1 ring-offset-sand" : "",
-  ].join(" ");
-
   if (isPast) {
-    // Readable (4.6:1) but struck through, so "past" needs no legend entry.
+    // Readable (4.6:1) but crossed through, so "past" needs no legend entry.
     // Hidden from assistive tech: a date already gone carries no information.
     return (
-      <span className={`${shared} text-muted line-through decoration-1`} aria-hidden>
+      <span className={`${shared} day--off`} aria-hidden>
         {date.getUTCDate()}
       </span>
     );
   }
 
   /*
-    A night you cannot have looks the same however it came to be unavailable:
-    struck through, quiet, and not a button. Closed for the season and already
-    booked share this treatment; a past date differs only in being hidden from
-    assistive tech, since a date already gone carries no information.
+    A night you cannot have looks the same however it came to be unavailable —
+    quiet, crossed through with one diagonal thread, and not a button. Closed
+    for the season and already booked share this; a past date differs only in
+    being hidden from assistive tech.
 
-    Booked nights used to be a filled block instead. That made one grid read as
-    two systems at once — some dates greyed out, some coloured in — leaving the
-    reader to work out which meant what, and it drew the eye hardest to exactly
-    the dates that are no use to anyone.
-
-    The strike is not colour-substitution: `statusText` still carries "Taken"
-    into each cell's screen-reader label, so the state survives with no colour
-    and no strike at all.
+    The thread is not the only signal: `statusText` still carries "Taken" into
+    each cell's screen-reader label, so the state survives with no colour and
+    no line at all.
   */
   if (closed || booked) {
     return (
-      <span className={`${shared} text-muted line-through decoration-1`} aria-disabled="true">
+      <span className={`${shared} day--off`} aria-disabled="true">
         {content}
       </span>
     );
@@ -568,12 +543,7 @@ function DayCell({
   }
 
   return (
-    <button
-      type="button"
-      onClick={onPick}
-      aria-pressed={isEdge}
-      className={`${shared} cursor-pointer hover:bg-highlight`}
-    >
+    <button type="button" onClick={onPick} aria-pressed={isEdge} className={shared}>
       {content}
     </button>
   );

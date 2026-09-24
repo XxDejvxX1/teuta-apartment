@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { copyText, interpolate } from "@/lib/dictionary";
 import { guides, guideCategories } from "@/lib/guides";
 import { parseDayKey } from "@/lib/availability";
+import { keepTogether } from "@/lib/typography";
 import { site, whatsappLink } from "@/content/site";
 
 import Header from "@/components/Header";
@@ -11,7 +12,7 @@ import GuideFilters from "@/components/GuideFilters";
 import GuideCard from "@/components/GuideCard";
 import Contact from "@/components/Contact";
 import MobileCta from "@/components/MobileCta";
-import RevealController from "@/components/RevealController";
+import Seam from "@/components/Seam";
 
 const copy = copyText.guides;
 
@@ -88,26 +89,22 @@ export default function GuideIndex() {
       <main id="main">
         {/*
           The page's own heading, above the newest article. "What to do in
-          Durrës" is the search phrase this page is built to answer, so it is
-          the h1 — see GuideFeatured for why the article title is not.
+          Durrës" is the search phrase this page answers, so it is the h1 —
+          see GuideFeatured for why the article title is not.
         */}
         <header className="mx-auto max-w-[1400px] px-5 pb-12 pt-[136px] md:px-11 md:pb-16 md:pt-[184px]">
-          <div data-reveal="fade">
-            <span data-reveal="mask" className="mb-6 block">
-              <h1 className="t-h3 max-w-[18ch] text-ink">{copy.title}</h1>
-            </span>
-            <p className="max-w-[54ch] text-body-lg leading-[1.65] text-body-soft md:text-body-xl">
-              {copy.intro}
-            </p>
-          </div>
+          <span className="rise mb-6">
+            <h1 className="t-headline max-w-[14ch] text-ink">{keepTogether(copy.title)}</h1>
+          </span>
+          <p className="max-w-[56ch] text-body-lg leading-[1.65] text-ink-soft md:text-body-xl">
+            {copy.intro}
+          </p>
         </header>
 
         {articles.length === 0 ? (
           // An empty grid would read as a broken page; this says what is true.
           <div className="mx-auto max-w-[820px] px-5 pb-24 md:px-11 md:pb-28">
-            <p className="border-t border-line pt-8 text-body-lg leading-[1.65] text-body-mute">
-              {copy.empty}
-            </p>
+            <p className="text-body-lg leading-[1.65] text-ink-soft">{copy.empty}</p>
           </div>
         ) : (
           <>
@@ -124,17 +121,16 @@ export default function GuideIndex() {
             )}
 
             {rest.length > 0 && (
-              <section className="guide-index mx-auto max-w-[1400px] px-5 pb-24 pt-16 md:px-11 md:pb-28 md:pt-24">
+              <section className="guide-index mx-auto max-w-[1400px] px-5 pb-24 pt-20 md:px-11 md:pb-32 md:pt-28">
                 <GuideFilters copy={copy} categories={categories} total={rest.length} />
 
-                <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                  {rest.map((article, index) => (
+                <ul className="grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+                  {rest.map((article) => (
                     <GuideCard
                       key={article.slug}
                       guide={article}
                       categoryLabel={copy.categories[article.category]}
                       minutesLabel={minutesLabel(article.minutes)}
-                      index={index}
                     />
                   ))}
                 </ul>
@@ -144,12 +140,11 @@ export default function GuideIndex() {
         )}
 
         {/*
-          The same closing section and footer as the homepage, not a shortened
-          variant of it. Someone arriving on an article from a search result has
-          seen none of the apartment, so this is the first and only ask — and a
-          second, differently-worded version of it was one more thing to keep in
-          step for no benefit.
+          The same closing section and footer as the homepage. Someone arriving
+          here from a search result has seen none of the apartment, so this is
+          the first and only ask.
         */}
+        <Seam from="oat" to="photo" motif="lozenge" />
         <Contact
           copy={{
             ...copyText.contact,
@@ -162,7 +157,6 @@ export default function GuideIndex() {
       </main>
 
       <MobileCta label={copyText.nav.whatsapp} href={whatsappHref} />
-      <RevealController />
     </>
   );
 }

@@ -28,6 +28,10 @@
   Referrer-Policy: strict-origin-when-cross-origin
   # Legacy companion to frame-ancestors, for older browsers.
   X-Frame-Options: DENY
+  # A page this site opens (WhatsApp, Google Maps) gets no handle back to this
+  # window, and this window none to it. The links already carry rel="noopener";
+  # this holds even if one is ever added without it.
+  Cross-Origin-Opener-Policy: same-origin
   # This site asks for none of these; say so explicitly.
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
   # Deliberately no `preload`: that is a hard-to-reverse commitment. The

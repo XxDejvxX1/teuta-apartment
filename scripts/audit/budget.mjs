@@ -49,6 +49,14 @@ export async function run({ root }) {
     html: totalOf((f) => f.endsWith(".html")),
     photos: totalOf((f) => f.startsWith(photosDir)),
     fonts: totalOf((f) => f.endsWith(".woff2")),
+    /*
+      What every visitor downloads before the first word is shown. next/font
+      emits a file for every subset a family has, but preloads only the ones
+      named in `subsets` and marks those files `.p.` — the rest are fetched
+      only when a page uses a character in their range, which an English page
+      never does. `fonts` above is the deploy; this is the cost of a visit.
+    */
+    "fonts-preloaded": totalOf((f) => f.endsWith(".woff2") && /\.p\.[^\\/]+\.woff2$/.test(f)),
     "index.html": sizes.get(path.join(outDir, "index.html")) ?? 0,
     "opengraph-image": sizes.get(path.join(outDir, "opengraph-image")) ?? 0,
   };

@@ -1,99 +1,89 @@
-@import "tailwindcss";
+/*
+  Utilities are generated from the site's own code and nothing else. Left to
+  detect its sources, Tailwind scanned every file git does not ignore — the
+  Markdown docs and any tool folders sitting in the working copy — and built
+  utilities for class names that only appear there. That made the CSS a few
+  KB larger, and different on a developer's machine than on Cloudflare's
+  builders, where those folders do not exist.
+*/
+@import "tailwindcss" source(none);
+@source "../app";
+@source "../components";
 
 /* ---------------------------------------------------------------------------
-   Design tokens — lifted from the Claude Design source so the palette and the
-   easing curve stay identical to the approved comp.
+   Tokens — "Woven borders"
+
+   Below the photograph the page is a length of cloth: oatmeal linen, slate
+   thread, one madder red. Every seam between two sections is a woven band
+   (components/Seam.tsx), and every colour here is a thread or a ground that
+   band is made from. DESIGN.md is the prose version of this block.
    --------------------------------------------------------------------------- */
 
 @theme {
   /*
-    The header keeps its burger until 1024px, not 768px.
-
-    The desktop bar has to fit a wordmark, four nav links and a WhatsApp pill on
-    one line. The measurement behind 1024px also allowed for a language switcher,
-    which went with Albanian and Italian in August 2026 — so there is about 88px
-    more room now than the number assumes. It stays at 1024px anyway: it is the
-    standard tablet-landscape step, and re-tuning it would buy a narrower band of
-    screens a denser header nobody asked for.
-
-    Below it the flex row compresses and the gap between the wordmark and the
-    first link collapses to ~24px, which is why the burger holds until then.
-
-    So the switch waits for 1024px, the standard tablet-landscape step. Nothing
-    is lost below it: every link is in the burger. The rest of the layout still
-    turns at `md`; only the nav waits for this.
+    The header keeps its burger until 1024px, not 768px: the desktop bar has to
+    fit the wordmark, four links and the WhatsApp pill on one line, and below
+    this width the gap between the wordmark and the first link collapses.
   */
   --breakpoint-nav: 64rem;
 
-  --color-sand: #faf8f4;
-  --color-mist: #edf0ee;
-  --color-ink: #12242e;
-  --color-deep: #0d1b22;
-  --color-panel: #183341;
+  /*
+    Grounds, lightest to darkest. Contrast is measured for the ink that sits
+    on each; the ratios are in the comments on the ink tokens below.
+  */
+  --color-linen: #f4efe5; /* plates, cards, the calendar summary */
+  --color-oat: #eae3d5; /* the page */
+  --color-flax: #dcd3c2; /* the alternate field, light bands, a chosen stay */
+  --color-keyline: #c5baa6; /* hairlines and frames. Decorative, never text */
 
   /*
-    A four-step text scale, every step ≥4.5:1 on sand (#faf8f4).
-
-    `--color-muted` was #7a8f99 — only 3.18:1, and it carried the amenity
-    notes, both eyebrows, the gallery counter, the calendar weekday row and the
-    numeral inside a booked night. That was 45 failing text instances from a
-    single token. Darkened to 4.62:1.
+    Ink. Slate rather than black: it is the thread the bands are woven in, and
+    it leans toward the hero's deep water so the photograph and the cloth read
+    as one page.
   */
-  --color-body: #1c2b33; /* 14.2:1 */
-  --color-body-soft: #3a4c56; /* 8.0:1  */
-  --color-body-mute: #5c6f79; /* 4.9:1  */
-  --color-muted: #5f747e; /* 4.62:1 */
+  --color-ink: #2d3942; /* 9.2:1 on oat, 10.2:1 on linen */
+  --color-ink-soft: #4c5862; /* 5.7:1 on oat, 4.9:1 on flax */
+  --color-ink-mute: #5a6570; /* 4.6:1 on oat, 5.1:1 on linen. Not on flax (4.0) */
 
-  /* Sea glass. Replaces the design's slate blue (#3f6f83), which read colder
-     and more Nordic than Adriatic. The deep tone is 5.6:1 on sand, so it is
-     safe for body-size text as well as icons; the soft tone is 8.3:1 on ink. */
-  --color-accent: #1f6f6a;
-  --color-accent-soft: #7fc7c0;
-  --color-highlight: #cfe7e3;
+  --color-night: #1b262e; /* the two dark fields: the photographs, getting here */
+  --color-night-line: #3a464f; /* hairlines on night */
+  --color-deep: #0d1b22; /* under the two full-bleed photographs */
+  --color-on-night: #e9e2d4; /* 12.2:1 on night */
+  --color-on-night-soft: #b7b9b2; /* 7.8:1 on night */
 
-  /* Hairlines carry a trace of the sea glass rather than sitting neutral-grey
-     against it. */
-  --color-line: #dde7e5;
-  --color-line-soft: #d5e2df;
-
-  --color-on-dark: #b9c8cf;
-  --color-on-dark-strong: #cddbe1;
-  /* Warm near-white for body copy on the ink section. */
-  --color-on-ink: #f3f1ec;
-
-  /* Warm neutral behind an image while it loads. Distinct from mist, which is
-     cooler and belongs to section backgrounds. */
-  --color-surface-warm: #eceae5;
-
-  /* Resting state of a small control mark (the inactive gallery dots). */
-  --color-control-idle: #a9b8b5;
+  /*
+    The one accent. Madder is the red of the dye, not of an alarm: it carries
+    every WhatsApp action, the chosen dates and the thread in each band.
+    Linen on madder is 6.1:1; madder on oat is 5.5:1.
+  */
+  --color-madder: #a3302a;
+  --color-madder-deep: #862520; /* hover and pressed */
+  --color-madder-bright: #d4705f; /* the same thread on night: 4.6:1 */
 
   --font-display: var(--font-instrument-serif), Georgia, serif;
-  --font-sans: var(--font-dm-sans), system-ui, sans-serif;
+  --font-sans: var(--font-sofia-sans), system-ui, sans-serif;
+  /*
+    Handjet builds each letter from separate elements on a grid. With the
+    element shape set to a cross and the grid opened up (.stitch-x) the
+    numerals are cross-stitched; closed up (.stitch, .label) the same face
+    reads as plain stitched lettering at small sizes.
+  */
+  --font-stitch: var(--font-handjet), ui-monospace, monospace;
 
   /*
-    The type scale, from DESIGN.md.
-
-    It was documented there and implemented nowhere: this file defined no size
-    token at all, and components carried 73 arbitrary values — text-[17px],
-    text-[16px] — scattered across 20 files. Most of them matched a documented
-    step by coincidence of everyone reading the same document. Seven did not.
-
-    Only sizes are declared here, not the line heights DESIGN.md also lists.
-    Tailwind would apply a paired --text-*--line-height automatically, which
-    would silently restyle every element that currently sets its own leading.
-    Leading stays explicit at the call site until that is done deliberately.
-
-    Named body-md rather than body: --color-body already exists, and in Tailwind
-    v4 both font size and text colour live under text-*, so --text-body would
-    quietly capture every text-body colour utility on the site.
+    The type scale. Sizes only: line heights stay explicit at the call site so
+    nothing is restyled behind anyone's back. `body-md` rather than `body`,
+    because text-* is shared by size and colour utilities in Tailwind v4.
+    scripts/audit/design.mjs rejects any size that is not one of these.
   */
   --text-display: clamp(2.75rem, 13.3vw, 6.5rem);
-  --text-headline: clamp(1.875rem, 3.2vw, 3.125rem);
-  --text-title-lg: 30px;
+  --text-headline: clamp(2.25rem, 4.4vw, 3.875rem);
+  --text-stitch-xl: clamp(4rem, 9vw, 7rem);
+  --text-stitch-lg: clamp(2.5rem, 4.4vw, 3.375rem);
+  --text-title-lg: 32px;
   --text-title: 26px;
-  --text-subtitle: 22px;
-  --text-body-xl: 18px;
+  --text-subtitle: 21px;
+  --text-body-xl: 19px;
   --text-body-lg: 17px;
   --text-body-md: 16px;
   --text-control: 15px;
@@ -103,23 +93,15 @@
 }
 
 :root {
-  /*
-    Shadow scale. Every shadow on the page carries an offset and a soft blur in
-    the same blue-grey as the ink, so depth reads as one light source rather
-    than as four unrelated glows.
-  */
-  --shadow-lift: 0 24px 60px rgba(12, 36, 46, 0.16);
-  --shadow-float: 0 28px 70px rgba(0, 0, 0, 0.35);
-  --shadow-sheet: 0 -30px 70px rgba(8, 20, 28, 0.28);
-  --shadow-pill: 0 6px 20px rgba(8, 20, 28, 0.22);
-
   /* The design's curve. Every transition on the page uses it. */
   --ease-soft: cubic-bezier(0.22, 0.9, 0.24, 1);
   --dur-reveal: 700ms;
   --dur-mask: 1100ms;
-  --dur-hover: 420ms;
-  --stagger-step: 70ms;
+  --dur-hover: 320ms;
   --header-h: 88px;
+
+  /* Only the header's WhatsApp button over the photograph casts a shadow. */
+  --shadow-pill: 0 6px 20px rgba(8, 20, 28, 0.22);
 }
 
 /* ---------------------------------------------------------------------------
@@ -127,25 +109,25 @@
    --------------------------------------------------------------------------- */
 
 html {
-  /* Both the lightbox and the mobile menu lock body scrolling while open,
-     which removes the scrollbar and shifts everything behind them sideways by
-     its width. Reserving the gutter keeps the page still. */
+  /* The lightbox and the mobile menu lock scrolling while open, which removes
+     the scrollbar; reserving its gutter keeps the page from shifting. */
   scrollbar-gutter: stable;
 }
 
 body {
-  background: var(--color-sand);
-  color: var(--color-body);
+  background: var(--color-oat);
+  color: var(--color-ink);
   font-family: var(--font-sans);
-  font-weight: 300;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
-  background: var(--color-highlight);
+  background: var(--color-flax);
+  color: var(--color-ink);
 }
 
-/* Anchor targets must clear the sticky header. */
+/* Anchor targets clear the floating header. */
 [id] {
   scroll-margin-top: calc(var(--header-h) + 16px);
 }
@@ -156,179 +138,499 @@ body {
   }
 }
 
-/* The design had no focus styles at all, which made the page unusable by keyboard. */
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-madder);
   outline-offset: 3px;
-  border-radius: 3px;
+  border-radius: 2px;
 }
 
 [data-on-dark] :focus-visible {
-  outline-color: var(--color-highlight);
+  outline-color: var(--color-on-night);
 }
 
 /* ---------------------------------------------------------------------------
-   Type scale — clamp() values carried over from the design
-
-   Several measurements below cite Albanian and Italian. The site ran in three
-   languages until August 2026, and those were the widest settings — so they are
-   what the numbers were tuned against, and dropping the languages does not make
-   the numbers wrong. Left as written, because "why is it 13.3vw" has an answer
-   and losing it would mean measuring again.
-
-   The step values themselves are @theme tokens now; these classes carry the
-   family and the leading that go with them.
+   Type
    --------------------------------------------------------------------------- */
 
+/*
+  The hero headline. The hero is kept exactly as it was apart from this one
+  number: its letters were set at zero tracking and read as crowded, so they
+  are opened to 0.02em — about 2px per pair at the 104px ceiling, under 1px at
+  the 44px floor. The line breaks are authored in content/copy.json, so no line
+  can rewrap because of it.
+
+  Line height stays 1.05. Instrument Serif needs 0.971em of baseline gap
+  before a descender touches the ascender below it; 0.95 collided.
+*/
 .t-hero {
   font-family: var(--font-display);
   font-weight: 400;
-  /*
-    The design's 6.6vw slope left the title occupying barely half the width of a
-    phone, which is why it read as timid.
-
-    15.5vw filled ~85% of the available width from 320px up in all three
-    languages, Italian setting the ceiling as the widest per character. The 3rem
-    floor covers 320px screens.
-
-    13.3vw lands at ~50px on a 375px phone. The ceiling is back to the design's
-    6.5rem after the taller setting proved too heavy on mobile.
-  */
-  font-size: clamp(2.75rem, 13.3vw, 6.5rem);
-  /*
-    0.95 collided in every language the site then ran in. Instrument Serif puts a descender
-    0.221em below the baseline and an ascender 0.750em above it, so two stacked
-    lines need 0.971em of baseline gap before the ink touches — "Wake up" hung
-    its p into the f of "first", "Zgjohu" its g and j into "vijën", "Svegliati"
-    its g into "prima".
-
-    1.05 clears that by 0.079em: ~9px at the 104px ceiling and ~4px at the 44px
-    floor. 1.02 was enough to stop the overlap on desktop but left under 2px on
-    a phone, which still reads as touching. Still a display setting, just not a
-    colliding one.
-
-    If a title line is ever rewritten to BEGIN with an accented capital, this is
-    the number to revisit — Ë reaches 0.952em above the baseline and would need
-    1.17 to clear a descender above it.
-  */
+  font-size: var(--text-display);
   line-height: 1.05;
-  /*
-    Was -0.015em, which pulled every pair 1.56px closer at the 104px ceiling.
-    Instrument Serif already sets tightly, and "first" is where it showed
-    first: the f-i kern takes a further 2.91px out of that one word, while the
-    other pairs in the line kern at zero.
-
-    Neutral tracking rather than a smaller negative one — the typeface's own
-    metrics are the thing to trust at display size. Being em-based it stays
-    proportional at every screen size, and the hero's line breaks are authored,
-    so no line rewraps.
-
-    Not solvable with `font-kerning: none`: that gives "Wake up" 9px back and
-    makes the Albanian "Zgjohu" tighter still. And there is no ligature here to
-    switch off — `normal`, `no-common-ligatures` and `none` all render this
-    headline at an identical width.
-  */
-  letter-spacing: 0;
-  /* No text-wrap: balance — the line breaks are authored, so there is nothing
-     to balance and balancing would fight the intended shape. */
+  letter-spacing: 0.02em;
 }
 
 /*
-  One size for every section heading. There used to be three (t-h2 51.8px,
-  t-h3 46.1px, t-h4 40.3px at 1440) applied to peer sections with no semantic
-  distinction — and the gallery, the most persuasive section on a page selling
-  a view, drew the smallest of them.
-
-  The scale is now: hero > contact (the closing statement) > every section.
+  Every section headline, at one size. The serif belongs to sentences — the
+  things the host is saying — and the stitched face to counts, dates and
+  labels. That split is the whole type system.
 */
-.t-h3 {
+.t-headline {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(1.875rem, 3.2vw, 3.125rem);
-  line-height: 1;
+  font-size: var(--text-headline);
+  line-height: 1.02;
+  letter-spacing: 0.01em;
   text-wrap: balance;
 }
 
+/*
+  Balanced, like the headlines. Unbalanced, an article title or a card title
+  left one word alone on its last line ("The beach, hour by / hour"). The words
+  that must not end a line are bound in the markup: see lib/typography.ts.
+*/
 .t-display {
   font-family: var(--font-display);
   font-weight: 400;
+  letter-spacing: 0.01em;
+  text-wrap: balance;
 }
 
+/* The hero's own label above its headline. Nothing else on the site has one. */
 .eyebrow {
-  font-size: 0.75rem;
+  font-size: var(--text-label);
   letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 
+/* Stitched lettering: labels, counts, the calendar. Elements closed up. */
+.stitch {
+  font-family: var(--font-stitch);
+  font-weight: 400;
+  font-variation-settings:
+    "ELSH" 2,
+    "ELGR" 1;
+  letter-spacing: 0.04em;
+}
+
+/* Cross-stitch: each element an X, the grid opened so every stitch shows.
+   Display sizes only — below ~32px the crosses close into a smudge. */
+.stitch-x {
+  font-family: var(--font-stitch);
+  font-weight: 500;
+  font-variation-settings:
+    "ELSH" 13,
+    "ELGR" 1.45;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+/*
+  Small stitched capitals. No size here on purpose: these rules are unlayered,
+  so they beat Tailwind's utilities, and a size set here could never be
+  overridden at the call site. Pair with a text-* step.
+*/
+.label {
+  font-family: var(--font-stitch);
+  font-weight: 500;
+  font-variation-settings:
+    "ELSH" 2,
+    "ELGR" 1;
+  line-height: 1.2;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
 /* ---------------------------------------------------------------------------
-   Scroll reveals
+   The seam — components/Seam.tsx
 
-   Nothing here hides anything on its own. `data-hidden` is applied by
-   RevealController at runtime, and only to elements that are off-screen at the
-   time. So:
+   Where one section meets the next there is no straight edge. A woven band
+   sits on the join: the upper field bites down into it as a row of stepped
+   teeth, the lower field bites up, and a row of motifs runs between them in
+   oat and madder thread. The band stands still.
 
-     - no JS at all              -> nothing is ever hidden, page fully readable
-     - JS bundle fails to load   -> same
-     - element already in view   -> shown immediately, no flash
-     - element below the fold    -> hidden, then animated in on approach
+   Fifteen stitches tall, read from the grids in DESIGN.md under The Seam:
 
-   The original design inverted this, defaulting every section to opacity:0 and
-   relying on JS to reveal it, which blanked ~70% of the page whenever the
-   script did not run.
+     row 0        the upper field
+     rows 1–2     its teeth, between the band's own
+     rows 3–11    the ground, with the motif across rows 4–10
+     rows 12–13   the lower field's teeth
+     row 14       the lower field
+
+   Why gradients. The band used to be four strips cut out with SVG masks. On
+   phones with a fractional pixel ratio (2.625, 2.75, 3.5, and Windows at
+   125%), a band lands between device pixels, and there a masked strip leaks a
+   one-pixel line of its own colour along its top and bottom edges. Two of
+   those crossed every band. Plain gradients have no mask to leak, so the
+   band is drawn in them, one layer per bar of stitches, with two rules that
+   keep it clean at any ratio:
+
+   - No two layers share an edge. The ground's stepped edge is three nested
+     bars, each reaching further than the one before, and a motif stitch that
+     sits on another is drawn as one taller bar. Where two layers do end on
+     the same line, both edges blend with whatever is behind them and the
+     page shows through as a hairline.
+
+   - Nothing ends on the join. `::before` and `::after` lay a stitch and a
+     half of each field across the band's own edges, so the line where the
+     band meets a section is covered by the field's own colour.
    --------------------------------------------------------------------------- */
 
-@media (prefers-reduced-motion: no-preference) {
-  [data-reveal="fade"][data-hidden] {
-    transition:
-      opacity var(--dur-reveal) var(--ease-soft),
-      transform var(--dur-reveal) var(--ease-soft);
-    transition-delay: calc(var(--stagger-i, 0) * var(--stagger-step));
-  }
+.seam {
+  --st: 2px; /* one stitch */
+  --s1: var(--st);
+  --s2: calc(var(--st) * 2);
+  --s3: calc(var(--st) * 3);
+  --s4: calc(var(--st) * 4);
+  --s5: calc(var(--st) * 5);
+  --s6: calc(var(--st) * 6);
+  --s7: calc(var(--st) * 7);
+  --s8: calc(var(--st) * 8);
+  --s9: calc(var(--st) * 9);
+  --s10: calc(var(--st) * 10);
+  --s11: calc(var(--st) * 11);
+  --s12: calc(var(--st) * 12);
+  --s13: calc(var(--st) * 13);
 
-  [data-reveal="fade"][data-hidden]:not([data-shown]) {
-    opacity: 0;
-    /* Deliberately slight. The hero entrance and the heading masks are the
-       authored moments; if every section arrives with the same 26px lift, the
-       page reads as one repeated effect rather than a composition. */
-    transform: translateY(14px);
+  --seam-ground: var(--color-ink);
+  --seam-motif: var(--color-oat);
+  --seam-thread: var(--color-madder-bright);
+
+  /*
+    The lozenge: a hollow stepped diamond, one row of stitches at a time, with
+    a madder centre drawn as a bar through rows 2–4 crossed by a wider row 3.
+    Layers are listed top first, as the background shorthand paints them.
+  */
+  --seam-rows:
+    repeating-linear-gradient(
+        90deg,
+        transparent 0 var(--s4),
+        var(--seam-thread) 0 var(--s8),
+        transparent 0 var(--s12)
+      )
+      0 var(--s7) / 100% var(--s1) no-repeat,
+    repeating-linear-gradient(
+        90deg,
+        transparent 0 var(--s5),
+        var(--seam-thread) 0 var(--s7),
+        transparent 0 var(--s12)
+      )
+      0 var(--s6) / 100% var(--s3) no-repeat,
+    repeating-linear-gradient(
+        90deg,
+        transparent 0 var(--s5),
+        var(--seam-motif) 0 var(--s7),
+        transparent 0 var(--s12)
+      )
+      0 var(--s4) / 100% var(--s1) no-repeat,
+    repeating-linear-gradient(
+        90deg,
+        transparent 0 var(--s4),
+        var(--seam-motif) 0 var(--s5),
+        transparent 0 var(--s7),
+        var(--seam-motif) 0 var(--s8),
+        transparent 0 var(--s12)
+      )
+      0 var(--s5) / 100% var(--s1) no-repeat,
+    repeating-linear-gradient(
+        90deg,
+        transparent 0 var(--s3),
+        var(--seam-motif) 0 var(--s4),
+        transparent 0 var(--s8),
+        var(--seam-motif) 0 var(--s9),
+        transparent 0 var(--s12)
+      )
+      0 var(--s6) / 100% var(--s1) no-repeat,
+    repeating-linear-gradient(
+        90deg,
+        transparent 0 var(--s2),
+        var(--seam-motif) 0 var(--s3),
+        transparent 0 var(--s9),
+        var(--seam-motif) 0 var(--s10),
+        transparent 0 var(--s12)
+      )
+      0 var(--s7) / 100% var(--s1) no-repeat,
+    repeating-linear-gradient(
+        90deg,
+        transparent 0 var(--s3),
+        var(--seam-motif) 0 var(--s4),
+        transparent 0 var(--s8),
+        var(--seam-motif) 0 var(--s9),
+        transparent 0 var(--s12)
+      )
+      0 var(--s8) / 100% var(--s1) no-repeat,
+    repeating-linear-gradient(
+        90deg,
+        transparent 0 var(--s4),
+        var(--seam-motif) 0 var(--s5),
+        transparent 0 var(--s7),
+        var(--seam-motif) 0 var(--s8),
+        transparent 0 var(--s12)
+      )
+      0 var(--s9) / 100% var(--s1) no-repeat,
+    repeating-linear-gradient(
+        90deg,
+        transparent 0 var(--s5),
+        var(--seam-motif) 0 var(--s7),
+        transparent 0 var(--s12)
+      )
+      0 var(--s10) / 100% var(--s1) no-repeat;
+
+  position: relative;
+  z-index: 1;
+  height: calc(var(--st) * 15);
+  background:
+    var(--seam-rows),
     /*
-      No will-change. It was scoped to the pending state, which sounds right,
-      but "pending" lasts from page load until the element is scrolled to — so
-      roughly fifteen elements held a compositor layer each for the whole
-      session, and for a visitor who never scrolled, forever. Opacity and
-      transform already composite without the hint.
+      The ground with its stepped edges, as three nested bars: two stitches
+      wide from row 1 to row 13, four wide from row 2 to row 12, and full width
+      from row 3 to row 11. The narrow bars sit where the fields' teeth leave
+      a gap, so between them they draw both rows of teeth, top and bottom.
     */
-  }
+    repeating-linear-gradient(
+        90deg,
+        var(--seam-ground) 0 var(--s1),
+        transparent 0 var(--s5),
+        var(--seam-ground) 0 var(--s6)
+      )
+      0 var(--s1) / 100% var(--s13) no-repeat,
+    repeating-linear-gradient(
+        90deg,
+        var(--seam-ground) 0 var(--s2),
+        transparent 0 var(--s4),
+        var(--seam-ground) 0 var(--s6)
+      )
+      0 var(--s2) / 100% var(--s11) no-repeat,
+    linear-gradient(var(--seam-ground) 0 0) 0 var(--s3) / 100% var(--s9) no-repeat,
+    /* The two fields, changing over under the solid middle of the ground. */
+    linear-gradient(var(--seam-from) 50%, var(--seam-to) 0);
+}
 
-  /* Display headings rise out from behind a clip mask — suits the serif far
-     better than a plain fade. */
-  [data-reveal="mask"][data-hidden] > * {
-    transition: transform var(--dur-mask) var(--ease-soft);
-    transition-delay: calc(var(--stagger-i, 0) * 90ms);
-  }
-
-  [data-reveal="mask"][data-hidden]:not([data-shown]) > * {
-    transform: translateY(105%);
+@media (min-width: 768px) {
+  .seam {
+    --st: 3px;
   }
 }
 
-[data-reveal="mask"] {
-  display: block;
-  overflow: hidden;
-  /* Descenders and the tall line-height would otherwise clip against the mask.
-     Deliberately NOT compensated with a negative margin: this rule is unlayered
-     and would beat any Tailwind mb-* utility on the same element, which is what
-     was collapsing every heading's bottom margin to -2.24px. The 0.14em is part
-     of the box; the spacing utilities account for it. */
-  padding-bottom: 0.14em;
+.seam::before,
+.seam::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  height: calc(var(--st) * 1.5);
 }
 
-[data-reveal="mask"] > * {
+.seam::before {
+  top: calc(var(--st) * -1);
+  background: var(--seam-from);
+}
+
+.seam::after {
+  bottom: calc(var(--st) * -1);
+  background: var(--seam-to);
+}
+
+.seam--light {
+  --seam-ground: var(--color-flax);
+  --seam-motif: var(--color-ink-soft);
+  --seam-thread: var(--color-madder);
+}
+
+/*
+  The star: an upright through all seven rows, crossed by arms on row 3, with
+  a diagonal each side. The upright and the inner diagonals are single tall
+  bars, so no stitch of the star ends where another begins.
+*/
+.seam[data-motif="star"] {
+  --seam-rows:
+    repeating-linear-gradient(
+        90deg,
+        transparent 0 var(--s5),
+        var(--seam-thread) 0 var(--s7),
+        transparent 0 var(--s12)
+      )
+      0 var(--s7) / 100% var(--s1) no-repeat,
+    repeating-linear-gradient(
+        90deg,
+        transparent 0 var(--s5),
+        var(--seam-motif) 0 var(--s7),
+        transparent 0 var(--s12)
+      )
+      0 var(--s4) / 100% var(--s7) no-repeat,
+    repeating-linear-gradient(
+        90deg,
+        transparent 0 var(--s3),
+        var(--seam-motif) 0 var(--s4),
+        transparent 0 var(--s8),
+        var(--seam-motif) 0 var(--s9),
+        transparent 0 var(--s12)
+      )
+      0 var(--s6) / 100% var(--s3) no-repeat,
+    repeating-linear-gradient(
+        90deg,
+        transparent 0 var(--s1),
+        var(--seam-motif) 0 var(--s5),
+        transparent 0 var(--s7),
+        var(--seam-motif) 0 var(--s11),
+        transparent 0 var(--s12)
+      )
+      0 var(--s7) / 100% var(--s1) no-repeat,
+    repeating-linear-gradient(
+        90deg,
+        transparent 0 var(--s2),
+        var(--seam-motif) 0 var(--s3),
+        transparent 0 var(--s9),
+        var(--seam-motif) 0 var(--s10),
+        transparent 0 var(--s12)
+      )
+      0 var(--s5) / 100% var(--s1) no-repeat,
+    repeating-linear-gradient(
+        90deg,
+        transparent 0 var(--s2),
+        var(--seam-motif) 0 var(--s3),
+        transparent 0 var(--s9),
+        var(--seam-motif) 0 var(--s10),
+        transparent 0 var(--s12)
+      )
+      0 var(--s9) / 100% var(--s1) no-repeat;
+}
+
+/*
+  Water: a stepped chevron with a madder drop beneath its point. The point is
+  carried down behind the drop, so the drop sits on it rather than beside it.
+*/
+.seam[data-motif="water"] {
+  --seam-rows:
+    repeating-linear-gradient(
+        90deg,
+        transparent 0 var(--s5),
+        var(--seam-thread) 0 var(--s7),
+        transparent 0 var(--s12)
+      )
+      0 var(--s10) / 100% var(--s1) no-repeat,
+    repeating-linear-gradient(
+        90deg,
+        transparent 0 var(--s5),
+        var(--seam-motif) 0 var(--s7),
+        transparent 0 var(--s12)
+      )
+      0 var(--s9) / 100% var(--s2) no-repeat,
+    repeating-linear-gradient(
+        90deg,
+        var(--seam-motif) 0 var(--s1),
+        transparent 0 var(--s11),
+        var(--seam-motif) 0 var(--s12)
+      )
+      0 var(--s4) / 100% var(--s1) no-repeat,
+    repeating-linear-gradient(
+        90deg,
+        transparent 0 var(--s1),
+        var(--seam-motif) 0 var(--s2),
+        transparent 0 var(--s10),
+        var(--seam-motif) 0 var(--s11),
+        transparent 0 var(--s12)
+      )
+      0 var(--s5) / 100% var(--s1) no-repeat,
+    repeating-linear-gradient(
+        90deg,
+        transparent 0 var(--s2),
+        var(--seam-motif) 0 var(--s3),
+        transparent 0 var(--s9),
+        var(--seam-motif) 0 var(--s10),
+        transparent 0 var(--s12)
+      )
+      0 var(--s6) / 100% var(--s1) no-repeat,
+    repeating-linear-gradient(
+        90deg,
+        transparent 0 var(--s3),
+        var(--seam-motif) 0 var(--s4),
+        transparent 0 var(--s8),
+        var(--seam-motif) 0 var(--s9),
+        transparent 0 var(--s12)
+      )
+      0 var(--s7) / 100% var(--s1) no-repeat,
+    repeating-linear-gradient(
+        90deg,
+        transparent 0 var(--s4),
+        var(--seam-motif) 0 var(--s5),
+        transparent 0 var(--s7),
+        var(--seam-motif) 0 var(--s8),
+        transparent 0 var(--s12)
+      )
+      0 var(--s8) / 100% var(--s1) no-repeat;
+}
+
+/* A running stitch on row 3, and no thread. */
+.seam[data-motif="running"] {
+  --seam-rows: repeating-linear-gradient(
+      90deg,
+      var(--seam-motif) 0 var(--s3),
+      transparent 0 var(--s6),
+      var(--seam-motif) 0 var(--s9),
+      transparent 0 var(--s12)
+    )
+    0 var(--s7) / 100% var(--s1) no-repeat;
+}
+
+/*
+  A band on the edge of a photograph. The picture is the field on that side,
+  so it shows through between the band's teeth and reads as stitched onto the
+  cloth. The band rides four stitches over the picture, which puts the edge
+  of the picture's own box under the solid middle of the ground rather than
+  on the band's edge, where it would show as a line.
+
+  Above a band (the hero, an article's cover) the band shifts up over the
+  picture and gives the four stitches back, so what follows stays where it
+  was. Below one (the closing photograph), the section beneath slides up
+  under it.
+*/
+.seam--from-photo {
+  top: calc(var(--st) * -4);
+  margin-bottom: calc(var(--st) * -4);
+}
+
+.seam--to-photo {
+  margin-bottom: calc(var(--st) * -4);
+}
+
+/*
+  Headlines rise out from under the band above them.
+
+  The timeline is named on the wrapper rather than read from the heading
+  itself, because the heading is the thing being moved and a timeline measured
+  from a moving box would chase its own tail. Scroll-driven, so it plays
+  backwards too — scrolling up tucks the heading back under the seam.
+*/
+.rise {
   display: block;
+  overflow: clip;
+  /* Room for descenders inside the clip. */
+  padding-bottom: 0.12em;
+  view-timeline: --rise block;
+}
+
+.rise > * {
+  display: block;
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .rise > * {
+      animation: rise-up linear both;
+      animation-timeline: --rise;
+      animation-range: entry 0% entry 100%;
+    }
+  }
+}
+
+@keyframes rise-up {
+  from {
+    transform: translateY(104%);
+  }
 }
 
 /* ---------------------------------------------------------------------------
-   Hero entrance — runs on load, so it is pure CSS and needs no `.js` guard
+   Hero entrance — pure CSS, runs on load. Unchanged from before the redesign.
    --------------------------------------------------------------------------- */
 
 .hero-rise {
@@ -353,9 +655,8 @@ body {
     animation-delay: calc(var(--stagger-i, 0) * 90ms + 260ms);
   }
 
-  /* The image settles rather than sitting still — the one flourish worth the
-     motion budget. Lives on the image element; parallax lives on the wrapper,
-     so the two never fight over `transform`. */
+  /* The image settles rather than sitting still. Parallax lives on the
+     wrapper, so the two never fight over `transform`. */
   .hero-img {
     animation: hero-settle 1600ms var(--ease-soft) both;
   }
@@ -391,16 +692,9 @@ body {
 }
 
 /*
-  Scroll cue.
-
-  It sits just above the Apartment sheet — 12px clear on mobile, 24px on desktop
-  — so the cue and the edge it points at read as one gesture rather than two
-  unrelated marks at opposite ends of dead space.
-
-  The rail is static and always present; the drop is the only moving part, and
-  it falls the length of the rail and fades, which is the motion the cue is
-  actually describing. Transform and opacity only. The loop is gated behind
-  reduced motion, and the rail alone still marks the affordance when it is off.
+  Scroll cue. The rail is static; the drop falls the length of it and fades,
+  which is the motion the cue describes. The loop waits for the headline, and
+  reduced motion leaves the rail alone to mark the affordance.
 */
 .hero-cue-rail {
   position: relative;
@@ -420,14 +714,10 @@ body {
   height: 13px;
   border-radius: 9999px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.95));
-  /* Parked out of frame; only the animation brings it in, so a browser that
-     skips the animation shows a clean rail rather than a stray dash. */
   transform: translateY(-100%);
   opacity: 0;
 }
 
-/* The cue is a link, so a hover response is earned here — it leans toward the
-   section it points at. */
 @media (hover: hover) {
   .hero-cue:hover .hero-cue-rail {
     transform: translateY(3px);
@@ -437,7 +727,6 @@ body {
 @media (prefers-reduced-motion: no-preference) {
   .hero-cue-drop {
     animation: hero-cue-drop 2600ms var(--ease-soft) infinite;
-    /* Waits for the headline to finish rising before starting. */
     animation-delay: 1200ms;
   }
 }
@@ -459,12 +748,7 @@ body {
   }
 }
 
-/* ---------------------------------------------------------------------------
-   Parallax — scroll-driven, so it runs on the compositor with zero JS and no
-   scroll listener. Browsers without support simply get no parallax, which is
-   a perfectly good outcome for pure decoration.
-   --------------------------------------------------------------------------- */
-
+/* Parallax on the hero photograph: scroll-driven, skipped where unsupported. */
 @supports (animation-timeline: scroll()) {
   @media (prefers-reduced-motion: no-preference) {
     .hero-parallax {
@@ -481,55 +765,313 @@ body {
   }
 }
 
-/*
-  The marker on the map placeholder: a ring with a centre dot, which is the
-  convention a chart already uses, pinned to the drawn shoreline at 78%. A ring,
-  not a soft halo — the mark has an edge because it is marking a point, and a
-  blurred glow around a dot is the decoration this placeholder just lost.
-*/
-.map-mark {
-  position: absolute;
-  left: 50%;
-  top: 78%;
-  width: 13px;
-  height: 13px;
-  margin: -7px 0 0 -7px;
-  border: 1px solid var(--color-accent-soft);
-  border-radius: 9999px;
-}
-
-.map-mark::after {
-  content: "";
-  position: absolute;
-  inset: 3px;
-  border-radius: 9999px;
-  background: var(--color-accent-soft);
-}
-
 /* ---------------------------------------------------------------------------
-   Micro-interactions
+   Plates and frames
    --------------------------------------------------------------------------- */
 
 /*
-  Two transitions on this page animate a layout property, and both are the
-  design rather than an accident: a header that shrinks as you scroll, and a
-  pill indicator that grows to mark the active slide. Neither can be expressed
-  as a transform without distorting it — scaleX on an 8px pill squashes its
-  border-radius into a lens.
-
-  So they are bounded instead of eliminated. `contain: layout style` keeps each
-  reflow inside its own subtree, where it costs a handful of nodes rather than a
-  document-wide layout pass. Being honest: this reduces the cost, it does not
-  remove it.
+  A plate: linen on the oat ground, one keyline, and madder corner marks the
+  way a sampler is squared before it is stitched. The corners are one layer of
+  eight gradients rather than eight elements.
 */
-.header-bar,
-.deck-dots {
+.plate {
+  position: relative;
+  background: var(--color-linen);
+  border: 1px solid var(--color-keyline);
+}
+
+.corners::after {
+  --c: var(--color-madder);
+  --l: 14px;
+  --w: 2px;
+  content: "";
+  position: absolute;
+  inset: -1px;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--c), var(--c)) top left / var(--l) var(--w) no-repeat,
+    linear-gradient(var(--c), var(--c)) top left / var(--w) var(--l) no-repeat,
+    linear-gradient(var(--c), var(--c)) top right / var(--l) var(--w) no-repeat,
+    linear-gradient(var(--c), var(--c)) top right / var(--w) var(--l) no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom left / var(--l) var(--w) no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom left / var(--w) var(--l) no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom right / var(--l) var(--w) no-repeat,
+    linear-gradient(var(--c), var(--c)) bottom right / var(--w) var(--l) no-repeat;
+}
+
+/* On a dark field, or on a card that is itself dark (the featured guide). */
+[data-on-dark] .corners::after,
+[data-on-dark].corners::after {
+  --c: var(--color-madder-bright);
+}
+
+/*
+  A mounted photograph: the picture sits inside a keyline set a few pixels off
+  it, like a print behind a mount. The outline costs no layout.
+*/
+.mount {
+  position: relative;
+  outline: 1px solid var(--color-keyline);
+  outline-offset: 6px;
+}
+
+[data-on-dark] .mount {
+  outline-color: var(--color-night-line);
+}
+
+/* A running stitch: the dashed rule used under captions and between rows. */
+.rule-stitch {
+  background-image: linear-gradient(to right, currentColor 55%, transparent 0);
+  background-size: 9px 1px;
+  background-repeat: repeat-x;
+}
+
+/* A grid ruled by its own gap: 1px of keyline shows between the cells. */
+.ruled {
+  display: grid;
+  gap: 1px;
+  background: var(--color-keyline);
+  border: 1px solid var(--color-keyline);
+}
+
+.ruled > * {
+  background: var(--ruled-ground, var(--color-oat));
+}
+
+/*
+  The apartment's photograph, which is also the way into the gallery. On hover
+  the picture drifts in, the mount's keyline turns madder and steps out, and
+  the label comes up. Transform, opacity and paint only, so nothing reflows.
+  A phone has no hover, so there the label simply stays in view.
+*/
+.apartment-photo {
+  transition: outline-color var(--dur-hover) var(--ease-soft);
+}
+
+.apartment-photo:hover,
+.apartment-photo:focus-within {
+  outline-color: var(--color-madder);
+}
+
+.apartment-photo-image {
+  transition: transform 900ms var(--ease-soft);
+}
+
+/* The photograph is the focus target; the ring sits inside it, not clipped off. */
+.apartment-photo-link:focus-visible {
+  outline-color: var(--color-linen);
+  outline-offset: -8px;
+}
+
+@media (hover: hover) {
+  .apartment-photo-cue {
+    opacity: 0;
+    transition:
+      opacity var(--dur-hover) var(--ease-soft),
+      transform var(--dur-hover) var(--ease-soft);
+  }
+
+  .apartment-photo:hover .apartment-photo-cue,
+  .apartment-photo-link:focus-visible .apartment-photo-cue {
+    opacity: 1;
+  }
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .apartment-photo {
+    transition:
+      outline-color var(--dur-hover) var(--ease-soft),
+      outline-offset var(--dur-hover) var(--ease-soft);
+  }
+
+  .apartment-photo:hover {
+    outline-offset: 12px;
+  }
+
+  .apartment-photo:hover .apartment-photo-image {
+    transform: scale(1.05);
+  }
+
+  .apartment-photo-cue {
+    transform: translateY(10px);
+  }
+
+  .apartment-photo:hover .apartment-photo-cue,
+  .apartment-photo-link:focus-visible .apartment-photo-cue {
+    transform: none;
+  }
+
+  .apartment-photo:hover .nudge--right {
+    transform: translateX(3px);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Actions
+   --------------------------------------------------------------------------- */
+
+/*
+  The thread button — every WhatsApp action on a light ground. A woven label:
+  madder, squared, with a running stitch sewn 4px inside its edge.
+*/
+.btn-thread {
+  position: relative;
+  background: var(--color-madder);
+  color: var(--color-linen);
+  border-radius: 3px;
+  transition: background-color var(--dur-hover) var(--ease-soft);
+}
+
+.btn-thread::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px dashed color-mix(in srgb, var(--color-linen) 50%, transparent);
+  pointer-events: none;
+}
+
+.btn-thread:hover {
+  background: var(--color-madder-deep);
+}
+
+/* The same label on a photograph or the dark fields: linen, slate lettering. */
+.btn-linen {
+  position: relative;
+  background: var(--color-linen);
+  color: var(--color-ink);
+  border-radius: 3px;
+  transition:
+    background-color var(--dur-hover) var(--ease-soft),
+    color var(--dur-hover) var(--ease-soft);
+}
+
+.btn-linen::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px dashed color-mix(in srgb, var(--color-ink) 35%, transparent);
+  pointer-events: none;
+}
+
+.btn-linen:hover {
+  background: var(--color-flax);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn-thread:active,
+  .btn-linen:active {
+    transform: translateY(1px);
+  }
+}
+
+/* Square keyline controls: month paging, the lightbox. */
+.btn-keyline {
+  border: 1px solid var(--color-ink-mute);
+  border-radius: 3px;
+  transition:
+    background-color var(--dur-hover) var(--ease-soft),
+    color var(--dur-hover) var(--ease-soft),
+    border-color var(--dur-hover) var(--ease-soft);
+}
+
+.btn-keyline:hover:not(:disabled) {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-linen);
+}
+
+[data-on-dark] .btn-keyline {
+  border-color: var(--color-on-night-soft);
+}
+
+[data-on-dark] .btn-keyline:hover:not(:disabled) {
+  background: var(--color-on-night);
+  border-color: var(--color-on-night);
+  color: var(--color-night);
+}
+
+/* The light button over the hero photograph, as it was. */
+.btn-light {
+  transition:
+    background-color var(--dur-hover) var(--ease-soft),
+    color var(--dur-hover) var(--ease-soft);
+}
+
+.btn-light:hover {
+  background-color: var(--color-linen);
+}
+
+/* A link with a running-stitch underline that closes into a solid thread on hover. */
+.link-stitch {
+  background-image: linear-gradient(to right, currentColor 55%, transparent 0);
+  background-size: 7px 1px;
+  background-repeat: repeat-x;
+  background-position: 0 100%;
+  padding-bottom: 3px;
+  transition: color var(--dur-hover) var(--ease-soft);
+}
+
+/* Also when the link around it is hovered, so an arrow beside the words
+   counts as part of the target. */
+.link-stitch:hover,
+:hover > .link-stitch {
+  background-image: linear-gradient(currentColor, currentColor);
+  color: var(--color-madder);
+}
+
+[data-on-dark] .link-stitch:hover,
+[data-on-dark] :hover > .link-stitch {
+  color: var(--color-madder-bright);
+}
+
+/* An arrow that leans toward where it points. */
+.nudge {
+  display: inline-flex;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .nudge {
+    transition: transform var(--dur-hover) var(--ease-soft);
+  }
+
+  :hover > .nudge--right {
+    transform: translateX(3px);
+  }
+
+  :hover > .nudge--left {
+    transform: translateX(-3px);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   The header pill
+   --------------------------------------------------------------------------- */
+
+/*
+  Frosted over the photograph; linen once the page is scrolled. It is a pill
+  in both states, so only colours cross-fade and nothing about its shape
+  animates. Its padding does ease — the one bounded exception, contained so
+  the reflow stays inside it.
+*/
+.header-bar {
   contain: layout style;
+}
+
+.header-pill {
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.07);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
+}
+
+.header-pill.is-solid {
+  background: color-mix(in srgb, var(--color-linen) 90%, transparent);
+  border-color: var(--color-keyline);
 }
 
 .nav-link {
   position: relative;
-  /* Lifts the hit area to the 24px target minimum; the text was 23px tall. */
+  /* Lifts the hit area to the 24px target minimum. */
   padding-block: 0.25rem;
   transition: color var(--dur-hover) var(--ease-soft);
 }
@@ -541,7 +1083,8 @@ body {
   right: 0;
   bottom: 0;
   height: 1px;
-  background: currentColor;
+  background-image: linear-gradient(to right, currentColor 55%, transparent 0);
+  background-size: 6px 1px;
   transform: scaleX(0);
   transform-origin: right;
   transition: transform var(--dur-hover) var(--ease-soft);
@@ -553,61 +1096,33 @@ body {
   transform-origin: left;
 }
 
-.btn-light {
-  transition:
-    background-color var(--dur-hover) var(--ease-soft),
-    color var(--dur-hover) var(--ease-soft),
-    transform var(--dur-hover) var(--ease-soft);
-}
-
-.btn-light:hover {
-  background-color: var(--color-highlight);
-}
-
-@media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .btn-light:hover {
-    transform: translateY(-2px);
-  }
-}
-
-.btn-outline {
-  transition:
-    background-color var(--dur-hover) var(--ease-soft),
-    color var(--dur-hover) var(--ease-soft),
-    border-color var(--dur-hover) var(--ease-soft);
-}
-
-.btn-outline:hover {
-  background-color: var(--color-ink);
-  border-color: var(--color-ink);
-  color: #fff;
-}
-
-.link-underline {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.45);
-  padding-bottom: 2px;
-  transition:
-    color var(--dur-hover) var(--ease-soft),
-    border-color var(--dur-hover) var(--ease-soft);
-}
-
-.link-underline:hover {
-  color: var(--color-highlight);
-  border-color: var(--color-highlight);
-}
-
 /* ---------------------------------------------------------------------------
-   Gallery
+   The photographs — components/Gallery.tsx
 
-   Mobile is a scroll-snap row — it works with no JS at all. Desktop upgrades to
-   the coverflow from the design. The switch is a media query, and JS only ever
-   writes the custom properties below, so there is no hydration flash and no
-   reading of window.innerWidth (which the original did once, at render, and so
-   broke on resize and rotation).
+   A deck on the dark field. A phone gets a scroll-snap row, which swipes with
+   no script at all; from 768px the same cards stack into a coverflow. The
+   switch is this media query, and the script only ever writes the custom
+   properties below (--d, --abs, --rot, --scale, --op, --dim, --z, --pe), so
+   there is no hydration flash and nothing reads the window's width.
+
+   The cards keep the 20px corners and the round arrows of the gallery as it
+   was before the woven redesign, at the owner's request. They are the page's
+   one exception to square corners; see Shapes in DESIGN.md.
    --------------------------------------------------------------------------- */
 
+/*
+  The section trims the side cards at the edge of the screen. Clip, not
+  hidden: a hidden box is still a scroll container, so focusing an arrow or a
+  side card, find-in-page or scrollIntoView could scroll it sideways and slide
+  the whole deck off centre. A clipped box cannot be scrolled at all. `hidden`
+  stays first for browsers without `clip` (Safari before 16).
+*/
+.deck-field {
+  overflow: hidden;
+  overflow: clip;
+}
+
 .deck {
-  /* Knobs. Each deck overrides what it needs; everything else is shared. */
   --deck-card-w: min(620px, 74vw);
   --deck-h: 500px;
   --deck-shift: 0.61;
@@ -626,90 +1141,16 @@ body {
   display: none;
 }
 
+/* 3:2, the photographs' own shape. */
 .deck-item {
   position: relative;
   flex: 0 0 auto;
   width: min(86vw, 460px);
-  scroll-snap-align: center;
-  border-radius: 20px;
-}
-
-/* 3:2 landscape to match the photography. The design's 430x520 portrait cards
-   would have centre-cropped roughly a third off each side of every shot. */
-.deck-item--photo {
   aspect-ratio: 3 / 2;
   overflow: hidden;
-  background: repeating-linear-gradient(
-    135deg,
-    var(--color-surface-warm) 0 10px,
-    #e4e2dc 10px 20px
-  );
-}
-
-.deck--reviews {
-  --deck-card-w: min(560px, 60vw);
-  --deck-h: 460px;
-  --deck-shift: 0.72;
-  --deck-depth: 0.3;
-}
-
-/*
-  The review card, distilled to type on the sand ground.
-
-  The score used to sit in a filled accent pill beside the guest's headline,
-  which put a saturated rectangle at the top of every card and encoded the same
-  judgement twice — "Exceptional" is only Booking.com's label for a 10. Now the
-  headline and the score share one baseline, the accent carries the score as
-  ink rather than as a block, and a single hairline does the separating.
-*/
-.review-card {
-  display: flex;
-  flex-direction: column;
-  padding: 24px 28px;
-}
-
-.review-head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  margin: 0 0 12px;
-}
-
-.review-title {
-  font-size: 22px;
-  line-height: 1.1;
-  color: var(--color-ink);
-}
-
-.review-score {
-  flex: none;
-  font-size: 14px;
-  color: var(--color-accent);
-  font-variant-numeric: tabular-nums;
-}
-
-/*
-  `flex: 1` plus `overflow: hidden` is what holds the fixed desktop card height:
-  a markedly longer review clips instead of pushing the deck out of shape. That
-  clip is silent, so the height is the number to raise — see content/reviews.ts.
-*/
-.review-quote {
-  flex: 1;
-  overflow: hidden;
-  margin: 0;
-  font-size: 16px;
-  line-height: 1.6;
-  color: var(--color-body-soft);
-}
-
-.review-by {
-  margin-top: 16px;
-  padding-top: 12px;
-  border-top: 1px solid var(--color-line);
-  font-size: 13px;
-  line-height: 1.5;
-  color: var(--color-muted);
+  scroll-snap-align: center;
+  border-radius: 20px;
+  background: var(--color-deep);
 }
 
 @media (min-width: 768px) {
@@ -724,90 +1165,243 @@ body {
     user-select: none;
   }
 
+  /*
+    Offsets are a ratio of the card, not fixed pixels. With hard-coded
+    380px/260px the cards shrank under zoom or a narrow desktop while the
+    separation did not, and the stack collapsed into overlap.
+  */
   .deck-item {
     position: absolute;
     top: 50%;
     left: 50%;
-    /*
-      Offsets are a ratio of the card, not fixed pixels. With hard-coded
-      380px/260px the cards shrank under zoom or a narrow desktop while the
-      separation did not, and the stack collapsed into overlap.
-    */
     width: var(--deck-card-w);
     transform: translate(-50%, -50%)
       translateX(calc(var(--d, 0) * var(--deck-card-w) * var(--deck-shift)))
       translateZ(calc(var(--abs, 0) * var(--deck-card-w) * -1 * var(--deck-depth)))
       rotateY(var(--rot, 0deg)) scale(var(--scale, 1));
     opacity: var(--op, 1);
+    filter: brightness(var(--dim, 1));
     z-index: var(--z, 1);
     pointer-events: var(--pe, auto);
-    box-shadow: 0 var(--shadow-y, 18px) var(--shadow-blur, 44px)
-      rgba(12, 36, 46, var(--shadow-a, 0.16));
+  }
+}
+
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .deck-item {
     transition:
       transform 620ms var(--ease-soft),
       opacity 620ms ease,
-      box-shadow 620ms ease;
-  }
-
-  /*
-    Review cards hold text, so they take a fixed height rather than sizing to
-    their own quote — otherwise the deck jumps as you page through.
-
-    Sized to the longest review with headroom to spare. If a much longer one is
-    ever added, this is the number to raise: the blockquote clips silently, so
-    the symptom is a review's last line quietly disappearing.
-  */
-  .deck--reviews .deck-item {
-    height: 380px;
-  }
-
-  .review-card {
-    padding: 28px 32px;
+      filter 620ms ease;
   }
 }
 
-@media (min-width: 768px) and (prefers-reduced-motion: reduce) {
-  .deck-item {
-    transition: none;
+/* Round, on the dark field: a hairline ring that fills on hover. */
+.deck-arrow {
+  border: 1px solid var(--color-night-line);
+  color: var(--color-on-night);
+  transition:
+    background-color var(--dur-hover) var(--ease-soft),
+    color var(--dur-hover) var(--ease-soft),
+    border-color var(--dur-hover) var(--ease-soft);
+}
+
+/* Pointer devices only: a tap leaves :hover stuck on a phone, and the arrow
+   stayed filled after it had been pressed. */
+@media (hover: hover) {
+  .deck-arrow:hover {
+    background: var(--color-on-night);
+    border-color: var(--color-on-night);
+    color: var(--color-night);
+  }
+}
+
+/*
+  Each dot is a 26px pill clipped to an 8px circle until its photograph is at
+  the front. It opens with clip-path rather than width, so the change is paint
+  and nothing reflows. The idle colour clears 3:1 on night.
+*/
+.deck-dot {
+  display: block;
+  flex: none;
+  width: 26px;
+  height: 8px;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--color-on-night) 40%, var(--color-night));
+  clip-path: inset(0 9px round 4px);
+  transition: background-color 420ms var(--ease-soft);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .deck-dot {
+    transition:
+      clip-path 420ms var(--ease-soft),
+      background-color 420ms var(--ease-soft);
+  }
+}
+
+[aria-current="true"] > .deck-dot {
+  background: var(--color-on-night);
+  clip-path: inset(0 round 4px);
+}
+
+/* ---------------------------------------------------------------------------
+   The calendar — a stitch chart
+   --------------------------------------------------------------------------- */
+
+.day {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-width: 36px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  /*
+    The text face, not the stitched one. Handjet draws every zero with a bar
+    through it, and at this size 20 and 28 are too close to call — on a booking
+    calendar that is the one mistake that matters. The cross-stitch keeps the
+    big numbers, where the bar reads as a slashed zero.
+  */
+  font-size: var(--text-body-lg);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink);
+  transition:
+    background-color 180ms var(--ease-soft),
+    color 180ms var(--ease-soft);
+}
+
+button.day:hover {
+  background: var(--color-linen);
+  box-shadow: inset 0 0 0 1px var(--color-keyline);
+}
+
+/*
+  A night you cannot have: quiet, and crossed through with one diagonal thread,
+  however it came to be unavailable. A run of taken nights becomes a hatched
+  block, which reads as "gone" before a single number is.
+*/
+.day--off {
+  color: var(--color-ink-mute);
+  background-image: linear-gradient(
+    135deg,
+    transparent calc(50% - 0.5px),
+    var(--color-keyline) calc(50% - 0.5px) calc(50% + 0.5px),
+    transparent calc(50% + 0.5px)
+  );
+}
+
+.day--today::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 6px;
+  width: 12px;
+  height: 2px;
+  margin-left: -6px;
+  background: var(--color-madder);
+}
+
+.day--range {
+  background: var(--color-flax);
+}
+
+.day--edge,
+button.day--edge:hover {
+  background: var(--color-madder);
+  color: var(--color-linen);
+  box-shadow: none;
+}
+
+.day--edge.day--today::before {
+  background: var(--color-linen);
+}
+
+/*
+  The frame round the stay total: a running stitch sewn on from left to right
+  each time a range is chosen. Availability re-keys it per range, which
+  remounts it and restarts the sewing. clip-path, not width, so nothing reflows.
+*/
+.sewn {
+  position: relative;
+  display: inline-block;
+  padding: 12px 22px 10px;
+}
+
+.sewn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px dashed var(--color-madder);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sewn::before {
+    animation: sew 900ms var(--ease-soft) both;
+  }
+}
+
+@keyframes sew {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0);
   }
 }
 
 /* ---------------------------------------------------------------------------
-   Loading
+   Reviews
    --------------------------------------------------------------------------- */
 
 /*
-  `content-visibility: auto` was tried on the below-fold sections and removed.
-  On a page this short it saved almost nothing, and it took the Amenities and
-  Good-to-know sections out of text extraction entirely — skipped subtrees are
-  not laid out, so they drop out of innerText and their exposure to the
-  accessibility tree becomes implementation-dependent. Not a trade worth making
-  for a few milliseconds. The real loading wins here are the deferred gallery
-  slides, the click-to-load map and the lazily fetched calendar.
+  A swipe row on a phone, where five reviews stacked ran to 2,400px, and
+  columns from 768px, where each card packs to its own height. Both are CSS,
+  so neither needs a script.
 */
-
-/* ---------------------------------------------------------------------------
-   The header pill
-
-   Borrowed from the reference: a floating, frosted container rather than a bar
-   pinned to the top edge. It is a pill in both states, so nothing about its
-   shape or width animates — only the colours change on scroll, which keeps it
-   out of the layout-property budget entirely.
-   --------------------------------------------------------------------------- */
-
-.header-pill {
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  background: rgba(255, 255, 255, 0.07);
-  -webkit-backdrop-filter: blur(14px) saturate(1.4);
-  backdrop-filter: blur(14px) saturate(1.4);
+.reviews {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: min(86vw, 380px);
+  align-items: start;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 20px;
+  margin-inline: -20px;
+  padding: 0 20px 8px;
+  scrollbar-width: none;
 }
 
-.header-pill.is-solid {
-  /* Literal first, so a browser without color-mix still gets sand and not the
-     translucent white it was wearing over the photograph. */
-  background: rgba(250, 248, 244, 0.88);
-  background: color-mix(in srgb, var(--color-sand) 88%, transparent);
-  border-color: var(--color-line);
+.reviews::-webkit-scrollbar {
+  display: none;
+}
+
+.reviews > * {
+  scroll-snap-align: start;
+}
+
+@media (min-width: 768px) {
+  .reviews {
+    display: block;
+    columns: 2;
+    column-gap: 28px;
+    overflow: visible;
+    margin-inline: 0;
+    padding: 0;
+  }
+
+  .reviews > * {
+    break-inside: avoid;
+    margin-bottom: 28px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .reviews {
+    columns: 3;
+  }
 }
 
 /* ---------------------------------------------------------------------------
@@ -815,27 +1409,10 @@ body {
    --------------------------------------------------------------------------- */
 
 /*
-  Card scrim.
-
-  Measured against warm sand, which is the brightest thing that can sit under it
-  (the drawn cover is essentially sand): the title lands on rgb(76,84,89) for
-  7.7:1 and the eyebrow, at 80% white, on 5.1:1. Every real photograph is darker
-  than sand, so no cover added later can push either below the 4.5:1 floor.
-*/
-.guide-scrim {
-  background: linear-gradient(
-    180deg,
-    rgba(8, 20, 28, 0) 28%,
-    rgba(8, 20, 28, 0.72) 62%,
-    rgba(8, 20, 28, 0.93) 100%
-  );
-}
-
-/*
-  The wide version, on the featured card and the article header. Two passes, as
-  on the hero: one vertical, one at 100deg that darkens the side the words are
-  on and releases before it reaches the far edge, so the picture keeps its
-  light. The top pass exists so the header pill has something to sit against.
+  The wide scrim, on the featured card and the article header. Two passes, as
+  on the hero: one vertical, one at 100deg darkening the side the words are
+  on. Measured over warm sand, the brightest thing that could sit under it,
+  the title holds 7.7:1 and the 80%-white meta line 5.1:1.
 */
 .guide-scrim-featured {
   background:
@@ -854,73 +1431,29 @@ body {
     );
 }
 
-.guide-card {
-  position: relative;
-  --guide-radius: 20px;
-}
-
-.guide-card--wide {
-  --guide-radius: 24px;
-}
-
-/*
-  Hover ring. The reference draws it as a fifth box-shadow; here it is a border
-  on a pseudo-element whose opacity animates, which keeps the page's "transform
-  and opacity only" rule intact rather than adding a third exception to it.
-*/
-.guide-card::after {
-  content: "";
-  position: absolute;
-  inset: -5px;
-  border: 5px solid var(--color-highlight);
-  border-radius: calc(var(--guide-radius) + 5px);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--dur-hover) var(--ease-soft);
-}
-
-@media (hover: hover) {
-  .guide-card:hover::after {
-    opacity: 1;
-  }
+.guide-cover {
+  transition: transform 700ms var(--ease-soft);
 }
 
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .guide-card {
-    transition: transform var(--dur-hover) var(--ease-soft);
-  }
-
-  .guide-card:hover {
-    transform: translateY(-3px);
-  }
-
-  /* The picture grows inside its own frame — the one piece of motion on this
-     page that is purely for pleasure. Slow on purpose: at the hover duration it
-     reads as a twitch, at 600ms as the image breathing. */
-  .guide-cover {
-    transition: transform 600ms var(--ease-soft);
-  }
-
   .guide-card:hover .guide-cover {
-    transform: scale(1.05);
-  }
-
-  .guide-card .btn-light svg {
-    transition: transform var(--dur-hover) var(--ease-soft);
-  }
-
-  .guide-card:hover .btn-light svg {
-    transform: translateX(3px);
+    transform: scale(1.04);
   }
 }
 
-/*
-  Category filter — no JavaScript.
+.guide-card-title {
+  transition: color var(--dur-hover) var(--ease-soft);
+}
 
-  A radio group plus :has(). The chips are labels, the inputs sit invisibly on
-  top of them, and the rules below hide whatever does not match. With the bundle
-  disabled, or on a browser without :has(), every article stays on the page,
-  which is the right thing for a filter to degrade to.
+.guide-card:hover .guide-card-title {
+  color: var(--color-madder);
+}
+
+/*
+  Category filter — no JavaScript. A radio group plus :has(): the inputs sit
+  invisibly over their labels and the rules below hide what does not match.
+  Without :has(), every article stays on the page, which is the right thing
+  for a filter to degrade to.
 */
 .guide-filter-input {
   position: absolute;
@@ -935,24 +1468,17 @@ body {
 .guide-filter-chip {
   position: relative;
   display: inline-flex;
-  align-items: flex-start;
-  gap: 0.35em;
+  align-items: baseline;
+  gap: 0.45em;
   min-height: 24px;
   padding-block: 0.25rem;
-  font-size: 17px;
-  color: var(--color-muted);
+  color: var(--color-ink-soft);
   cursor: pointer;
   transition: color var(--dur-hover) var(--ease-soft);
 }
 
-.guide-filter-count {
-  font-size: 12px;
-  line-height: 1.4;
-  opacity: 0.75;
-}
-
 .guide-filter-input:checked + .guide-filter-chip {
-  color: var(--color-ink);
+  color: var(--color-madder);
 }
 
 @media (hover: hover) {
@@ -966,9 +1492,10 @@ body {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -1px;
-  height: 1px;
-  background: var(--color-accent);
+  bottom: -2px;
+  height: 2px;
+  background-image: linear-gradient(to right, currentColor 55%, transparent 0);
+  background-size: 7px 2px;
   transform: scaleX(0);
   transform-origin: left;
   transition: transform var(--dur-hover) var(--ease-soft);
@@ -978,12 +1505,10 @@ body {
   transform: scaleX(1);
 }
 
-/* The input carries the focus, but it is invisible — so the ring goes on the
-   label the reader can actually see. */
 .guide-filter-input:focus-visible + .guide-filter-chip {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-madder);
   outline-offset: 4px;
-  border-radius: 3px;
+  border-radius: 2px;
 }
 
 .guide-index:has(#gcat-history:checked) [data-guide-category]:not([data-guide-category="history"]),
@@ -994,16 +1519,14 @@ body {
 }
 
 /* ---------------------------------------------------------------------------
-   Article prose
-
-   The only place on the site where headings are set by a Markdown renderer
-   rather than by a component, so the type scale is reapplied here by element.
+   Article prose — the one place Markdown sets the headings, so the scale is
+   reapplied here by element.
    --------------------------------------------------------------------------- */
 
 .prose-guide {
-  font-size: 17px;
+  font-size: var(--text-body-lg);
   line-height: 1.75;
-  color: var(--color-body-soft);
+  color: var(--color-ink-soft);
 }
 
 .prose-guide > * + * {
@@ -1018,7 +1541,8 @@ body {
 .prose-guide h3 {
   font-family: var(--font-display);
   font-weight: 400;
-  line-height: 1.15;
+  line-height: 1.12;
+  letter-spacing: 0.01em;
   color: var(--color-ink);
   margin-top: 2.1em;
   margin-bottom: 0.45em;
@@ -1026,27 +1550,29 @@ body {
 }
 
 .prose-guide h2 {
-  font-size: 30px;
+  font-size: var(--text-title-lg);
 }
 
 .prose-guide h3 {
-  font-size: 26px;
+  font-size: var(--text-title);
 }
 
-/* 500, not 700: DM Sans at weight 300 beside a bold is a two-face page. */
 .prose-guide strong {
-  font-weight: 500;
+  font-weight: 600;
   color: var(--color-ink);
 }
 
 .prose-guide a {
-  color: var(--color-accent);
-  border-bottom: 1px solid var(--color-line);
-  transition: border-color var(--dur-hover) var(--ease-soft);
+  color: var(--color-madder);
+  background-image: linear-gradient(to right, currentColor 55%, transparent 0);
+  background-size: 7px 1px;
+  background-repeat: repeat-x;
+  background-position: 0 100%;
+  padding-bottom: 2px;
 }
 
 .prose-guide a:hover {
-  border-bottom-color: var(--color-accent);
+  background-image: linear-gradient(currentColor, currentColor);
 }
 
 .prose-guide ul {
@@ -1058,7 +1584,7 @@ body {
   margin-top: 0.6em;
 }
 
-/* A hairline rather than a disc — the same grouping mark the amenities use. */
+/* One madder stitch where a bullet would be. */
 .prose-guide ul > li {
   position: relative;
   padding-left: 1.5em;
@@ -1067,11 +1593,11 @@ body {
 .prose-guide ul > li::before {
   content: "";
   position: absolute;
-  left: 0;
-  top: 0.85em;
-  width: 8px;
-  height: 1px;
-  background: var(--color-accent);
+  left: 0.2em;
+  top: 0.72em;
+  width: 6px;
+  height: 6px;
+  background: var(--color-madder);
 }
 
 .prose-guide ol {
@@ -1080,239 +1606,29 @@ body {
 
 .prose-guide hr {
   border: 0;
-  border-top: 1px solid var(--color-line);
+  height: 1px;
+  color: var(--color-keyline);
+  background-image: linear-gradient(to right, currentColor 55%, transparent 0);
+  background-size: 9px 1px;
   margin: 2.6em 0;
 }
 
 .prose-guide blockquote {
-  border-left: 1px solid var(--color-accent);
+  border-left: 1px solid var(--color-madder);
   padding-left: 1.4em;
-  color: var(--color-body-mute);
-}
-
-.guide-back {
-  transition: color var(--dur-hover) var(--ease-soft);
-}
-
-.guide-back-arrow,
-.guide-forward-arrow {
-  display: inline-flex;
-}
-
-@media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .guide-back-arrow {
-    transition: transform var(--dur-hover) var(--ease-soft);
-  }
-
-  .guide-back:hover .guide-back-arrow {
-    transform: translateX(-3px);
-  }
-
-  .guide-forward-arrow {
-    transition: transform var(--dur-hover) var(--ease-soft);
-  }
-
-  .guide-back:hover .guide-forward-arrow {
-    transform: translateX(3px);
-  }
+  color: var(--color-ink-mute);
 }
 
 /* ---------------------------------------------------------------------------
-   The "rise" reveal
+   Reduced motion — belt and braces
 
-   A third reveal variant, for grids of cards only.
-
-   "fade" is deliberately slight (14px, no scale) because it carries whole prose
-   sections, and fifteen sections arriving with the same big lift reads as one
-   repeated effect rather than a composition. A grid of cards is the opposite
-   case: they arrive together, as a set, and the extra distance plus a touch of
-   scale is what makes them feel like objects landing rather than text fading
-   up. Transform and opacity only, and staggered across the row.
-   --------------------------------------------------------------------------- */
-
-@media (prefers-reduced-motion: no-preference) {
-  [data-reveal="rise"][data-hidden] {
-    transition:
-      opacity var(--dur-reveal) var(--ease-soft),
-      transform var(--dur-reveal) var(--ease-soft);
-    transition-delay: calc(var(--stagger-i, 0) * var(--stagger-step));
-  }
-
-  [data-reveal="rise"][data-hidden]:not([data-shown]) {
-    opacity: 0;
-    transform: translateY(46px) scale(0.965);
-  }
-}
-
-/* ---------------------------------------------------------------------------
-   The host portrait
-
-   A mounted print, not an avatar.
-
-   The whole reason to book here rather than on the platform is that a specific
-   person answers, meets you and hands you the keys — so this photograph is the
-   most persuasive thing on the page, and it was being drawn as a 144px disc
-   centred above a paragraph, which is exactly how a platform draws an account.
-
-   The treatment is built entirely from vocabulary the system already has: a
-   hairline mount offset behind the picture, the picture itself resting on the
-   documented Lift shadow, and the 20px photographic radius. Nothing here is a
-   new token, and it could not be lifted onto another site unchanged, because
-   the mount is Tideline Soft — a hairline tinted toward the sea glass rather
-   than left neutral grey.
-   --------------------------------------------------------------------------- */
-
-.host-portrait {
-  position: relative;
-  width: 168px;
-  aspect-ratio: 1;
-}
-
-@media (min-width: 768px) {
-  .host-portrait {
-    width: 208px;
-  }
-}
-
-/* The photograph, resting above the page. `--shadow-lift` is documented as
-   exactly this: a framed photograph, which is the one thing here that genuinely
-   floats. */
-.host-portrait > * {
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-  border-radius: 20px;
-  box-shadow: var(--shadow-lift);
-}
-
-/* The mount: a hairline the same shape as the picture, set down and to the
-   right the way a print sits slightly off its backing board. */
-.host-portrait::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  border: 1px solid var(--color-line-soft);
-  border-radius: 20px;
-  transform: translate(12px, 12px);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  /*
-    The mount slides out from behind the picture as the block arrives, a beat
-    after it — so the photograph lands first and the frame settles under it,
-    rather than the whole thing fading up as one flat card.
-
-    The offset is the resting state and lives outside this query, so with
-    reduced motion the mount is simply already there. Transform only.
-  */
-  .host-portrait::before {
-    transition: transform var(--dur-mask) var(--ease-soft);
-    transition-delay: 160ms;
-  }
-
-  [data-reveal="fade"][data-hidden]:not([data-shown]) .host-portrait::before {
-    transform: none;
-  }
-}
-
-/* The name opens the text column. Display serif, because it names something —
-   that is the break the two typefaces mark.
-
-   No top margin: on a desktop it sits at the head of the paragraph and aligns
-   with the top of the portrait beside it. On a phone the column collapses under
-   the picture and the grid's 40px row gap does the spacing, which clears the
-   mount's 12px overhang with 28px to spare. */
-.host-name {
-  font-family: var(--font-display);
-  font-size: 26px;
-  line-height: 1.1;
-  color: var(--color-ink);
-  /* Centred under the portrait on a phone, where the two read as one stacked
-     unit; left, with the paragraph it introduces, from 768px up. */
-  text-align: center;
-}
-
-@media (min-width: 768px) {
-  .host-name {
-    text-align: left;
-  }
-}
-
-/* ---------------------------------------------------------------------------
-   Hand-drawn accents — see components/accents.tsx
-
-   Two ink strokes ported from the Claude Design "Site Accents" sheet: the swash
-   underlining Availability's heading, and the circle around a stay total.
-
-   The whole mechanism is the selector `[data-shown] .accent-ink`.
-   RevealController sets `data-shown` at runtime, which buys two things at once
-   and costs nothing:
-
-     - JavaScript off, or the bundle blocked → `data-shown` never appears, no
-       animation attaches, and the resting state below is finished artwork. The
-       page is complete rather than blank, which is house rule 4's whole point.
-     - Reduced motion → RevealController returns *before* setting `data-shown`,
-       so the same resting state is what a reduced-motion visitor gets. There is
-       no second code path to keep in step. The media query around the animation
-       is belt and braces on top of that.
-
-   Every accent draws once and then holds. Nothing here loops, and nothing here
-   moves across the page: the sheet's endlessly circling gulls and rotating sun
-   were both built, looked at, and cut.
-   --------------------------------------------------------------------------- */
-
-/*
-  Resting state: fully drawn. `pathLength: 1` normalises every path to a length
-  of 1 regardless of its real geometry, so one dash covers any of them and the
-  keyframes below need no per-path magic number.
-*/
-.accent-ink {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 0;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  [data-shown] .accent-ink {
-    animation: accent-draw 1000ms var(--ease-soft) both;
-  }
-
-  /* The lighter second pass of the swash, a beat behind the first. */
-  [data-shown] .accent-ink--trail {
-    animation-delay: 260ms;
-  }
-}
-
-@keyframes accent-draw {
-  from {
-    stroke-dashoffset: 1;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-/* ---------------------------------------------------------------------------
-   Reduced motion — belt and braces. Everything above is already gated, but a
-   blanket reset catches any transition added later without thinking.
+   Every transition that moves something is gated at its source, so this only
+   neutralises keyframes (all of which are entrances) and holds the end states.
+   Colour transitions survive on purpose: reduced motion means less movement,
+   not less feedback.
    --------------------------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
-  /*
-    Kill movement, keep feedback.
-
-    This used to blanket-set `transition-duration: 0.01ms !important` on every
-    element, which also destroyed the transitions that are not motion and that
-    a reduced-motion user still needs: button hover states, the header going
-    from transparent to solid, and — worst — the colour change that confirms a
-    calendar date was selected. "Reduce motion" means less movement, not less
-    feedback.
-
-    Every transition that actually moves something is gated at its source
-    behind `prefers-reduced-motion: no-preference`, so there is nothing left to
-    switch off globally. Keyframe animations are still neutralised, because on
-    this page they are all entrances.
-  */
   *,
   *::before,
   *::after {
@@ -1321,23 +1637,7 @@ body {
     scroll-behavior: auto !important;
   }
 
-  /* The two transitions that resize rather than recolour. Hold their geometry
-     steady and let only the colour change through. */
   .header-bar {
     transition-property: color, background-color, border-color !important;
-  }
-
-  .deck-dot {
-    transition-property: background-color !important;
-  }
-
-  /* End states must still be correct, not just un-animated. */
-  [data-reveal] {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-
-  [data-reveal="mask"] > * {
-    transform: none !important;
   }
 }

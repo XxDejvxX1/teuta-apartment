@@ -14,6 +14,83 @@ const LOAD_TIMEOUT_MS = 6000;
 
 type State = "idle" | "loading" | "ready" | "blocked";
 
+/*
+  The stitched chart that stands in for the map until someone asks for it.
+
+  It draws the one fact the map exists to prove — the building is on the
+  shoreline, not a road back from it — as a piece of embroidery: sand in
+  scattered knots, water in rows of wave stitches, the shore as a running
+  stitch, and the apartment as a single madder cross sewn onto that line.
+  Deliberately abstract: no real coastline, no place names, so it reads as a
+  chart waiting for a map rather than a counterfeit of one.
+
+  Computed once at module load and identical on every build.
+*/
+const CELL = 10;
+const COLS = 48;
+const MARK_COL = 28;
+
+/** The shore's row in each column: a slow swell with a shorter one riding on it. */
+const shoreRow = Array.from({ length: COLS + 1 }, (_, col) =>
+  Math.round(8 + 1.8 * Math.sin(col / 6.5) + 0.9 * Math.sin(col / 2.7 + 1)),
+);
+
+/** The shoreline as stairs: along each column, then down or up to the next. */
+const shorePath = shoreRow
+  .map((row, col) => {
+    const x = col * CELL;
+    const y = row * CELL;
+    return col === 0 ? `M0 ${y}` : `V${y}H${x}`;
+  })
+  .join("");
+
+// The middle of that column's run of shore, so the cross sits on the line.
+const markX = MARK_COL * CELL - CELL / 2;
+const markY = shoreRow[MARK_COL] * CELL;
+
+function StitchedChart() {
+  return (
+    <svg
+      aria-hidden
+      className="pointer-events-none absolute inset-0 h-full w-full"
+      viewBox={`0 0 ${COLS * CELL} 220`}
+      preserveAspectRatio="xMidYMid slice"
+    >
+      <defs>
+        <pattern id="chart-sand" width="20" height="20" patternUnits="userSpaceOnUse">
+          <rect x="9" y="9" width="2" height="2" fill="var(--color-on-night-soft)" opacity="0.4" />
+        </pattern>
+        <pattern id="chart-sea" width="20" height="14" patternUnits="userSpaceOnUse">
+          <path
+            d="M2 9l4-4 4 4 4-4 4 4"
+            fill="none"
+            stroke="var(--color-night-line)"
+            strokeWidth="1.5"
+          />
+        </pattern>
+      </defs>
+
+      {/* Sand above the shore, water below it. */}
+      <path d={`${shorePath}V0H0Z`} fill="url(#chart-sand)" />
+      <path d={`${shorePath}V220H0Z`} fill="url(#chart-sea)" />
+
+      <path
+        d={shorePath}
+        fill="none"
+        stroke="var(--color-on-night)"
+        strokeWidth="2"
+        strokeDasharray="6 4"
+        opacity="0.8"
+      />
+
+      {/* The apartment: one cross, on the line itself. */}
+      <g stroke="var(--color-madder-bright)" strokeWidth="3" strokeLinecap="square">
+        <path d={`M${markX - 7} ${markY - 7}l14 14M${markX + 7} ${markY - 7}l-14 14`} />
+      </g>
+    </svg>
+  );
+}
+
 /**
  * The design embedded Google Maps directly. That iframe sets cookies the moment
  * the page loads, which needs consent under GDPR and costs roughly half a
@@ -56,7 +133,7 @@ export default function MapEmbed({
   const showFrame = state === "loading" || state === "ready";
 
   return (
-    <div className="overflow-hidden rounded-[20px] bg-deep shadow-(--shadow-float)">
+    <div className="mount bg-deep">
       {showFrame ? (
         <iframe
           title={copy.mapAlt}
@@ -69,79 +146,26 @@ export default function MapEmbed({
           allowFullScreen
         />
       ) : (
-        <div className="relative flex h-[320px] w-full flex-col items-center justify-center gap-5 px-6 md:h-[420px]">
-          {/*
-            Suggestion of a map, not a fake one.
-
-            What was here was a 56px square grid under a teal wash fading up
-            from the bottom edge. The wash said nothing — a gradient used as
-            decoration, which the design system bans outright — and graph paper
-            is what every placeholder everywhere looks like.
-
-            This draws the one fact the map exists to prove: the building is on
-            the shoreline, not a road back from it. Lines running parallel to
-            the coast are the language a sea chart already uses, and the mark
-            sits on the shore rather than floating over a grid. Deliberately
-            abstract — no real coastline geometry, no place names — so it reads
-            as a diagram waiting for a map rather than a counterfeit of one.
-          */}
-          <svg
-            aria-hidden
-            className="pointer-events-none absolute inset-0 h-full w-full"
-            viewBox="0 0 400 100"
-            preserveAspectRatio="none"
-          >
-            {[
-              { d: "M0 16 C 70 22, 130 20, 200 20 S 330 18, 400 22", o: 0.14 },
-              { d: "M0 31 C 70 37, 130 35, 200 35 S 330 33, 400 37", o: 0.17 },
-              { d: "M0 46 C 70 52, 130 50, 200 50 S 330 48, 400 52", o: 0.2 },
-              { d: "M0 61 C 70 67, 130 65, 200 65 S 330 63, 400 67", o: 0.24 },
-            ].map((line) => (
-              <path
-                key={line.d}
-                d={line.d}
-                fill="none"
-                stroke="var(--color-accent-soft)"
-                strokeWidth="1"
-                opacity={line.o}
-                vectorEffect="non-scaling-stroke"
-              />
-            ))}
-            {/* The shoreline. Passes through (200, 78) by construction, which is
-                where the marker is pinned. */}
-            <path
-              d="M0 74 C 70 80, 130 78, 200 78 S 330 76, 400 80"
-              fill="none"
-              stroke="var(--color-accent-soft)"
-              strokeWidth="1"
-              opacity="0.55"
-              vectorEffect="non-scaling-stroke"
-            />
-          </svg>
-
-          <span aria-hidden className="map-mark" />
+        <div className="relative flex h-[320px] w-full flex-col items-center justify-end gap-4 px-6 pb-9 md:h-[420px] md:pb-11">
+          <StitchedChart />
 
           {state === "blocked" ? (
             <>
               <p
                 role="status"
-                className="relative max-w-[38ch] text-center text-control leading-[1.55] text-on-dark-strong"
+                className="relative max-w-[38ch] bg-deep/80 px-3 py-2 text-center text-control leading-[1.55] text-on-night"
               >
                 {copy.mapBlocked}
               </p>
-              <div className="relative flex flex-wrap items-center justify-center gap-3">
-                <button
-                  type="button"
-                  onClick={load}
-                  className="btn-light rounded-full bg-white px-6 py-3 text-control text-deep"
-                >
+              <div className="relative flex flex-wrap items-center justify-center gap-4">
+                <button type="button" onClick={load} className="btn-linen px-6 py-3 text-control">
                   {copy.mapRetry}
                 </button>
                 <a
                   href={EXTERNAL_MAP_URL}
                   target="_blank"
                   rel="noopener"
-                  className="link-underline text-control text-white"
+                  className="link-stitch text-control text-on-night"
                 >
                   {copy.mapOpen}
                 </a>
@@ -152,25 +176,23 @@ export default function MapEmbed({
               <button
                 type="button"
                 onClick={load}
-                className="btn-light relative rounded-full bg-white px-6 py-3 text-control text-deep"
+                className="btn-linen relative px-6 py-3 text-control"
               >
                 {copy.mapLoad}
               </button>
-              <p className="relative text-center text-caption text-on-dark-strong">
-                {copy.mapNote}
-              </p>
+              <p className="relative text-center text-caption text-on-night-soft">{copy.mapNote}</p>
             </>
           )}
         </div>
       )}
 
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-panel px-6 py-5">
-        <p className="text-control text-on-dark-strong">{copy.mapCaption}</p>
+      <div className="flex flex-wrap items-center justify-between gap-4 border-t border-night-line bg-night px-6 py-5">
+        <p className="text-control text-on-night-soft">{copy.mapCaption}</p>
         <a
           href={EXTERNAL_MAP_URL}
           target="_blank"
           rel="noopener"
-          className="link-underline text-note text-white"
+          className="link-stitch text-note text-on-night"
         >
           {copy.mapOpen}
         </a>

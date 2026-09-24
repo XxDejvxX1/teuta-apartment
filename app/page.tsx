@@ -3,6 +3,7 @@ import { site, siteUrl, whatsappLink } from "@/content/site";
 import { bookedRanges } from "@/content/availability";
 import { blockedNights, dayKey } from "@/lib/availability";
 import { guides } from "@/lib/guides";
+import { reviews } from "@/content/reviews";
 
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
@@ -11,13 +12,13 @@ import Gallery from "@/components/Gallery";
 import Availability from "@/components/Availability";
 import Rates from "@/components/Rates";
 import Amenities from "@/components/Amenities";
-import HostAndReviews from "@/components/HostAndReviews";
+import Reviews from "@/components/Reviews";
 import GettingHere from "@/components/GettingHere";
 import GoodToKnow from "@/components/GoodToKnow";
 import Guides from "@/components/Guides";
 import Contact from "@/components/Contact";
 import MobileCta from "@/components/MobileCta";
-import RevealController from "@/components/RevealController";
+import Seam from "@/components/Seam";
 
 /*
   The Apartment and FAQPage graph, which used to sit in the root layout and so
@@ -121,6 +122,7 @@ function StructuredData() {
 export default function Page() {
   const whatsappHref = whatsappLink(copyText.contact.prefill);
   const articles = guides();
+  const hasReviews = reviews.length > 0;
 
   const gettingHere = {
     ...copyText.gettingHere,
@@ -140,10 +142,25 @@ export default function Page() {
       <StructuredData />
       <Header nav={copyText.nav} whatsappHref={whatsappHref} showGuides={articles.length > 0} />
 
+      {/*
+        The page is one length of cloth below the photograph. Every join is a
+        woven band (components/Seam.tsx) whose teeth take the colours of the
+        two sections it joins, so the seams are written out here, between the
+        sections, where the order of the grounds is visible at a glance:
+
+          hero · oat · night · oat · flax · oat · night · oat · flax · close
+
+        Dark bands mark the turns into and out of the dark fields and the
+        photographs; light bands sit between two light sections.
+      */}
       <main id="main">
         <Hero copy={copyText.hero} imageAlt={copyText.gallery.photos.window.alt} />
         <Apartment copy={copyText.apartment} />
+
+        <Seam from="oat" to="night" motif="star" />
         <Gallery copy={copyText.gallery} />
+        <Seam from="night" to="oat" motif="water" />
+
         <Availability
           copy={copyText.availability}
           localeTag={site.localeTag}
@@ -153,17 +170,40 @@ export default function Page() {
         >
           <Rates copy={copyText.rates} />
         </Availability>
+
+        {/* Reviews render nothing without a real one, and take their seams with them. */}
+        {hasReviews ? (
+          <>
+            <Seam from="oat" to="flax" motif="running" tone="light" />
+            <Reviews copy={copyText.reviews} />
+            <Seam from="flax" to="oat" motif="star" tone="light" />
+          </>
+        ) : (
+          <Seam from="oat" to="oat" motif="running" tone="light" />
+        )}
+
         <Amenities copy={copyText.amenities} />
-        {/* Trust before logistics: who you're dealing with, then how to get here. */}
-        <HostAndReviews copy={copyText.host} />
+
+        <Seam from="oat" to="night" motif="lozenge" />
         <GettingHere copy={gettingHere} />
+        <Seam from="night" to="oat" motif="water" />
+
         <GoodToKnow copy={copyText.goodToKnow} />
-        <Guides guides={articles} copy={copyText.guides} />
+
+        {articles.length > 0 ? (
+          <>
+            <Seam from="oat" to="flax" motif="running" tone="light" />
+            <Guides guides={articles} copy={copyText.guides} />
+            <Seam from="flax" to="photo" motif="lozenge" />
+          </>
+        ) : (
+          <Seam from="oat" to="photo" motif="lozenge" />
+        )}
+
         <Contact copy={contact} footer={copyText.footer} whatsappHref={whatsappHref} imageAlt="" />
       </main>
 
       <MobileCta label={copyText.nav.whatsapp} href={whatsappHref} />
-      <RevealController />
     </>
   );
 }

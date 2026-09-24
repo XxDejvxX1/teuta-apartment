@@ -16,6 +16,6 @@ export default defineConfig({
       possible failure mode for a test suite.
     */
     include: ["**/*.test.{ts,tsx}"],
-    exclude: ["node_modules/**", ".next/**", "out/**", ".wrangler/**", ".claude/**"],
+    exclude: ["node_modules/**", ".next/**", "out/**", ".wrangler/**", ".claude/**", ".agents/**"],
   },
 });

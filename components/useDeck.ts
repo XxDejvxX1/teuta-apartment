@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 /**
- * The carousel behind both the photo gallery and the reviews.
+ * The carousel behind the photo gallery.
  *
  * Layout is decided by CSS (scroll-snap row below 768px, coverflow above), so
  * this hook only tracks which item is centred and hands back the geometry each
@@ -64,9 +64,12 @@ export function useDeck(count: number) {
       // the page instead, since the track itself never scrolls.
       if (coverflow) return;
 
-      trackRef.current
-        ?.querySelector<HTMLElement>(`[data-index="${next}"]`)
-        ?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+      const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      trackRef.current?.querySelector<HTMLElement>(`[data-index="${next}"]`)?.scrollIntoView({
+        behavior: still ? "auto" : "smooth",
+        block: "nearest",
+        inline: "center",
+      });
     },
     [count, coverflow],
   );
@@ -99,29 +102,31 @@ export function useDeck(count: number) {
 export type DeckGeometry = ReturnType<ReturnType<typeof useDeck>["geometry"]>;
 
 /**
- * Custom properties the CSS reads to place one item.
+ * Custom properties the CSS reads to place one card: see `.deck-item` in
+ * globals.css. A side card turns 26° and dims to 0.72; the centre card faces
+ * the viewer at full strength.
  *
- * `rotate` and `dim` are the knobs that separate the two decks. Photographs
- * can take a 26° turn and a drop to 0.72 opacity; body text cannot — rotated
- * paragraphs are unreadable, and dimming #3a4c56 to 0.72 over sand lands at
- * 4.05:1, under the 4.5:1 floor the rest of the page now meets.
+ * The dimming is brightness, not opacity. On the old sand ground a card at
+ * 0.72 opacity simply looked pale; on the night field the card behind it
+ * shows through as a lighter ghost rectangle. The drop shadows the cards had
+ * on sand are gone too: on night they could not be seen.
  */
-export function deckItemStyle(
-  { delta, distance, visible, isActive }: DeckGeometry,
-  { rotate = 26, dim = 0.72 }: { rotate?: number; dim?: number } = {},
-): React.CSSProperties {
-  const turn = isActive ? 0 : delta > 0 ? -rotate : rotate;
+export function deckItemStyle({
+  delta,
+  distance,
+  visible,
+  isActive,
+}: DeckGeometry): React.CSSProperties {
+  const turn = isActive ? 0 : delta > 0 ? -26 : 26;
 
   return {
     ["--d" as string]: delta,
     ["--abs" as string]: distance,
     ["--rot" as string]: `${turn}deg`,
     ["--scale" as string]: isActive ? 1 : 0.94,
-    ["--op" as string]: visible ? (isActive ? 1 : dim) : 0,
+    ["--op" as string]: visible ? 1 : 0,
+    ["--dim" as string]: isActive ? 1 : 0.72,
     ["--z" as string]: 100 - distance * 10,
     ["--pe" as string]: visible ? "auto" : "none",
-    ["--shadow-y" as string]: isActive ? "40px" : "18px",
-    ["--shadow-blur" as string]: isActive ? "90px" : "44px",
-    ["--shadow-a" as string]: isActive ? 0.28 : 0.16,
   };
 }

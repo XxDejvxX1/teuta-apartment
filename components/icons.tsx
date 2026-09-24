@@ -66,7 +66,32 @@ export function CloseIcon({ size = 18 }: { size?: number }) {
   );
 }
 
-function Stroke({ children, size = 26 }: { children: React.ReactNode; size?: number }) {
+/**
+ * A cross-stitch: five stitches square, the madder mark that leads each of the
+ * apartment's facts. An inline drawing rather than a CSS mask, because a masked
+ * box leaks a hairline of its colour at fractional pixel ratios (see `.seam`).
+ * Sized at 10px or 15px so every stitch lands on whole pixels.
+ */
+export function StitchCross({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 5 5"
+      fill="currentColor"
+      shapeRendering="crispEdges"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="M0 0h1v1h-1zM4 0h1v1h-1zM1 1h1v1h-1zM3 1h1v1h-1zM2 2h1v1h-1zM1 3h1v1h-1zM3 3h1v1h-1zM0 4h1v1h-1zM4 4h1v1h-1z" />
+    </svg>
+  );
+}
+
+/**
+ * The amenity drawings, sewn rather than drawn: the same paths traced in a
+ * running stitch, so they belong to the same cloth as the bands and frames.
+ * Butt caps keep each dash a clean stitch instead of a bead.
+ */
+function Stroke({ children, size = 44 }: { children: React.ReactNode; size?: number }) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -74,8 +99,9 @@ function Stroke({ children, size = 26 }: { children: React.ReactNode; size?: num
       height={size}
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.4"
-      strokeLinecap="round"
+      strokeWidth="1.7"
+      strokeDasharray="2.4 1.5"
+      strokeLinecap="butt"
       strokeLinejoin="round"
       aria-hidden="true"
     >
@@ -96,7 +122,8 @@ export const amenityIcons = {
       <path d="M2.5 8.5a15 15 0 0 1 19 0" />
       <path d="M5.5 12.2a10.5 10.5 0 0 1 13 0" />
       <path d="M8.8 15.8a5.5 5.5 0 0 1 6.4 0" />
-      <path d="M12 19.4h.01" />
+      {/* A dash this short would vanish in the stitch pattern; one knot instead. */}
+      <rect x="11" y="18.4" width="2" height="2" fill="currentColor" stroke="none" />
     </Stroke>
   ),
   parking: () => (

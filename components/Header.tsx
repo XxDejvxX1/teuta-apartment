@@ -51,8 +51,8 @@ export default function Header({
 
   /*
     Four links is the budget, not a preference: the desktop bar has to fit the
-    wordmark, the links, the language switcher and the WhatsApp pill above
-    1024px, and a fifth pushes it past that. "What to do" takes the slot that
+    wordmark, the links and the WhatsApp button above 1024px, and a fifth
+    pushes it past that. "What to do" takes the slot that
     was "Getting here" — the map section is low-intent and still one scroll
     away, where the articles are the reason someone who has never heard of us
     is on the site at all.
@@ -103,7 +103,7 @@ export default function Header({
     <>
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-ink"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-[3px] focus:bg-linen focus:px-4 focus:py-2 focus:text-ink"
       >
         {nav.skipToContent}
       </a>
@@ -145,18 +145,20 @@ export default function Header({
             ))}
 
             {/*
-              White over the hero, accent once the header goes solid. A white
-              pill on the scrolled sand header was a 1.03:1 fill separation held
-              up by nothing but its drop shadow — the page's only persistent CTA
-              dissolved the moment anyone started reading.
+              White over the hero, as it always was; the madder thread button
+              once the header goes solid. A white button on the linen header
+              would be a 1.03:1 fill held up by nothing but its shadow, and this
+              is the page's only persistent call to action.
             */}
             <a
               href={whatsappHref}
               target="_blank"
               rel="noopener"
               className={[
-                "btn-light inline-flex items-center gap-2.5 rounded-[10px] px-5 py-2.5 text-control tracking-[0.01em] shadow-(--shadow-pill)",
-                solidHeader ? "bg-accent text-white" : "bg-white text-deep",
+                "inline-flex items-center gap-2.5 px-5 py-2.5 text-control tracking-[0.01em]",
+                solidHeader
+                  ? "btn-thread"
+                  : "btn-light rounded-[10px] bg-white text-deep shadow-(--shadow-pill)",
               ].join(" ")}
             >
               <WhatsAppIcon />
@@ -196,7 +198,9 @@ export default function Header({
         id="mobile-menu"
         hidden={!menuOpen}
         onClick={() => setMenuOpen(false)}
-        className="fixed inset-0 z-40 flex flex-col bg-sand/70 px-5 pb-10 pt-24 backdrop-blur-2xl backdrop-saturate-150 nav:hidden"
+        // Above the phone's sticky WhatsApp bar (z-40), which otherwise sat on
+        // top of this sheet's own WhatsApp button; below the header (z-50).
+        className="fixed inset-0 z-[45] flex flex-col bg-linen/80 px-5 pb-10 pt-24 backdrop-blur-2xl backdrop-saturate-150 nav:hidden"
       >
         <nav className="flex flex-col" onClick={(event) => event.stopPropagation()}>
           {links.map((link, index) => (
@@ -204,7 +208,7 @@ export default function Header({
               key={link.href}
               href={link.href}
               onClick={() => setMenuOpen(false)}
-              className="t-display border-b border-ink/10 py-5 text-title-lg text-ink"
+              className="t-display border-b border-dashed border-keyline py-5 text-title-lg text-ink"
               style={{
                 // Links arrive in sequence behind the sheet.
                 animation: menuOpen
@@ -222,7 +226,7 @@ export default function Header({
           target="_blank"
           rel="noopener"
           onClick={(event) => event.stopPropagation()}
-          className="btn-light mt-auto inline-flex items-center justify-center gap-2.5 rounded-full bg-ink px-6 py-4 text-body-md text-white"
+          className="btn-thread mt-auto inline-flex items-center justify-center gap-2.5 px-6 py-4 text-body-md"
         >
           <WhatsAppIcon />
           {nav.whatsapp}

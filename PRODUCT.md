@@ -127,8 +127,8 @@ owners do.
 
 - The name is **Teuta Apartment**.
 - The voice is first person, understated and observational — it describes what
-  is there rather than claiming benefits ("The sea is the first thing you see
-  when the curtain moves in the morning"). This is a confirmed, deliberate
+  is there rather than claiming benefits ("I meet you at the apartment and
+  hand them over in person"). This is a confirmed, deliberate
   choice and existing copy should not be rewritten into marketing register.
 - **Resolved (August 2026):** the site speaks as "I" throughout, which is now
   simply correct — there is one host. The host block's "we" went with the
@@ -139,25 +139,31 @@ owners do.
 
 ## Evidence on Hand
 
-- **Photographs:** six of the apartment plus one of the host, in
-  `public/photos/`. The apartment shots are 1536×1024 (the earlier note here
+- **Photographs:** six of the apartment, in `public/photos/`. The host
+  portrait went with the "Meet the host" block in September 2026. One file is
+  mislabelled: `kitchen.jpg` shows a bed, while its alt text describes the
+  kitchen — see NEXT.md. The apartment shots are 1536×1024 (the earlier note here
   said "1024px wide or less" — that was the height). Resolution is adequate;
   compression is not. They run 0.21–0.35 bytes per pixel where a well-encoded
   JPEG sits near 0.10, so every one is roughly two to three times its necessary
   weight.
-- **Guest reviews:** three real ones in `content/reviews.ts` — Diana (UK, 10),
-  Anca (Romania, 9), Lisa (Australia, 10). Held verbatim, typos and emoji
+- **Guest reviews:** five real ones in `content/reviews.ts` — Diana (UK, 10),
+  Anca (Romania, 9), Lisa (Australia, 10), Andrew (United Kingdom, 10) and Yana
+  (Ukraine, 10). Held verbatim, typos and emoji
   included, because corrected reviews read as in-house copy. Any further review
   must also be copied word for word; an invented one is a fabricated record and
   an unfair commercial practice in the EU.
-- **Booking.com overall rating: 9.8**, supplied by the owner in August 2026 and
-  stated in the host paragraph. The review count is still not recorded. This is
+- **Booking.com overall rating: 9.7**, supplied by the owner in September 2026
+  (it was 9.8 in August). It heads the reviews section — "Guests rate it 9.7 on
+  Booking.com" — and lives in one place, `bookingScore` in
+  `content/reviews.ts`. The review count is still not recorded. This is
   a published claim about a third-party score, so it has to match the listing:
   if the score moves, the copy moves with it. The five
   reviews on the page must still never be averaged into a score of our own.
-- **Host identity:** **Dejv**, hosting alone. No photograph yet; the block falls
-  back to a single initial. One photograph is wanted, not one per person — the
-  block renders a single 144px circle.
+- **Host identity:** **Dejv**, hosting alone. The "Meet the host" block —
+  portrait and introduction — was removed at the owner's request in September
+  2026. The site still speaks as "I" throughout, and Good to know still says
+  he meets guests and hands over the keys in person.
 - **Prices:** published, see Capabilities.
 
 Future work must not fill any of these gaps by invention. Each one is wired so

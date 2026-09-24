@@ -45,10 +45,6 @@ export const PHOTO_WIDTHS: Record<string, number[]> = {
     1200,
     1536
   ],
-  "host": [
-    256,
-    400
-  ],
   "kitchen": [
     256,
     480,

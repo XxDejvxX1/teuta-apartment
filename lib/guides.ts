@@ -4,6 +4,8 @@ import path from "node:path";
 import matter from "gray-matter";
 import { marked } from "marked";
 
+import { keepHeadingsTogether } from "./typography";
+
 /**
  * The travel guides — "What to do in Durrës".
  *
@@ -75,6 +77,8 @@ let cache: Guide[] | undefined;
  *
  * Read once per process. The whole site is prerendered, so this runs at build
  * time and never on a request — there is no filesystem on the serving path.
+ * It also means a running `next dev` keeps an article's old text after the
+ * Markdown is edited, until this module reloads or the server restarts.
  */
 export function guides(): Guide[] {
   if (cache) return cache;
@@ -129,8 +133,8 @@ export function guides(): Guide[] {
       cover: typeof cover === "string" && cover.trim() ? cover.trim() : undefined,
       // Author-controlled content from this repository, at the same trust level
       // as content/copy.json — no user input reaches it, so the HTML passes
-      // through as written.
-      body: marked.parse(content, { async: false, gfm: true }),
+      // through as written, apart from binding the headings' short words.
+      body: keepHeadingsTogether(marked.parse(content, { async: false, gfm: true })),
       minutes: readingMinutes(content),
     });
   }

@@ -21,6 +21,7 @@ export default tseslint.config(
       ".wrangler/**",
       "node_modules/**",
       ".claude/skills/**",
+      ".agents/**",
       ".impeccable/**",
       "next-env.d.ts",
       "lib/photo-widths.generated.ts",

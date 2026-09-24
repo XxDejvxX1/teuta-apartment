@@ -5,12 +5,13 @@ import { notFound } from "next/navigation";
 import { copyText, interpolate } from "@/lib/dictionary";
 import { guide, guideParams } from "@/lib/guides";
 import { parseDayKey } from "@/lib/availability";
+import { keepTogether } from "@/lib/typography";
 import { site, siteUrl, whatsappLink } from "@/content/site";
 
 import Header from "@/components/Header";
 import GuideCover from "@/components/GuideCover";
 import Contact from "@/components/Contact";
-import RevealController from "@/components/RevealController";
+import Seam from "@/components/Seam";
 import { ArrowIcon } from "@/components/icons";
 
 export function generateStaticParams() {
@@ -127,11 +128,10 @@ export default async function GuideArticle({ params }: { params: Promise<{ slug:
 
       <main id="main">
         <article>
-          {/* The cover carries the title, as on the index — one treatment for
-              an article whether you meet it in the grid or on its own page. */}
+          {/* The cover carries the title, as the featured card does on the index. */}
           <header
             data-on-dark=""
-            className="relative flex min-h-[440px] items-end overflow-hidden bg-surface-warm md:min-h-[560px]"
+            className="relative flex min-h-[460px] items-end overflow-hidden bg-night md:min-h-[580px]"
           >
             <div className="absolute inset-0">
               <GuideCover slug={article.slug} cover={article.cover} alt="" sizes="100vw" priority />
@@ -139,64 +139,78 @@ export default async function GuideArticle({ params }: { params: Promise<{ slug:
 
             <div aria-hidden className="guide-scrim-featured absolute inset-0" />
 
-            <div className="relative mx-auto w-full max-w-[1400px] px-5 pb-12 pt-32 md:px-11 md:pb-16">
-              <p className="eyebrow hero-fade mb-4 text-white/80">{meta}</p>
-
+            <div className="relative mx-auto w-full max-w-[1400px] px-5 pb-20 pt-32 md:px-11 md:pb-24">
               {/*
                 The margin goes on a wrapper, never on .hero-rise itself: that
-                rule is unlayered and its `margin-bottom: -0.14em` (which pays
-                back the padding holding descenders off the mask) beats any
-                Tailwind mb-* on the same element, collapsing the gap to nothing.
+                rule's `margin-bottom: -0.14em` (which pays back the padding
+                holding descenders off the mask) would beat any Tailwind mb-*.
               */}
               <div className="mb-5">
                 <span className="hero-rise">
-                  <h1 className="t-display max-w-[17ch] text-headline leading-[1.06] text-white">
-                    {article.title}
+                  <h1 className="t-display max-w-[17ch] text-headline leading-[1.04] text-white">
+                    {keepTogether(article.title)}
                   </h1>
                 </span>
               </div>
 
               <p
-                className="hero-fade max-w-[54ch] text-body-md leading-[1.6] text-white/85 md:text-body-lg"
+                className="hero-fade mb-5 max-w-[54ch] text-body-md leading-[1.6] text-white/85 md:text-body-lg"
                 style={{ ["--stagger-i" as string]: 1 }}
               >
                 {article.summary}
+              </p>
+              <p
+                className="label hero-fade text-caption text-white/80"
+                style={{ ["--stagger-i" as string]: 2 }}
+              >
+                {meta}
               </p>
             </div>
           </header>
 
           {/*
-            The body is authored Markdown from this repository, rendered at build
-            time — the same trust level as content/copy.json. `prose-guide`
-            styles it; see globals.css.
+            The cover is hemmed onto the page, as the homepage's hero is. Out
+            here rather than inside the header, because the header clips and
+            the band has to ride over the cover's edge to hide it.
+          */}
+          <Seam from="photo" to="oat" motif="lozenge" />
+
+          {/*
+            Authored Markdown from this repository, rendered at build time — the
+            same trust level as content/copy.json. `prose-guide` styles it.
           */}
           <div
             className="prose-guide mx-auto max-w-[680px] px-5 py-16 md:px-0 md:py-24"
             dangerouslySetInnerHTML={{ __html: article.body }}
           />
 
-          <div className="mx-auto max-w-[680px] px-5 pb-20 md:px-0 md:pb-24">
-            <Link
-              href="/guide"
-              className="guide-back inline-flex items-center gap-2.5 border-t border-line pt-8 text-control text-accent"
-            >
-              {/* ArrowIcon sets transform inline to mirror itself, so the
-                  hover nudge has to move a wrapper rather than the svg. */}
-              <span className="guide-back-arrow">
-                <ArrowIcon direction="left" size={16} />
-              </span>
-              {copy.backToIndex}
-            </Link>
+          <div className="mx-auto max-w-[680px] px-5 pb-20 md:px-0 md:pb-28">
+            <div className="relative pt-8">
+              <span
+                aria-hidden
+                className="rule-stitch absolute inset-x-0 top-0 h-px text-keyline"
+              />
+              <Link
+                href="/guide"
+                className="inline-flex items-center gap-2.5 text-control text-ink"
+              >
+                {/* ArrowIcon mirrors itself with an inline transform, so the
+                    hover nudge moves a wrapper rather than the svg. */}
+                <span className="nudge nudge--left">
+                  <ArrowIcon direction="left" size={16} />
+                </span>
+                <span className="link-stitch">{copy.backToIndex}</span>
+              </Link>
+            </div>
           </div>
         </article>
 
         {/*
-          The same closing section and footer as the homepage, not a shortened
-          variant of it. Someone arriving on an article from a search result has
-          seen none of the apartment, so this is the first and only ask — and a
-          second, differently-worded version of it was one more thing to keep in
-          step for no benefit.
+          The same closing section as the homepage. Someone arriving on an
+          article from a search result has seen none of the apartment, so this
+          is the first and only ask.
         */}
+        <Seam from="oat" to="photo" motif="star" />
         <Contact
           copy={{
             ...copyText.contact,
@@ -207,8 +221,6 @@ export default async function GuideArticle({ params }: { params: Promise<{ slug:
           imageAlt=""
         />
       </main>
-
-      <RevealController />
     </>
   );
 }

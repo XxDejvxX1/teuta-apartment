@@ -44,7 +44,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for what each stage enforces and why.
 
 ## Before this goes live
 
-Four things need real values. Each is marked `TODO` in the code.
+Three things need real values. Each is marked `TODO` in the code.
 
 ### 1. Photos — swapping in better ones
 
@@ -71,10 +71,15 @@ the WebP actually shown, 2.9 MB of files nothing could reach.
 | `bedroom.jpg` | Gallery | 3:2 landscape | 1400 × 933 | **2400 × 1600** |
 | `kitchen.jpg` | Gallery | 3:2 landscape | 1400 × 933 | **2400 × 1600** |
 | `living-room.jpg` | Gallery | 3:2 landscape | 1400 × 933 | **2400 × 1600** |
-| `host.jpg` | Portrait in **Meet the host** | 1:1 square | 600 × 600 | **800 × 800** |
 
-**Ratio matters more than resolution.** Everything except the host photo is
-cropped to **3:2 landscape**. Shoot landscape, not portrait — `living-room.jpg`
+**Check each file shows what its name says.** `kitchen.jpg` currently shows a
+bed, and its alt text — "The kitchen with a hob, fridge and counter space" — is
+what Google and screen readers are told about it. Photo names are not printed on
+the page for exactly this reason; fix the picture or the words under
+`gallery.photos.kitchen` in `content/copy.json`.
+
+**Ratio matters more than resolution.** Everything is cropped to **3:2
+landscape**. Shoot landscape, not portrait — `living-room.jpg`
 is currently the one portrait shot and loses its top and bottom.
 
 **The two full-screen photos are a special case.** The hero is cropped to
@@ -87,12 +92,6 @@ above centre.
 resize down first — Next re-encodes anyway, so a big clean original gives the
 best result. Files up to about 8 MB are fine. Bake in any rotation rather than
 relying on EXIF.
-
-**For the host photo**, `content/host.ts` points `photoSrc` at
-`/photos/host.webp`, which `npm run photos` produces. It is no longer optional:
-the initials disc that used to stand in for it was removed once there was a real
-photograph, and `npm run audit` fails the build if the file goes missing rather
-than quietly showing a coloured circle instead.
 
 #### Adding a photo, rather than replacing one
 
@@ -112,11 +111,11 @@ no error and no warning. `npm test` now fails on a copy key that nothing reads,
 and `npm run audit` fails on a photograph in `public/photos/` that no manifest
 entry produced, so both halves of that mistake are caught before a commit.
 
-There is no limit in the code, and extra photos cost nothing at load: only
-three are ever downloaded, however many exist, because the deck skips the ones
-parked behind the stack. The practical ceiling is about ten to twelve — past
-that the row of dots gets too wide for a phone, and thumbnails or a plain grid
-would serve better.
+There is no limit in the code, and an extra photo costs nothing until someone
+scrolls to it: the gallery loads lazily, and on a desktop only the five
+photographs nearest the front of the deck are loaded at all. The practical
+ceiling is the row of dots under the deck, which outgrows a phone's width at
+about ten.
 
 **Alt text** lives under `gallery.photos.<key>.alt` in `content/copy.json`.
 Update it to describe the new picture — it is what
@@ -148,16 +147,12 @@ Coordinates are set from the map link you sent (41.313574, 19.475329) and drive
 the map and the structured data Google reads. The street address in
 `content/site.ts` is still a placeholder — fill it in for the JSON-LD.
 
-### 4. A photograph of the host
+### The Booking.com score
 
-`assets/photos-src/host.jpg` is 400×400, the smallest file on the site and
-the reason the portrait in **Meet the host** is capped at 208px — anything wider
-is upscaled. A 1:1 crop at 800×800 would let that block breathe properly.
-
-Worth saying plainly: the current shot is you at a desk with a laptop. It reads
-as work, not as the person who meets guests at the door and hands over the keys,
-which is what that section is arguing. A daylight portrait — ideally near the
-building or the water — would do more for that block than any amount of layout.
+The reviews are headed "Guests rate it 9.7 on Booking.com". The number lives in
+one place, `bookingScore` in `content/reviews.ts`, and it is a published claim
+about someone else's figure: when the listing's score moves, change it there.
+Set it to `null` and the heading falls back to "What guests have said".
 
 ---
 
@@ -282,10 +277,19 @@ command `npx wrangler deploy`.
 **Security headers live in `public/_headers`, not `next.config.ts`.** `headers()`
 needs a server and there isn't one; Cloudflare applies `_headers` to every static
 response instead. `next.config.ts` keeps a looser copy of the CSP for `next dev`
-only — change one, change both. `_headers` also sets `Content-Type: image/png` on
-`/*/opengraph-image`, which Next exports without a file extension and Cloudflare
+only — change one, change both. `_headers` also sets `Content-Type: image/jpeg` on
+`/opengraph-image`, which Next exports without a file extension and Cloudflare
 would otherwise serve as `application/octet-stream`, quietly breaking every
 social preview.
+
+`npm run build` runs two steps after `next build`. `scripts/compress-og.mjs`
+re-encodes the social card as JPEG. `scripts/flatten-segments.mjs` fixes a
+Windows-only export bug: Next writes the router's prefetch files into folders
+(`guide/__next.guide/__PAGE__.txt`) instead of the flat names the browser asks
+for (`guide/__next.guide.__PAGE__.txt`), so every prefetch 404'd and a click on
+a guide fell back to a full page load. On Cloudflare's Linux builders there is
+nothing to fix; built and deployed from Windows, the step is what keeps it
+working. `npm run audit` fails if a nested one is ever left in `out/`.
 
 Set `NEXT_PUBLIC_SITE_URL` to the real origin in the build environment. Canonical
 URLs, the sitemap and the social preview all derive from it, and
@@ -293,7 +297,17 @@ a production build **fails** rather than quietly emitting `localhost`.
 
 No bindings beyond the assets — no R2, KV, Images or D1 — because nothing here
 needs one and each is billable. The only metered dimension is Worker requests on
-`/`.
+`/en/*`.
+
+**It all fits the Workers free plan.** Static asset requests are free and
+unlimited, and they are everything except `/en/*`. The free plan's 100,000
+Worker requests a day is only spent by those old links. The export is about 130
+files against a limit of 20,000, and the largest is under 250 KB against a
+limit of 25 MiB. Workers Logs (`observability`) is included on the free plan.
+Nothing loads from a third party until a visitor clicks "Show map", and that is
+Google's keyless embed, which needs no API key or billing account. Fonts are
+downloaded at build time and served from this domain. Photos are resized once,
+by `npm run photos`, rather than by Cloudflare Images, which is paid.
 
 `@opennextjs/cloudflare` was tried first and does not work: its build completes
 but copies none of the prerendered HTML into the bundle, so every locale route
@@ -307,7 +321,7 @@ for it again without checking that upstream.
 ```
 app/                 the page, metadata, JSON-LD, social card, 404
 app/guide/           the What to do index and one route per article
-components/          one file per section
+components/          one file per section, plus Seam.tsx — the band on every join
 content/             all copy, the bookings, the photos, site.ts
 content/guides/      the articles, as <slug>.md
 lib/                 availability maths, guide loading, generated photo data
@@ -340,20 +354,24 @@ and UTC−11 to keep both properties honest.
 
 ### Motion
 
-Scroll reveals are hidden by JavaScript at runtime, never by the stylesheet, and
-only for elements that are off-screen at the time. So with JS disabled or
-broken, nothing is hidden and the page simply reads as a complete document. The
-hero entrance and the parallax are pure CSS; the parallax uses a scroll-driven
-animation and is skipped entirely on browsers that don't support one.
-Everything respects `prefers-reduced-motion`.
+There is no motion script. Everything that moves is CSS:
 
-There are three reveal variants. `fade` is deliberately slight — 14px, no
-scale — because it carries whole prose sections, and a dozen of them arriving
-with the same big lift reads as one repeated effect rather than a composition.
-`mask` is for display headings, which rise out from behind a clip. `rise` is the
-newest and is for **grids of cards only** — the guide cards and the three rate
-bands — where a longer lift and a touch of scale make them land as objects
-rather than fade up as text. Do not reach for `rise` on a paragraph.
+- **Headlines** wrapped in `.rise` come up from under the band above them.
+- **The gallery's deck** turns on a CSS transition when its script moves a new
+  photograph to the front.
+- **The hero** still has its own entrance and parallax, unchanged.
+
+The woven bands on the joins (`components/Seam.tsx`, `.seam` in
+`app/globals.css`) stand still. Their rows used to slide into registration as a
+band crossed the screen, and the owner asked for them to stop. Do not give every
+section an entrance effect either.
+
+The headlines run on a scroll timeline (`animation-timeline: view()`), which is
+why there is nothing to hydrate and nothing to fail: a browser without scroll
+timelines, a visitor who asked for reduced motion, and a visitor with JavaScript
+off all get the finished page standing still. Because the rise is tied to the
+scroll position rather than fired once, scrolling back up plays it backwards —
+the headline tucks back under its band.
 
 The header is a floating frosted pill rather than a bar welded to the top edge.
 It is a pill in both states, so only its colours cross-fade on scroll — no

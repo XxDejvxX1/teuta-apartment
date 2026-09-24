@@ -35,8 +35,12 @@ Do not weaken these to make a check pass — the check is the point.
 - **`to` is the exclusive checkout day.** Dates parse at 12:00 UTC, never local
   midnight. Both rules are one off-by-one from telling a guest a booked night is
   free.
-- **Colours from tokens, type from the twelve-step scale.** No hex in
+- **Colours from tokens, type from the scale in `DESIGN.md`.** No hex in
   `components/`, no `text-[17px]`, no inline `fontSize`.
+- **Every join between two sections is a `<Seam>`.** The band's teeth take the
+  colours of the two grounds it joins; see The Seam Rule in `DESIGN.md`. A
+  photograph is `photo`, never the `deep` under it: that drew a near-black strip
+  over the closing picture.
 - **Animate nothing that triggers layout.** `color` and `background-color` are
   fine; `width` and `height` are not.
 - **The page must read with JavaScript disabled.**

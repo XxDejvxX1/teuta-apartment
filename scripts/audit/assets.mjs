@@ -82,5 +82,25 @@ export async function run({ root }) {
     problems.push("assets/photos-src/ is missing — nothing can be regenerated");
   }
 
+  /*
+    The router's prefetch files must sit at flat names in out/. A Windows build
+    nests them in folders instead (see scripts/flatten-segments.mjs), and then
+    every prefetch of a nested page 404s on the live site.
+  */
+  const outDir = path.join(root, "out");
+  const nested = [];
+  const findNested = async (dir) => {
+    for (const entry of await readdir(dir, { withFileTypes: true })) {
+      if (!entry.isDirectory()) continue;
+      const full = path.join(dir, entry.name);
+      if (entry.name.startsWith("__next.")) nested.push(path.relative(root, full));
+      else await findNested(full);
+    }
+  };
+  if (existsSync(outDir)) await findNested(outDir);
+  for (const dir of nested) {
+    problems.push(`${dir} is a folder; the router asks for flat __next.*.txt names and will 404`);
+  }
+
   return problems;
 }

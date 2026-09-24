@@ -55,8 +55,9 @@ export default function Hero({
 
       {/*
         Sits clear of the Apartment section, which pulls itself up over the
-        bottom 72px of the hero as a rounded sheet. At the design's 40px offset
-        the title's descenders were tucked underneath that edge.
+        bottom 72px of the hero with the hem — the first woven band — along its
+        top edge. At the design's 40px offset the title's descenders were tucked
+        underneath that edge.
       */}
       <div className="absolute inset-x-5 bottom-[124px] flex flex-wrap items-end justify-between gap-8 text-white md:inset-x-11 md:bottom-[152px] md:gap-14">
         <div>

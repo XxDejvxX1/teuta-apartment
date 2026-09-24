@@ -15,10 +15,8 @@
  *
  * The block renders nothing while this array is empty.
  *
- * One constraint when adding more: on desktop the cards share a fixed height
- * (`.deck--reviews .deck-item` in globals.css), sized to the longest review
- * here with room to spare. A markedly longer one will have its last line
- * clipped, silently — raise that height if you add one.
+ * Any length fits: the reviews are laid out in columns that pack each card to
+ * its own height, so nothing is clipped however long a new one is.
  */
 
 export type Review = {
@@ -38,6 +36,19 @@ export type Review = {
 
 /** Booking.com scores are out of 10. */
 export const SCORE_MAX = 10;
+
+/**
+ * The overall score on the Booking.com listing, as the owner reports it.
+ *
+ * This heads the reviews section, so it is a published claim about a
+ * third-party figure and has to match the listing: when the score there moves,
+ * this moves with it. 9.7 as of September 2026 (it was 9.8 in August).
+ *
+ * `null` puts the reviews under a plain heading instead. Never fill it with an
+ * average of the reviews below — five reviews chosen by the owner are not the
+ * property's rating, and presenting them as one would be a claim of our own.
+ */
+export const bookingScore: number | null = 9.7;
 
 export const reviews: Review[] = [
   {

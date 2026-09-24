@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef } from "react";
 
 import type { StaticImageData } from "next/image";
+import { interpolate } from "@/lib/dictionary";
 import { ArrowIcon, CloseIcon } from "@/components/icons";
 
 export type LightboxSlide = {
@@ -26,7 +27,7 @@ export default function Lightbox({
 }: {
   slides: LightboxSlide[];
   index: number;
-  labels: { close: string; previous: string; next: string };
+  labels: { close: string; previous: string; next: string; counter: string };
   onClose: () => void;
   onPrev: () => void;
   onNext: () => void;
@@ -37,13 +38,10 @@ export default function Lightbox({
   const slide = slides[index];
 
   /*
-    Mount and unmount only. This used to live in the keydown effect below,
-    which depends on the three handlers — and Gallery passes fresh arrow
-    functions on every render, so the effect tore down and re-ran on each
-    arrow press. Each re-run recaptured `opener` from `document.activeElement`,
-    which by then was this dialog's own Close button. Closing therefore
-    restored focus to a node that had just been unmounted and it fell through
-    to <body>, losing the keyboard user's place in the gallery.
+    Mount and unmount only. Capturing the opener in the keydown effect below
+    re-ran on every arrow press (the handlers are fresh functions each render)
+    and recaptured this dialog's own Close button, so closing dropped focus to
+    <body> and lost the keyboard user's place in the gallery.
   */
   useEffect(() => {
     openerRef.current = document.activeElement as HTMLElement | null;
@@ -93,7 +91,6 @@ export default function Lightbox({
     };
 
     document.addEventListener("keydown", onKeyDown);
-
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [onClose, onNext, onPrev]);
 
@@ -103,16 +100,20 @@ export default function Lightbox({
       role="dialog"
       aria-modal="true"
       aria-label={slide.title}
-      className="fixed inset-0 z-[100] flex flex-col bg-deep/95 backdrop-blur-sm"
+      data-on-dark=""
+      className="fixed inset-0 z-[100] flex flex-col bg-night/95 text-on-night"
     >
-      {/* No printed title here either. `aria-label` on the dialog still carries
-          the photo's name for assistive tech. */}
-      <div className="flex items-center justify-end gap-4 px-5 py-4 text-white md:px-8">
+      <div className="flex items-center justify-between gap-4 px-5 py-4 md:px-8">
+        {/* No printed title: the dialog's aria-label carries the photo's name. */}
+        <p className="label text-caption text-on-night-soft">
+          {interpolate(labels.counter, { current: index + 1, total: slides.length })}
+        </p>
+
         <button
           ref={closeRef}
           type="button"
           onClick={onClose}
-          className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white transition-colors duration-300 hover:bg-white hover:text-deep"
+          className="btn-keyline flex h-11 w-11 items-center justify-center"
         >
           <span className="sr-only">{labels.close}</span>
           <CloseIcon size={20} />
@@ -122,11 +123,8 @@ export default function Lightbox({
       {/*
         `min-h-0` is load-bearing: a flex item defaults to `min-height: auto`,
         so without it this box refuses to shrink below the image's intrinsic
-        height and the whole dialog grows past the viewport on a large screen.
-
-        The image is then capped at its own natural size rather than stretched
-        to fill. `h-full w-full` blew a 1024px photo up to the full width of a
-        wide monitor, which is both oversized and soft.
+        height and the dialog grows past the viewport on a large screen. The
+        image is capped at its own size rather than stretched to fill.
       */}
       <div className="flex min-h-0 flex-1 items-center justify-center px-5 pb-4 md:px-8">
         <Image
@@ -135,15 +133,15 @@ export default function Lightbox({
           alt={slide.alt}
           placeholder="blur"
           sizes="(max-width: 768px) 100vw, 90vw"
-          className="h-auto max-h-full w-auto max-w-full rounded-2xl object-contain"
+          className="h-auto max-h-full w-auto max-w-full object-contain"
         />
       </div>
 
-      <div className="flex items-center justify-center gap-6 px-5 pb-8 text-white md:pb-10">
+      <div className="flex items-center justify-center gap-4 px-5 pb-8 md:pb-10">
         <button
           type="button"
           onClick={onPrev}
-          className="flex h-12 w-12 items-center justify-center rounded-full border border-white/30 transition-colors duration-300 hover:bg-white hover:text-deep"
+          className="btn-keyline flex h-12 w-12 items-center justify-center"
         >
           <span className="sr-only">{labels.previous}</span>
           <ArrowIcon direction="left" size={20} />
@@ -152,7 +150,7 @@ export default function Lightbox({
         <button
           type="button"
           onClick={onNext}
-          className="flex h-12 w-12 items-center justify-center rounded-full border border-white/30 transition-colors duration-300 hover:bg-white hover:text-deep"
+          className="btn-keyline flex h-12 w-12 items-center justify-center"
         >
           <span className="sr-only">{labels.next}</span>
           <ArrowIcon direction="right" size={20} />

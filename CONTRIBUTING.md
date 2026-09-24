@@ -56,8 +56,11 @@ and `no-explicit-any` is an error. Keeping it that way is cheaper than getting
 it back.
 
 **Server components by default.** Reach for `"use client"` only when a hook or
-an event handler demands it. Nine of twenty-four components are client
-components and every one is genuinely interactive. `components/GuideFilters.tsx`
+an event handler demands it. Seven of twenty-three components are client
+components and every one is genuinely interactive — the calendar, the gallery,
+its deck controls and its lightbox, the header, the map, the phone's sticky
+button. The seams, the headline rises and every section around them are server
+components. `components/GuideFilters.tsx`
 is the pattern to imitate: a category filter built from a radio group and CSS
 `:has()` that ships no JavaScript at all.
 
@@ -102,8 +105,9 @@ that string went into the `PostalAddress` in the JSON-LD on every page, where
 Google reads it as a statement of where this apartment is.
 
 The pattern to follow is already here: **empty renders nothing.** `Rates`
-returns `null` until a real price exists. `HostAndReviews` returns `null` when
-there is nobody to name. The FAQ drops the payment row while its body is blank.
+returns `null` until a real price exists. `Reviews` returns `null` without a
+real review, and its heading drops the Booking.com score while `bookingScore`
+is `null`. The FAQ drops the payment row while its body is blank.
 *Partly enforced: `scripts/audit/seo.mjs` fails on an empty `streetAddress`
 reaching the markup. The general rule is review-only.*
 
@@ -207,9 +211,9 @@ are the things to check by hand, because no audit here checks them:
 - **A complete keyboard path.** Tab through the calendar, then open the
   lightbox: it traps focus, closes on Escape, and restores focus to whatever
   opened it.
-- **Full readability with JavaScript disabled.** Scroll reveals are hidden by JS
-  at runtime, never by the stylesheet, so a visitor without JS sees everything
-  rather than a blank page.
+- **Full readability with JavaScript disabled.** Nothing is hidden by a
+  script: the only scroll motion is CSS on scroll timelines, and its resting
+  state is the finished page.
 - **Reduced motion means less movement, not less feedback.**
 
 Semantics deserve the care they have had: one `<h1>` per page, a real `<table>`

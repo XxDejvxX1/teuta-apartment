@@ -13,6 +13,8 @@ import Image from "next/image";
  * pages have to be worth showing to the owners before the photographs exist. So
  * it is a shoreline at dusk: a horizon, a low sun on the water, and contour
  * lines that bulge the way the coast does, drawn from the site's own palette.
+ * The contour lines are sewn in the same running stitch as every other line on
+ * the site.
  * Deterministic from the slug, so an article keeps the same cover between
  * builds instead of shuffling.
  *
@@ -22,7 +24,7 @@ import Image from "next/image";
  * not be mistaken for a photograph that failed to load; deep water and a drawn
  * sun read as a deliberate stand-in.
  *
- * To replace one: put `amphitheatre.jpg` in `public/photos/`, run
+ * To replace one: put `amphitheatre.jpg` in `assets/photos-src/`, run
  * `npm run photos`, and add `cover: amphitheatre` to the article's frontmatter.
  * Nothing else changes.
  */
@@ -86,15 +88,15 @@ function DrawnCover({ slug }: { slug: string }) {
       <defs>
         <linearGradient id={`${id}-sky`} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="var(--color-deep)" />
-          <stop offset="100%" stopColor="var(--color-panel)" />
+          <stop offset="100%" stopColor="var(--color-night)" />
         </linearGradient>
         <linearGradient id={`${id}-sea`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="var(--color-panel)" />
+          <stop offset="0%" stopColor="var(--color-night)" />
           <stop offset="100%" stopColor="var(--color-deep)" />
         </linearGradient>
         <radialGradient id={`${id}-glow`}>
-          <stop offset="0%" stopColor="var(--color-accent-soft)" stopOpacity="0.5" />
-          <stop offset="100%" stopColor="var(--color-accent-soft)" stopOpacity="0" />
+          <stop offset="0%" stopColor="var(--color-madder-bright)" stopOpacity="0.45" />
+          <stop offset="100%" stopColor="var(--color-madder-bright)" stopOpacity="0" />
         </radialGradient>
       </defs>
 
@@ -102,7 +104,7 @@ function DrawnCover({ slug }: { slug: string }) {
       <rect width="900" height={horizon} fill={`url(#${id}-sky)`} />
 
       <circle cx={sunX} cy={sunY} r={sunR * 3.4} fill={`url(#${id}-glow)`} />
-      <circle cx={sunX} cy={sunY} r={sunR} fill="var(--color-highlight)" opacity="0.9" />
+      <circle cx={sunX} cy={sunY} r={sunR} fill="var(--color-flax)" opacity="0.9" />
 
       {/* The horizon is the only full-strength line in the drawing. */}
       <line
@@ -110,7 +112,7 @@ function DrawnCover({ slug }: { slug: string }) {
         y1={horizon}
         x2="940"
         y2={horizon}
-        stroke="var(--color-accent-soft)"
+        stroke="var(--color-on-night-soft)"
         strokeWidth="1.5"
         opacity="0.7"
       />
@@ -121,7 +123,7 @@ function DrawnCover({ slug }: { slug: string }) {
         y={horizon}
         width={sunR}
         height={600 - horizon}
-        fill="var(--color-highlight)"
+        fill="var(--color-flax)"
         opacity="0.09"
       />
 
@@ -130,8 +132,9 @@ function DrawnCover({ slug }: { slug: string }) {
           key={i}
           d={line.d}
           fill="none"
-          stroke="var(--color-accent-soft)"
+          stroke="var(--color-on-night-soft)"
           strokeWidth={line.width}
+          strokeDasharray="7 5"
           strokeLinecap="round"
           opacity={line.opacity}
         />

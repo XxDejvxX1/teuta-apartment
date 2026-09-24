@@ -7,7 +7,12 @@
     "of win that leaks back one commit at a time.",
     "Headroom is roughly 10-15% over the measurement, so ordinary work does not",
     "trip it and a regression of any size does. Raise a figure deliberately, in a",
-    "commit that says why."
+    "commit that says why.",
+    "2026-09-24, the woven redesign: `fonts` raised from 120 to 300. It counts",
+    "every subset file next/font emits, and Handjet ships nine scripts (Arabic,",
+    "Armenian, Hebrew...) that an English page never requests. What a visitor",
+    "actually downloads is the new `fonts-preloaded` line: 74 KB, down from the",
+    "116 KB the three latin-ext preloads cost before they were dropped."
   ],
   "budgets": {
     "total": 5400,
@@ -15,7 +20,8 @@
     "css": 60,
     "html": 400,
     "photos": 3400,
-    "fonts": 120,
+    "fonts": 300,
+    "fonts-preloaded": 85,
     "index.html": 145,
     "opengraph-image": 200
   }

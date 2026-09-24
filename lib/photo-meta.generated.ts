@@ -35,11 +35,6 @@ export const PHOTO_META: Record<string, PhotoMeta> = {
     "height": 1024,
     "blurDataURL": "data:image/webp;base64,UklGRj4AAABXRUJQVlA4IDIAAADQAQCdASoIAAUAA4BaJZQCdAEfbDOAAADeX/HIw/8y/q2nEJ/ap0DgLIAgnOAC6WAAAA=="
   },
-  "host": {
-    "width": 400,
-    "height": 400,
-    "blurDataURL": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAADwAQCdASoIAAgAA4BaJbACdAEf/NmvdcAA/vXRE+6CPjzOyljYfeswLS13Fw/2xErQkMv9/n9jMz3wRmaZD/YLt9imZYtq+ajAAA=="
-  },
   "kitchen": {
     "width": 1536,
     "height": 1024,

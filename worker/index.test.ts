@@ -58,6 +58,23 @@ describe("legacy /en redirects", () => {
   it("is permanent", async () => {
     expect((await redirect("/en")).status).toBe(301);
   });
+
+  /**
+   * Not an open redirect. Stripping `/en` from `/en//evil.com` leaves
+   * `//evil.com`, which as a relative Location would send the visitor to
+   * another site. The Location is always absolute, on this host.
+   */
+  it("never redirects off this site", async () => {
+    for (const path of [
+      "/en//evil.com",
+      "/en/\\evil.com",
+      "/en/%2F%2Fevil.com",
+      "/en//evil.com/guide",
+    ]) {
+      const location = (await redirect(path)).location ?? "";
+      expect(new URL(location).host, `${path} -> ${location}`).toBe("teuta-apartment.com");
+    }
+  });
 });
 
 describe("everything else is a static asset", () => {

@@ -11,14 +11,16 @@ break without noticing.
 
 A one-page direct-booking site for Teuta Apartment, Durrës. Next.js 16 (App
 Router), Tailwind v4, English only, served from the root. Sections in
-order: hero, the apartment, gallery, availability + rates, amenities, host +
-reviews, getting here, good to know, contact.
+order: hero, the apartment, the photographs, availability + rates, reviews,
+amenities, getting here, good to know, what to do, contact — each join a woven
+band (`components/Seam.tsx`). Redesigned below the hero in September 2026; the
+"Meet the host" block was removed at the owner's request.
 
 Working and verified: date selection that writes the dates into a prefilled
 WhatsApp message, a hand-maintained booking calendar closed outside April–
-September, real prices, three real guest reviews, both hosts named. Zero WCAG
+October, real prices, five real guest reviews under the Booking.com score. Zero WCAG
 contrast failures, no horizontal scroll at any width, full readability with
-JavaScript disabled, 52 tests green across four timezones, and `npm run check` (format, lint, types, tests, build, five audits) clean.
+JavaScript disabled, 58 tests green across four timezones, and `npm run check` (format, lint, types, tests, build, five audits) clean.
 
 The last full review is in `.impeccable/critique/` — a `/impeccable critique`
 snapshot scored 24/40 before a fix pass; a follow-up `/impeccable audit` scored
@@ -100,9 +102,9 @@ node "C:/Program Files/nodejs/node_modules/npm/bin/npm-cli.js" install <pkg>
 ### Reuse rather than rebuild
 
 `copyText` from `lib/dictionary.ts`, `site.localeTag` and `siteUrl()` from
-`content/site.ts`, the `data-reveal="fade"` / `data-reveal="mask"` motion
-attributes, `.t-h3` for headings, and the section padding convention
-`px-5 py-20 md:px-11 md:py-28`. Extend `app/sitemap.ts` to include guide
+`content/site.ts`, `<Seam>` between two sections, `.rise` around a headline,
+`.t-headline` for headings, and the section padding convention
+`px-5 py-24 md:px-11 md:py-32`. Extend `app/sitemap.ts` to include guide
 routes and add `Article` JSON-LD; the social card in
 `app/opengraph-image.tsx` is the pattern to copy for article images. Note that
 declaring an `openGraph` object in a route replaces the parent one whole,
@@ -137,21 +139,26 @@ do damage.
 1. **Never fabricate guest-facing facts.** Prices, reviews, host details and
    ratings render *nothing* when empty rather than showing a placeholder. An
    invented review is a fabricated record and an unfair commercial practice in
-   the EU. `content/rates.ts`, `content/reviews.ts` and `content/host.ts` are
-   all built around this.
+   the EU. `content/rates.ts` and `content/reviews.ts` are both built around
+   this.
 2. **`to` in a booked range is the checkout day and is exclusive.** 10–14
    August occupies four nights, not five. Treating it as inclusive blocks a
    night too many on every booking.
 3. **Dates parse at 12:00 UTC, never local midnight.** Midnight lands on the
    previous day for anyone east of UTC, Albania included. `npm run test:tz`
    exists to catch exactly this.
-4. **Scroll reveals are hidden by JavaScript at runtime, never by the
-   stylesheet**, and only for elements off-screen at the time. If the bundle
-   never runs, nothing is hidden. The original design got this backwards and
-   blanked most of the page.
-5. **Animate `transform` and `opacity` only.** Two exceptions exist — the
-   header's padding and the gallery dot's width — and both are documented and
-   bounded with `contain: layout style`. Do not add a third casually.
+4. **Nothing is hidden by a script.** The headline rises are CSS on a scroll
+   timeline, and their resting state is the finished page; the seams stand
+   still. The gallery's deck is laid out by CSS from what the server rendered,
+   so without its script it still shows the first photograph at the front. A
+   browser without scroll timelines, reduced motion and JavaScript off all get
+   the page standing still. The original design hid every section until a
+   script revealed it and blanked most of the page when the script did not run.
+5. **Animate nothing that triggers layout.** Transform and opacity carry the
+   motion; colour, and the clip-paths that sew the stay total's frame on and
+   open the gallery's current dot, are paint-only. One exception exists — the
+   header's padding — and it is bounded with `contain: layout style`. Do not
+   add a second casually.
 6. **Reduced motion means less movement, not less feedback.** Colour
    transitions survive on purpose; do not reinstate a blanket
    `transition-duration: 0.01ms` kill.
@@ -170,9 +177,6 @@ do damage.
 
 ## Still waiting on the owners
 
-- **A photograph of Rudi and Dejv** → `public/photos/host.jpg`, then set
-  `photoSrc` in `content/host.ts`. Two of the three reviews praise them by
-  role; a face is the cheapest trust on the site.
 - **Larger photo files.** Every current image is ≤1024px and two run
   full-bleed. No code change fixes this. Spec is in `README.md`.
 - **Cancellation policy** and the **street address** — both still recorded as
@@ -181,9 +185,12 @@ do damage.
   ("I answer on WhatsApp", "I meet you at the apartment") but there are two
   hosts. Only the host block says "we". The owners said they would do their own
   copy pass; do not switch the rest unasked.
-- **Booking.com overall score and review count**, if they want it shown. The
-  three reviews on the page must not be averaged and presented as the
-  property's rating.
+- **The Booking.com review count.** The score is shown (9.7, September 2026,
+  `bookingScore` in `content/reviews.ts`) and must be updated when the listing
+  moves. The five reviews on the page must never be averaged into a rating.
+- **`kitchen.jpg` shows a bed.** Its alt text says it is the kitchen. Either
+  the picture or the words under `gallery.photos.kitchen` need to change;
+  photo names are not printed on the page until they are all checked.
 - **Responsive images.** `unoptimized: true` means no `srcset`, so a phone
   downloads the same 1536px file a desktop does — measured 642 KB on a 375px
   screen for images displayed at 323–375px. The fix without any paid service:

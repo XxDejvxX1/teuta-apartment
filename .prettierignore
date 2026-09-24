@@ -6,6 +6,7 @@ node_modules/
 
 # Vendored and machine-local
 .claude/skills/
+.agents/
 .impeccable/
 
 # Generated — rewritten by `npm run photos`, so formatting it is pointless

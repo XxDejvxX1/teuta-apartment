@@ -22,9 +22,9 @@
   },
   "apartment": {
     "title": "One bedroom, one balcony, and the whole Adriatic in front of it.",
-    "body": "The sea is the first thing you see as the curtains open in the morning. Beyond the balcony, you see the umbrellas, the palm trees, and then the water, and that is the entire distance separating your bed from the beach.",
     "tags": ["1 bedroom", "2 sofa beds", "Sea balcony", "5 guests"],
-    "imageAlt": "The balcony view over the Durrës beachfront"
+    "imageAlt": "The balcony view over the Durrës beachfront",
+    "seePhotos": "See the photographs"
   },
   "gallery": {
     "title": "Gallery",
@@ -113,15 +113,11 @@
       }
     }
   },
-  "host": {
-    "title": "Meet the host",
-    "intro": "I have been hosting this apartment since 2021, maintaining a 9.8 average rating on Booking.com. My academic background is in cybersecurity engineering, while hosting is something I continue to do simply because I genuinely enjoy welcoming guests and creating a great experience for them.",
-    "reviewsTitle": "What guests have said",
+  "reviews": {
+    "title": "What guests have said",
+    "titleWithScore": "Guests rate it {score} on Booking.com",
     "stayed": "stayed {when}",
-    "scoreLabel": "Scored {score} out of {max}",
-    "previous": "Previous review",
-    "next": "Next review",
-    "region": "Guest reviews"
+    "scoreLabel": "Scored {score} out of {max}"
   },
   "availability": {
     "title": "Availability",
@@ -153,7 +149,6 @@
     "prefillDates": "Hello! I would like to book Teuta Apartment from {from} to {to} — {nights} for {guests}. Is it free?"
   },
   "gettingHere": {
-    "eyebrow": "Getting here",
     "title": "Twenty minutes from the airport, and you're on the sand.",
     "steps": [
       {
@@ -204,9 +199,9 @@
   },
   "guides": {
     "metaTitle": "What to do in Durrës — Teuta Apartment",
-    "metaDescription": "Notes on Durrës from someone who lives on the beach here: the Roman amphitheatre under the town, how the beach day actually runs, what to order, and four days out.",
+    "metaDescription": "Notes on Durrës from someone who lives on the beach here: the Roman amphitheatre, how the beach day runs, eating out, and four day trips.",
     "title": "What to do in Durrës",
-    "intro": "Things worth doing within an hour distance, written down the way I would tell you at the table. A quick note before you dive in: I’ve left out opening times and prices. Those change all the time, and I’d much rather you just ask me so I can give you the right answer.",
+    "intro": "Things worth doing within an hour or two of the apartment, written the way I'd tell you at the table. I've left out opening times and prices because they change often. Ask me and I'll give you the current ones.",
     "filterLegend": "Filter articles by subject",
     "all": "All",
     "categories": {
@@ -221,7 +216,7 @@
     "empty": "Nothing has been written yet.",
     "home": {
       "title": "What to do in Durrës",
-      "body": "Notes on the town from the balcony — where to go, when the beach is worth it, and what to order once you get there.",
+      "body": "Notes on the town, the way I'd tell a guest: the Roman amphitheatre, the beach through the day, eating out, and four day trips.",
       "link": "All articles"
     }
   },
